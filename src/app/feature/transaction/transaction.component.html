@@ -1,0 +1,114 @@
+<section class="header-section">
+    <h2 class="font-1-bold text-xl">Transactions</h2>
+    <app-export-icon (exportClicked)="initExport()"></app-export-icon>
+</section>
+<section class="statistics w-100">
+    <div class="w-50 widget col d-flex justify-content-between">
+        <ng-container [ngTemplateOutlet]="commonWidgetItem" [ngTemplateOutletContext]="{
+            valueVar: statistics?.farmerTransaction?.value || 0,
+            heading: 'Farmer transactions',
+            imageUrl: 'farmers_dash.svg',
+            title: statistics?.farmerTransaction?.title
+        }">
+        </ng-container>
+
+        <ng-container [ngTemplateOutlet]="commonWidgetItem" [ngTemplateOutletContext]="{
+            valueVar: statistics?.transactions?.value || 0,
+            heading: 'Total transactions',
+            imageUrl: 'transaction.svg',
+            title: statistics?.transactions?.title
+        }">
+        </ng-container>
+        <ng-container [ngTemplateOutlet]="commonWidgetItem" [ngTemplateOutletContext]="{
+            valueVar: statistics?.totalQty?.value || 0,
+            heading: 'Total quanity',
+            imageUrl: 'qty.svg',
+            title: statistics?.totalQty?.title
+        }">
+        </ng-container>
+    </div>
+    <div class="w-49">
+        <app-chart-line [chartData]="formattedChart" [chartHeight]="200" [colorSchemeDomain]="['#5691AE']"
+            graphId="transactiongraph" *ngIf="formattedChart?.length">
+        </app-chart-line>
+    </div>
+</section>
+<!-- filter and search  -->
+<section class="d-flex justify-content-between">
+    <div class="d-flex align-items-center w-50">
+        <app-search-box [placeholder]="'Search here'" [searchByOptions]="searchBy" class="w-100"
+            (searchText)="searchFilter($event)"></app-search-box>
+        <app-buttons buttonType="secondary" (buttonClicked)="filterClicked()" class="ml-10">
+            <ng-container *ngIf="toggleFilter">
+                <mat-icon>close</mat-icon>
+                <span class="button-text">Clear filters</span>
+            </ng-container>
+            <ng-container *ngIf="!toggleFilter">
+                <img src="./assets/images/settings-slider-icon.svg" alt="icon">
+                <span class="button-text">Filters</span>
+            </ng-container>
+        </app-buttons>
+    </div>
+</section>
+
+<section class="filter-section" *ngIf="toggleFilter">
+    <app-ff-dropdown label="Supply chain" [defaultValue]="appliedFilters.selectedSupplyChain"
+        [dropdownOptions]="supplyChainList" [clearButtonText]="'Reset to All'" class="m-l-35"
+        (newSelectionValue)="otherFilters($event)">
+    </app-ff-dropdown>
+</section>
+<section class="ff-table-container w-100">
+    <table class="transaction-listing-table">
+        <thead>
+            <tr>
+                <th *ngFor="let item of displayedColumns" class="{{item?.class}}">
+                    <article class="d-flex align-items-center cursor-pointer" (click)="sortData(item.sortKey)">
+                        {{item.name}}
+                        <app-sort-custom [filterValues]="appliedFilters" [columnName]="item.sortKey"></app-sort-custom>
+                    </article>
+
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of dataSource">
+                <td class="mat-cell smaller-column">{{item?.number}}</td>
+                <td class="mat-cell large-column">{{item?.source_name}}</td>
+                <td class="mat-cell large-column">{{item?.destination_name}}</td>
+                <td class="mat-cell normal-column product-name">{{item?.product_name}}</td>
+                <td class="mat-cell normal-column">{{item?.quantity.toFixed(2)}}</td>
+                <td class="mat-cell normal-column">{{item?.date * 1000 | date: 'dd MMMM yyyy'}}</td>
+                <td class="mat-cell large-column">
+                    <span *ngIf="!item.blockchain_address">In progress</span>
+                    <a *ngIf="item.blockchain_address" class="hash-text d-flex align-items-center"
+                        href="{{item?.explorer_url}}" target="_blank">
+                        <img src="./assets/images/hedra.svg" class="mr-3 cursor-pointer" alt="">
+                        {{(item.blockchain_address.length > 20)? (item.blockchain_address |
+                        slice:0:19)+'..':(item.blockchain_address)}}
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="no-data w-100" aria-label="" *ngIf="dataSource?.length === 0" [hidden]="loading">
+        No data to display
+    </div>
+
+    <app-loader [loaderText]="'Loading transactions'" [loaderType]="'type1'" *ngIf="loading"
+        class="min-h-300"></app-loader>
+</section>
+
+<app-ff-pagination [totalCount]="totalCount" (paginationAction)="paginatorEvent($event)"></app-ff-pagination>
+
+
+<ng-template #commonWidgetItem let-imageUrl="imageUrl" let-heading="heading" let-valueVar="valueVar" let-title="title">
+    <aside class="widget-item" aria-label="individual items first row 2">
+        <span class="svg-wrap">
+            <img src="./assets/images/{{imageUrl}}" alt="ac">
+        </span>
+        <article class="info">
+            <span class="key font-1-normal">{{heading}}</span>
+            <span class="value font-1-bold" title="{{title}}">{{valueVar}}</span>
+        </article>
+    </aside>
+</ng-template>

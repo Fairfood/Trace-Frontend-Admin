@@ -1,0 +1,6 @@
+<article class="sort-wrap">
+    <span class="arrow-up"
+        [ngClass]="(filterValues?.orderBy === 'asc'&& filterValues?.sortBy===columnName)?'active':'inactive'"></span>
+    <span class="arrow-down"
+        [ngClass]="(filterValues?.orderBy === 'desc'&& filterValues?.sortBy===columnName)?'active':'inactive'"></span>
+</article>

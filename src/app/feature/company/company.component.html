@@ -1,0 +1,157 @@
+<section class="header-section">
+    <h2 class="font-1-bold text-xl">{{invite?'Invite company':'Companies'}}</h2>
+    <ng-container *ngIf="!invite">
+        <app-export-icon (exportClicked)="initExport()"></app-export-icon>
+    </ng-container>
+</section>
+<ng-container *ngIf="!invite">
+
+    <section class="statistics w-100">
+        <div class="w-50 widget col d-flex justify-content-between">
+            <ng-container [ngTemplateOutlet]="commonWidgetItem" [ngTemplateOutletContext]="{
+                valueVar: companyStatistics?.companies?.value || 0,
+                heading: 'Companies',
+                imageUrl: 'company.svg',
+                title: companyStatistics?.companies?.title
+            }">
+            </ng-container>
+            <ng-container [ngTemplateOutlet]="commonWidgetItem" [ngTemplateOutletContext]="{
+                valueVar: companyStatistics?.activeCompanies?.value || 0,
+                heading: 'Active companies',
+                imageUrl: 'company.svg',
+                title: companyStatistics?.activeCompanies?.title
+            }">
+            </ng-container>
+            <ng-container [ngTemplateOutlet]="commonWidgetItem" [ngTemplateOutletContext]="{
+                valueVar: companyStatistics?.transactions?.value || 0,
+                heading: 'Total transactions',
+                imageUrl: 'transaction.svg',
+                title: companyStatistics?.transactions?.title
+            }">
+            </ng-container>
+        </div>
+        <div class="w-49">
+            <app-chart-line [chartData]="formattedChart" [chartHeight]="200" [colorSchemeDomain]="actorColors"
+                *ngIf="formattedChart?.length" graphId="companygraph">
+            </app-chart-line>
+        </div>
+    </section>
+    <!-- filter and search  -->
+    <section class="d-flex justify-content-between">
+        <div class="d-flex align-items-center w-50">
+            <app-search-box [placeholder]="'Search here'" [searchByOptions]="searchBy" class="w-100"
+                (searchText)="searchFilter($event)"></app-search-box>
+            <app-buttons buttonType="secondary" (buttonClicked)="filterClicked()" class="ml-10">
+                <ng-container *ngIf="toggleFilter">
+                    <mat-icon>close</mat-icon>
+                    <span class="button-text">Clear filters</span>
+                </ng-container>
+                <ng-container *ngIf="!toggleFilter">
+                    <img src="./assets/images/settings-slider-icon.svg" alt="icon">
+                    <span class="button-text">Filters</span>
+                </ng-container>
+            </app-buttons>
+        </div>
+        <aside aria-label="action button section">
+            <app-buttons buttonType="fill" (buttonClicked)="inviteCompany()">
+                Invite company
+            </app-buttons>
+        </aside>
+    </section>
+    <section class="filter-section" *ngIf="toggleFilter">
+        <app-ff-dropdown label="Status" [dropdownOptions]="statusFilterMaster" [hideSearch]="true" class="m-l-35"
+            (newSelectionValue)="otherFilters($event, 'status')">
+        </app-ff-dropdown>
+
+        <app-ff-dropdown label="Supply chain" [defaultValue]="appliedFilters.selectedSupplyChain"
+            [dropdownOptions]="supplyChainList" [clearButtonText]="'Reset to All'" class="m-l-35"
+            (newSelectionValue)="otherFilters($event, 'supply')">
+        </app-ff-dropdown>
+
+        <app-ff-dropdown label="Countries" [defaultValue]="appliedFilters.selectedCountry"
+            [dropdownOptions]="countryList" class="m-l-35" (newSelectionValue)="otherFilters($event, 'country')">
+        </app-ff-dropdown>
+    </section>
+    <section class="ff-table-container w-100">
+        <table>
+            <thead>
+                <tr>
+                    <th *ngFor="let item of displayedColumns" class="{{item?.class}}">
+                        <article class="d-flex align-items-center cursor-pointer" (click)="sortData(item.sortKey)">
+                            {{item.name}}
+                            <ng-container *ngIf="!item?.hideSort">
+                                <app-sort-custom [filterValues]="appliedFilters"
+                                    [columnName]="item.sortKey"></app-sort-custom>
+                            </ng-container>
+                        </article>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of dataSource" (click)="viewDetails(item.id)" class="cursor-pointer">
+                    <td class="mat-cell large-collumn">{{item?.name}}</td>
+                    <td class="mat-cell normal-collumn">
+                        {{item?.created_on * 1000 |date: 'dd MMMM y'}}
+                    </td>
+                    <td class="mat-cell normal-collumn">{{item?.country}}</td>
+                    <td class="mat-cell large-column">
+                        <span *ngFor="let sup of item.supply_chain_names; let i = index; let l = count" class="mb-0">
+                            <span *ngIf="i < 3">
+                                <span>{{sup}}</span>
+                                <span *ngIf="l > 1 && i != l - 1">, </span>
+                            </span>
+                        </span>
+                        <span *ngIf="item.supply_chain_names.length === 0">-</span>
+                        <span *ngIf="item.supply_chain_names.length > 3" class="text-primary cursor-pointer"
+                            title="{{item.supply_chain_names.slice(3, item.supply_chain_names.length).join(', ')}}">
+                            +{{item.supply_chain_names.length - 3 }} more
+                        </span>
+                    </td>
+                    <td class="mat-cell normal-collumn">{{item?.farmers_connected_count}}</td>
+                    <td class="mat-cell normal-collumn">{{item?.transaction_count}}</td>
+                    <td class="mat-cell normal-collumn">
+                        <span *ngIf="item?.status == 1">Active</span>
+                        <span *ngIf="item?.status == 2">Inactive</span>
+                        <span *ngIf="item?.status == 3">Blocked</span>
+                    </td>
+                    <td class="mat-cell options-column" (click)="$event.stopPropagation()">
+                        <span [matMenuTriggerFor]="beforeMenu" class="pointer">
+                            <mat-icon>more_vert</mat-icon>
+                        </span>
+                        <mat-menu class="mat-menu" #beforeMenu="matMenu" xPosition="before">
+                            <span class="text-xs text-blue" mat-menu-item (click)="navigateToDashboard(item)">
+                                View as admin
+                            </span>
+                        </mat-menu>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="no-data w-100" aria-label="" *ngIf="dataSource?.length === 0" [hidden]="loading">
+            No data to display
+        </div>
+
+        <app-loader [loaderText]="'Loading companies'" [loaderType]="'type1'" *ngIf="loading"
+            class="min-h-300"></app-loader>
+    </section>
+
+    <app-ff-pagination [totalCount]="totalCount" (paginationAction)="paginatorEvent($event)"></app-ff-pagination>
+
+</ng-container>
+
+<ng-container *ngIf="invite">
+    <app-invite-company (navigationBack)="inviteCompany($event)"></app-invite-company>
+</ng-container>
+
+<ng-template #commonWidgetItem let-imageUrl="imageUrl" let-heading="heading" let-valueVar="valueVar" let-title="title">
+    <aside class="widget-item" aria-label="individual items first row 2">
+        <span class="svg-wrap">
+            <img src="./assets/images/{{imageUrl}}" alt="ac">
+        </span>
+        <article class="info">
+            <span class="key font-1-normal">{{heading}}</span>
+            <span class="value font-1-bold" title="{{title}}">{{valueVar}}</span>
+        </article>
+    </aside>
+</ng-template>

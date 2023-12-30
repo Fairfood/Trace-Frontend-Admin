@@ -1,0 +1,60 @@
+@import 'src/styles/table-custom.scss';
+@import 'src/styles/responsive.scss';
+@import 'src/styles/utils.scss';
+
+.section-heading {
+  margin-top: 30px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.chart-wrap {
+  @extend %common-widget;
+  justify-content: center;
+  flex-direction: column;
+  @include devices(tablet-md) {
+    min-width: auto;
+  }
+}
+
+@include reset-ul;
+
+::ng-deep .mat-mdc-menu-panel.year-filter-dropdown {
+  max-width: 180px;
+  width: 150px;
+
+  ul li {
+    padding: 8px 20px;
+  }
+}
+.second-chart {
+  width: 100%;
+  @include devices(laptop) {
+    margin-left: 25px;
+    width: calc(50% - 25px);
+  }
+}
+
+.columns-ff {
+  width: 100% !important;
+  @include devices(laptop) {
+    width: 50% !important;
+  }
+}
+
+.c-box {
+  width: 17px;
+  height: 17px;
+  border-radius: 4px;
+  margin-right: 10px;
+  &.farmer {
+    background-color: var(--font-color-2);
+  }
+  &.company {
+    background-color: var(--dark);
+  }
+}
+.min-h-390 {
+  min-height: 390px;
+}

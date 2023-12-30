@@ -1,0 +1,21 @@
+<span class="search-b">
+  <input class="text-xs text-blue" [(ngModel)]="keyword" placeholder="{{placeholder}}" #ffSearchInput [ngClass]="{'w-100': hideOptions}" />
+  <aside class="search-by" [matMenuTriggerFor]="serachByMenu" *ngIf="!hideOptions">
+    <span class="label">Search by</span>
+    <span class="selected">
+      {{searchByOption?.name}}
+      <mat-icon>keyboard_arrow_down</mat-icon>
+    </span>
+  </aside>
+
+  <img src="./assets/images/search-icon.svg" alt="">
+</span>
+<mat-menu class="serach-by" #serachByMenu="matMenu" xPosition="after">
+  <ul>
+    <li *ngFor="let item of searchByOptions" (click)="searchByOption = item">
+      <mat-radio-button [checked]="searchByOption?.id === item.id">
+        {{ item.name }}
+      </mat-radio-button>
+    </li>
+  </ul>
+</mat-menu>

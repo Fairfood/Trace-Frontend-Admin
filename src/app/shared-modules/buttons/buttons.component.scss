@@ -1,0 +1,65 @@
+@import 'src/styles/_responsive.scss';
+
+%button-common-styles {
+  cursor: pointer;
+  border-radius: 6px;
+  font-family: 'Moderat Regular';
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+  border: none;
+  font-size: 14px;
+  height: auto !important;
+  margin: 5px;
+  white-space: nowrap;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  line-height: 1;
+
+  &.lg {
+    padding: 12px 25px;
+    @include devices(laptop-xlg) {
+      padding: 15px 25px;
+    }
+  }
+
+  &.md {
+    padding: 7.5px 15px;
+    @include devices(laptop-xlg) {
+      padding: 12px 16px;
+    }
+  }
+
+  &:disabled {
+    background: var(--disabled);
+    border: none;
+    color: var(--dark);
+    cursor: default;
+  }
+}
+
+.ff-btn-stroke {
+  @extend %button-common-styles;
+  background-color: var(--white);
+  color: var(--secondary);
+  border: 1px solid var(--secondary);
+}
+
+.ff-btn-filled {
+  @extend %button-common-styles;
+  background-color: var(--secondary);
+  color: var(--white);
+}
+
+.ff-btn-secondary {
+  @extend %button-common-styles;
+  background-color: var(--white);
+  color: var(--dark);
+  border: 1px solid var(--dark);
+  height: 34px !important;
+  padding: 10px !important;
+  @include devices(laptop-xlg) {
+    padding: 10px 15px !important;
+    height: 40px !important;
+  }
+}

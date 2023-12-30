@@ -1,0 +1,14 @@
+<!-- <div #containerRef>
+    <ngx-charts-line-chart [view]="[containerRef.offsetWidth, chartHeight]" [xAxis]="true" [yAxis]="true" [results]="chartData"
+        [curve]="linearCurve" [scheme]="colorScheme">
+        <ng-template #tooltipTemplate let-model="model">
+            <div class="tooltip-bg">
+                <span class="title">{{model?.name}}</span>
+                <span class="second-title">{{model?.value}} {{model.series}}</span>
+            </div>
+
+        </ng-template>
+    </ngx-charts-line-chart>
+</div> -->
+
+<div [id]="'lineChartDiv'+graphId" [ngStyle]="{'height': chartHeight + 'px', 'width': '100%'}"></div>

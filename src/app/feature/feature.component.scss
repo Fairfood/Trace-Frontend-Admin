@@ -1,0 +1,30 @@
+* {
+  -webkit-transition: margin-left 0.2s ease-in-out;
+  -moz-transition: margin-left 0.2s ease-in-out;
+  -ms-transition: margin-left 0.2s ease-in-out;
+  -o-transition: margin-left 0.2s ease-in-out;
+  transition: margin-left 0.2s ease-in-out;
+}
+.main-container {
+  position: relative;
+  margin-left: 226px;
+  padding: 24px 40px;
+  overflow: hidden;
+  top: 96px;
+  background-color: var(--white);
+}
+.collapsed {
+  margin-left: 100px;
+}
+
+@media screen and (max-width: 992px) {
+  .main-container {
+    margin-left: 0px !important;
+  }
+}
+@media print {
+  .main-container {
+    margin-top: 0px !important;
+    margin-left: 0px !important;
+  }
+}

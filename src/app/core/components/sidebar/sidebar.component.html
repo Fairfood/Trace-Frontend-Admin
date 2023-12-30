@@ -1,0 +1,33 @@
+<nav class="sidebar" [ngClass]="{sidebarPushRight: isActive}">
+  <div class="slanted-bg">
+    <div class="slanted-div"></div>
+  </div>
+  <div class="list-group">
+    <ng-container *ngFor="let side of sidebarMenu">
+      <a class="list-group-item font-1-medium mt-0" [routerLink]="side.url" [routerLinkActive]="['router-link-active']"
+        [routerLinkActiveOptions]="{exact: true}">
+        {{ side?.name }}
+      </a>
+    </ng-container>
+
+    <div class="header-fields">
+      <div class="nested-menu">
+        <a class="list-group-item font-1-medium" (click)="addExpandClass('profile')">
+          <span> Account</span>
+        </a>
+        <li class="nested" [class.expand]="showMenu === 'profile'">
+          <ul class="submenu">
+            <li>
+              <a>
+                <span class="d-flex align-items-center">
+                  <mat-icon class="mr-2 text-md" (click)="onLoggedout()">power_settings_new</mat-icon>
+                  {{ 'Log out' }}
+                </span>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </div>
+    </div>
+  </div>
+</nav>

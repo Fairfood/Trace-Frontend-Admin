@@ -1,0 +1,68 @@
+<aside class="pop-header">
+    <h3 class="font-1-medium">
+        Add user
+    </h3>
+    <mat-icon class="cursor-pointer" (click)="close()">close</mat-icon>
+</aside>
+
+<div class="content d-flex flex-wrap">
+    <article class="input-container-with-error">
+        <app-ff-input label="First name*" inputSize="full" [parentFormGroup]="userForm" controlName="firstName">
+        </app-ff-input>
+        <ng-container *ngIf="userForm?.controls['firstName']?.errors">
+            <span class="error-message"
+                *ngIf="userForm?.controls['firstName']?.errors['required'] && (userForm?.controls['firstName']?.touched || submitted)">
+                This field shouldn't be empty
+            </span>
+        </ng-container>
+    </article>
+
+    <article class="input-container-with-error ml-10">
+        <app-ff-input label="Last name*" inputSize="full" [parentFormGroup]="userForm" controlName="lastName">
+        </app-ff-input>
+        <ng-container *ngIf="userForm?.controls['lastName']?.errors">
+            <span class="error-message"
+                *ngIf="userForm?.controls['lastName']?.errors['required'] && (userForm?.controls['lastName']?.touched || submitted)">
+                This field shouldn't be empty
+            </span>
+        </ng-container>
+    </article>
+
+
+    <article class="input-container-with-error">
+        <app-ff-input label="Email*" inputSize="full" [parentFormGroup]="userForm" controlName="email">
+        </app-ff-input>
+        <ng-container *ngIf="userForm?.controls['email']?.errors">
+            <span class="error-message"
+                *ngIf="userForm?.controls['email']?.errors['required'] && (userForm?.controls['email']?.touched || submitted)">
+                This field shouldn't be empty
+            </span>
+            <span class="error-message"
+                *ngIf="userForm?.controls['email']?.errors['email'] && (userForm?.controls['email']?.touched || submitted)">
+                Invalid email
+            </span>
+        </ng-container>
+    </article>
+
+    <article class="input-container-with-error ml-10">
+        <app-ff-dropdown label="Role" size="large" class="form-item" [dropdownOptions]="roles"
+            [defaultValue]="userForm.controls['role'].value" [hideSearch]="true"
+            (newSelectionValue)="dropDownValueAddres($event)"></app-ff-dropdown>
+
+        <ng-container *ngIf="userForm?.controls['role']?.errors">
+            <span class="error-message"
+                *ngIf="userForm?.controls['role']?.errors['required'] && (userForm?.controls['role']?.touched || submitted)">
+                This field shouldn't be empty
+            </span>
+        </ng-container>
+    </article>
+
+    <aside aria-label="action button section" class="action w-100">
+        <app-buttons buttonType="stroked" (buttonClicked)="close()">
+            Back
+        </app-buttons>
+        <app-buttons buttonType="fill" (buttonClicked)="inviteUser()">
+            Invite
+        </app-buttons>
+    </aside>
+</div>

@@ -1,0 +1,20 @@
+@import 'src/styles/utils.scss';
+.inactive-claim {
+  opacity: 0.7 !important;
+}
+
+.filter-section {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+@include reset-ul;
+ul li {
+  padding: 10px;
+  font-size: 14px;
+}
+
+.text-supplychain {
+  max-width: 250px;
+  @include text-overflow();
+}

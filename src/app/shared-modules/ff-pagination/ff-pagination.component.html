@@ -1,0 +1,23 @@
+
+<aside aria-label="paginator wrapper" class="col-12 custom-style-paginator-select">
+    <article class="per-page-wrapper">
+        <span class="custom-text">
+            Items per page: &nbsp;
+        </span>
+        <aside aria-label="custom material pagesize dropdown" class="page-size-dropdown pointer"
+            [matMenuTriggerFor]="pageSizeMenu">
+            {{(paginator?.pageSize|| 10)}} <mat-icon>keyboard_arrow_down</mat-icon>
+        </aside>
+        <mat-menu class="mat-menu" #pageSizeMenu="matMenu" xPosition="after">
+            <ul class="dropdown-page">
+                <li *ngFor="let item of getPageSizeOptions()" (click)="pageSizeSetter(item)">
+                    {{item}}
+                </li>
+                <!-- <li>All</li> -->
+            </ul>
+        </mat-menu>
+    </article>
+
+    <mat-paginator [length]="totalCount" [pageSize]="10" [hidePageSize]="true" (page)="pageEvent($event)">
+    </mat-paginator>
+</aside>

@@ -1,0 +1,64 @@
+@import 'src/styles/utils.scss';
+@import 'src/styles/responsive.scss';
+
+.head-section {
+  padding: 10px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.top-box {
+  border-radius: 3px;
+  margin-top: 15px;
+  background-color: var(--table-row-active);
+  display: flex;
+  padding: 30px;
+}
+.ml-20 {
+  margin-left: 20px;
+}
+
+.utils {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.widget {
+  @extend %common-widget;
+  padding: 25px 20px;
+  min-width: 100%;
+  @include devices(tablet-md) {
+    min-width: auto;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.widget-item {
+  display: flex;
+  flex-direction: row;
+
+  .svg-wrap {
+    background-color: var(--table-row-active);
+    height: 50px;
+    width: 50px;
+    border-radius: 6px;
+    @extend %flex-center;
+  }
+  .info {
+    display: flex;
+    flex-direction: column;
+    margin-left: 15px;
+    .key {
+      font-size: 14px;
+      color: var(--font-color-2);
+    }
+
+    .value {
+      font-size: 20px;
+      color: var(--dark);
+    }
+  }
+}

@@ -1,0 +1,68 @@
+<section class="d-flex w-100 flex-wrap">
+    <!-- first graph relating the actors report  -->
+    <div class="d-flex columns-ff flex-column">
+        <section class="section-heading">
+            <aside class="d-flex flex-column">
+                <aside class="row1 text-md font-1-bold">Actors Report</aside>
+                <span class="text-off-blue text-xs font-1-normal">Farmer and company</span>
+            </aside>
+        </section>
+        <aside aria-label="chart container" class="chart-wrap min-h-390">
+
+
+            <div class="d-flex justify-content-between" *ngIf="formattedChart?.length">
+                <ul class="filter-box margin-tb">
+                    <li class="mr-3 cursor-pointer" *ngFor="let item of actorFilters.actorTypes"
+                        (click)="changeActor(item)"
+                        [ngClass]="item === actorFilters.currentActorType? 'active': 'inactive'">
+                        {{item}}
+                    </li>
+                </ul>
+
+                <ul class="filter-box margin-tb" *ngIf="actorFilters.currentActorType === 'All'">
+                    <li class="mr-3 cursor-pointer"> <span class="c-box farmer"></span> Farmer</li>
+                    <li class="mr-3 cursor-pointer"> <span class="c-box company"></span> Company</li>
+                </ul>
+            </div>
+
+            <app-chart-line [chartData]="formattedChart" [colorSchemeDomain]="actorColors"
+                *ngIf="!actorReportLoader && formattedChart?.length"
+                [graphId]="'linechart'+actorFilters.currentActorType">
+            </app-chart-line>
+            <div class="no-data w-100" aria-label="" *ngIf="formattedChart?.length === 0" [hidden]="actorReportLoader">
+                No data to display
+            </div>
+            <app-loader [loaderText]="'Loading actor report data'" [loaderType]="'type1'"
+                *ngIf="actorReportLoader"></app-loader>
+        </aside>
+
+    </div>
+    <!-- second graph relating farmer transactions count and quantity  -->
+    <div class="d-flex second-chart flex-column">
+        <section class="section-heading">
+            <aside class="d-flex flex-column">
+                <aside class="row1 text-md font-1-bold">Farmer transactions</aside>
+                <span class="text-off-blue text-xs font-1-normal">Recent farmer transactions</span>
+            </aside>
+        </section>
+        <aside aria-label="chart container" class="chart-wrap min-h-390">
+            <ul class="filter-box margin-tb" *ngIf="farmerTransactionData.length">
+                <li class="mr-3 cursor-pointer" *ngFor="let item of farmerFilters.filterItems"
+                    (click)="changeTransaction(item)"
+                    [ngClass]="item === farmerFilters.innerFilter? 'active': 'inactive'">
+                    {{item}}
+                </li>
+            </ul>
+
+            <app-chart-line [chartData]="farmerTransactionData" graphId="linechart2"
+                *ngIf="!farmerLoader && farmerTransactionData?.length">
+            </app-chart-line>
+            <div class="no-data w-100" aria-label="" *ngIf="farmerTransactionData?.length === 0"
+                [hidden]="farmerLoader">
+                No data to display
+            </div>
+            <app-loader [loaderText]="'Loading transaction data'" [loaderType]="'type1'"
+                *ngIf="farmerLoader"></app-loader>
+        </aside>
+    </div>
+</section>

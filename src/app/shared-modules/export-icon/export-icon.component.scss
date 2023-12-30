@@ -1,0 +1,28 @@
+@import 'src/styles/responsive.scss';
+@import 'src/styles/utils.scss';
+
+%common-text-styles {
+  font-size: 12px;
+  color: var(--dark);
+  font-family: 'Moderat Bold';
+}
+
+.export {
+  margin-left: 10px;
+  @extend %common-text-styles;
+  @extend %flex-common-center;
+  .text {
+    @extend %common-text-styles;
+    font-size: 14px;
+    @include devices(desktop) {
+      font-size: 16px;
+    }
+  }
+  svg {
+    margin-right: 10px;
+    width: 15px;
+    @include devices(desktop) {
+      width: 20px;
+    }
+  }
+}

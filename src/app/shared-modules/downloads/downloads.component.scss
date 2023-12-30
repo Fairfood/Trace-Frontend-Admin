@@ -1,0 +1,73 @@
+::ng-deep .mat-mdc-menu-panel.export-ui-menu {
+  max-width: 450px;
+  width: 450px;
+  max-height: 350px;
+}
+.downloading-items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    padding: 15px 25px;
+    display: flex;
+    flex-direction: column;
+    .row1 {
+      display: flex;
+      align-items: center;
+      padding-bottom: 10px;
+    }
+    .row2,
+    .row3 {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 0;
+    }
+
+    .other-text,
+    .status {
+      font-size: 14px;
+      color: var(--font-color-2);
+    }
+  }
+}
+.row1 {
+  .file-name-download {
+    max-width: 140px;
+    font-size: 14px;
+
+    &.completed {
+      max-width: 250px;
+    }
+  }
+}
+.row2 {
+  ::ng-deep.mdc-linear-progress__bar-inner {
+    border-color: var(--primary);
+    height: 40px;
+  }
+}
+.row3 {
+  .cancel {
+    font-size: 14px;
+    color: var(--color-disabled);
+  }
+  .download {
+    color: var(--primary);
+  }
+  .error-message {
+    font-size: 14px;
+  }
+}
+
+.new-chip {
+  color: var(--white);
+  background-color: var(--font-color-2);
+  border-radius: 3px;
+  padding: 1px 8px;
+  margin-right: 10px;
+  font-size: 12px;
+}
+.mat-progress-bar {
+  height: 8px !important;
+}

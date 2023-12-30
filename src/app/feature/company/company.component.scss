@@ -1,0 +1,49 @@
+@import 'src/styles/utils.scss';
+
+.filter-section {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+@include reset-ul;
+
+ul li {
+  padding-left: 10px;
+  font-size: 14px;
+}
+
+@include custom-material-sort;
+
+.header-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  h2 {
+    margin: 0;
+  }
+}
+
+.widget {
+  @extend %common-widget;
+  padding: 25px 20px;
+  margin-bottom: 15px;
+  min-width: 100%;
+  height: 200px;
+  align-items: center;
+  @include devices(tablet-md) {
+    min-width: auto;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+.statistics {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.w-49 {
+  margin-left: 25px;
+  width: 49%;
+}

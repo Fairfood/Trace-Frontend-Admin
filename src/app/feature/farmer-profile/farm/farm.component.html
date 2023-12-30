@@ -1,0 +1,84 @@
+<h3 class="font-1-bold">Farm details</h3>
+<aside aria-label="list item wrapping" class="d-flex item-wrapper">
+    <article class="item">
+        <span class="key">Total area in use (acres)</span>
+        <span class="value">
+            {{farmerData?.total_area_in_use || '-'}}
+        </span>
+    </article>
+    <article class="item">
+        <span class="key">Crop types</span>
+        <span class="value text-overflow" style="max-width: 200px;" title="{{farmerData?.all_crop_types}}">
+            {{ farmerData?.all_crop_types || '-' }}
+        </span>
+    </article>
+</aside>
+<article class="underline"></article>
+<h3 class="font-1-bold mb-25">Fields</h3>
+
+<section class="list-detail-container" *ngIf="!loading">
+    <section class="no-ref text-xs font-1-medium" *ngIf="farmList.length === 0">
+        No fields found
+    </section>
+    <app-list-detail [iterationList]="farmList" [activeItem]="activeId" [showAddButton]="false"
+        (listClicked)="plotSelected($event)"></app-list-detail>
+    <aside aria-label="farm details" class="list-information" *ngIf="activePlotDetails">
+        <section class="section-detail">
+            <article class="d-flex">
+                <h3 class="font-1-bold">Plot details</h3>
+            </article>
+            <aside aria-label="list item wrapping" class="d-flex item-wrapper">
+                <article class="item">
+                    <span class="key">Plot name</span>
+                    <span class="value">
+                        {{activePlotDetails?.name}}
+                    </span>
+                </article>
+                <article class="item">
+                    <span class="key">Address</span>
+                    <span class="value">
+                        {{activePlotDetails?.address}}
+                    </span>
+                </article>
+            </aside>
+            <article class="underline"></article>
+            <aside aria-label="list item wrapping" class="d-flex item-wrapper">
+                <article class="item">
+                    <span class="key">Latitude</span>
+                    <span class="value">
+                        {{activePlotDetails?.latitude}}
+                    </span>
+                </article>
+                <article class="item">
+                    <span class="key">Longitude</span>
+                    <span class="value">
+                        {{activePlotDetails?.longitude}}
+                    </span>
+                </article>
+                <article class="item">
+                    <span class="key">Location type</span>
+                    <span class="value">
+                        {{ activePlotDetails?.location_type === 'APPROXIMATE'?'Approximate location': '-'}}
+                    </span>
+                </article>
+            </aside>
+            <article class="underline"></article>
+            <aside aria-label="list item wrapping" class="d-flex item-wrapper">
+                <article class="item">
+                    <span class="key">Total plot area</span>
+                    <span class="value">
+                        {{activePlotDetails?.total_plot_area}}
+                    </span>
+                </article>
+                <article class="item">
+                    <span class="key">Crop types</span>
+                    <span class="value">
+                        {{activePlotDetails?.crop_types || '-'}}
+                    </span>
+                </article>
+            </aside>
+        </section>
+    </aside>
+</section>
+
+<app-loader loaderText="Loading plots" loaderType="type1" *ngIf="loading"></app-loader>

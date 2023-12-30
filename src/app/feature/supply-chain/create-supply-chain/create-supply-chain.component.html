@@ -1,0 +1,31 @@
+<aside class="pop-header">
+    <h3 class="font-1-medium">
+        {{data?.isEdit? 'Edit supply chain': 'Create supply chain'}}
+    </h3>
+    <mat-icon class="cursor-pointer" (click)="close()">close</mat-icon>
+</aside>
+
+<div class="content" *ngIf="data">
+    <article class="input-container-with-error w-100">
+        <app-ff-input label="Supply chain name*" inputSize="full" [parentFormGroup]="supplyForm" controlName="name">
+        </app-ff-input>
+        <ng-container *ngIf="supplyForm?.controls['name']?.errors">
+            <span class="error-message"
+                *ngIf="supplyForm?.controls['name']?.errors['required'] && (supplyForm?.controls['name']?.touched || submitted)">
+                This field shouldn't be empty
+            </span>
+            <span class="error-message" *ngIf="supplyForm?.controls['name']?.errors['duplicate']">
+                Supply chain already exist !
+            </span>
+        </ng-container>
+    </article>
+
+    <aside aria-label="action button section" class="action">
+        <app-buttons buttonType="stroked" (buttonClicked)="close()">
+            Cancel
+        </app-buttons>
+        <app-buttons buttonType="fill" (buttonClicked)="createSupplyChain()">
+            {{data?.isEdit? 'Save changes': 'Create supply chain'}}
+        </app-buttons>
+    </aside>
+</div>

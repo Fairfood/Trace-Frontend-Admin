@@ -1,0 +1,29 @@
+<ng-container *ngIf="multiple">
+  <div class="ff-dropdown-container {{size}}" [ngClass]="selectedValue?.length?'active':'default'"
+    [matMenuTriggerFor]="beforeMenu">
+    <span class="label">{{label}}:</span>
+    <span class="selected" [ngClass]="selectedValue?.length?'active':'default'"
+      title="{{selectedValue?.length === 0? ('Choose '+ label): selectedValue?.join(', ')}}">
+      {{selectedValue?.length === 0? 'Select': selectedValue?.join(', ')}}
+    </span>
+    <mat-icon class="keyboard-down">keyboard_arrow_down</mat-icon>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="!multiple">
+  <div class="ff-dropdown-container {{size}}" [ngClass]="selectedValue?.id !== 'All'?'active':'default'"
+    [matMenuTriggerFor]="beforeMenu">
+    <span class="label">{{label}}:</span>
+    <span class="selected active" title="{{selectedValue?.name}}">
+      {{selectedValue?.name}}
+    </span>
+    <mat-icon>keyboard_arrow_down</mat-icon>
+  </div>
+</ng-container>
+
+
+<mat-menu class="ff-mat-menu-dropdown" #beforeMenu="matMenu" xPosition="after">
+  <app-ff-drop-menu [hideSearch]="hideSearch" [defaultValue]="defaultValue" [dropdownOptions]="dropDownValues"
+    [clearButtonText]="clearButtonText" [isMultiple]="multiple" [hideClear]="hideClear" (click)="$event.stopPropagation();"
+    (newSelectionValue)="menuItemSelected($event)"></app-ff-drop-menu>
+</mat-menu>

@@ -1,0 +1,62 @@
+<aside class="pop-header">
+    <h3 class="font-1-medium">
+        {{data?.isEdit? 'Update product': 'Create product'}}
+    </h3>
+    <mat-icon class="cursor-pointer" (click)="close()">close</mat-icon>
+</aside>
+
+<div class="content" *ngIf="dataLoaded">
+    <article class="input-container-with-error w-100">
+        <app-ff-dropdown label="Supply chain*" [defaultValue]="data?.productData?.supply_chain?.id"
+            [dropdownOptions]="data?.supplyChainData" [clearButtonText]="'Reset to All'" class="m-l-35" size="large"
+            (newSelectionValue)="selectSupplychain($event)">
+        </app-ff-dropdown>
+        <ng-container *ngIf="productCreateForm?.controls['supplyChain']?.errors">
+            <span class="error-message"
+                *ngIf="productCreateForm?.controls['supplyChain']?.errors['required'] && (productCreateForm?.controls['supplyChain']?.touched || submitted)">
+                This field shouldn't be empty
+            </span>
+         
+        </ng-container>
+    </article>
+    <article class="input-container-with-error w-100">
+        <app-ff-input label="Product name*" inputSize="full" [parentFormGroup]="productCreateForm"
+            controlName="product">
+        </app-ff-input>
+        <ng-container *ngIf="productCreateForm?.controls['product']?.errors">
+            <span class="error-message"
+                *ngIf="productCreateForm?.controls['product']?.errors['required'] && (productCreateForm?.controls['product']?.touched || submitted)">
+                This field shouldn't be empty
+            </span>
+            <span class="error-message"
+            *ngIf="productCreateForm?.controls['product']?.errors['duplicate'] && (productCreateForm?.controls['product']?.touched || submitted)">
+            Product name already exist in the supply chain
+        </span>
+        </ng-container>
+    </article>
+    <article class="input-container-with-error w-100">
+        <app-ff-input label="Product description" inputSize="full" [parentFormGroup]="productCreateForm"
+            controlName="description" [isTextarea]="true">
+        </app-ff-input>
+    </article>
+    <article class="input-container-with-error w-100">
+        <span class="custom-label font-1-normal">Product image</span>
+        <article class="d-flex w-100 align-items-center">
+            <app-buttons buttonType="stroked" buttonSize="medium" (buttonClicked)="fileChange.click()">
+                {{productCreateForm?.get('productImageName')?.value?'Change image': 'Upload image'}}
+            </app-buttons>
+            <input type="file" accept="image/*" #fileChange (change)="afterFileSelected($event)" hidden>
+            <span>{{productCreateForm?.get('productImageName')?.value}}</span>
+        </article>
+
+    </article>
+
+    <aside aria-label="action button section" class="action">
+        <app-buttons buttonType="stroked" (buttonClicked)="close()">
+            Back
+        </app-buttons>
+        <app-buttons buttonType="fill" (buttonClicked)="createProduct()" [isDisabled]="disabled">
+            {{buttonText}}
+        </app-buttons>
+    </aside>
+</div>

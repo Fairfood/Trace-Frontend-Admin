@@ -1,0 +1,38 @@
+@import 'src/styles/utils.scss';
+
+.common-bg {
+  background: var(--table-row-active);
+  border-radius: 6px;
+  padding: 20px 25px;
+}
+.act-list {
+  width: 100%;
+  padding-left: 20px;
+  li {
+    border-bottom: 1px solid var(--table-row-active);
+    padding: 15px 5px;
+    position: relative;
+    &::before {
+      content: '';
+      background-color: var(--sort-inactive);
+      height: 12px;
+      width: 12px;
+      position: absolute;
+      left: -20px;
+      border-radius: 50%;
+      top: 17px;
+    }
+  }
+}
+@include reset-ul;
+.block-body {
+  width: 100%;
+}
+
+.loader-container {
+  min-height: 300px;
+  @extend %flex-default;
+}
+h6 {
+  margin-top: 0;
+}

@@ -1,0 +1,59 @@
+@import 'src/styles/utils.scss';
+
+.circle1 {
+  stroke: var(--primary);
+}
+
+.circle2 {
+  stroke: var(--secondary);
+}
+
+.loader-wrapper {
+  @extend %flex-common-center;
+  justify-content: center;
+  flex-direction: column;
+
+  h6 {
+    margin-top: 0;
+    margin-bottom: 25px;
+  }
+}
+
+/*circle 1*/
+#c1 {
+  stroke-dasharray: 20;
+  stroke-dashoffset: 500;
+  animation: loading2 2s ease infinite;
+  -webkit-animation: loading2 2s ease infinite;
+}
+@keyframes loading2 {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/*circle 2*/
+#c2 {
+  stroke-dasharray: 80;
+  stroke-dashoffset: 500;
+  animation: loading3 2s linear infinite;
+  -webkit-animation: loading3 2s linear infinite;
+}
+@keyframes loading3 {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/*circle 3*/
+#c3 {
+  stroke-dasharray: 20;
+  stroke-dashoffset: 200;
+  animation: loading4 2s linear infinite;
+  -webkit-animation: loading4 2s linear infinite;
+}
+@keyframes loading4 {
+  to {
+    stroke-dashoffset: 0;
+  }
+}

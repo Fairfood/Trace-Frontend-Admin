@@ -1,0 +1,117 @@
+@import 'src/styles/responsive.scss';
+
+@mixin set-width($width) {
+  min-width: $width;
+  width: $width;
+  max-width: $width;
+}
+
+@mixin table-props() {
+  %column-width-common {
+    @include set-width(150px);
+  }
+  %checkbox-column {
+    @include set-width(60px);
+    padding-left: 10px !important;
+    text-align: center;
+  }
+  %column-classes {
+    &.slection-column {
+      @extend %checkbox-column;
+    }
+    &.normal-column {
+      @extend %column-width-common;
+    }
+    &.large-column {
+      @include set-width(250px);
+    }
+    &.options-column {
+      @include set-width(50px);
+    }
+    &.smaller-column {
+      @include set-width(100px);
+    }
+    &.stock-id-column {
+      @include set-width(125px);
+    }
+    &.transaction-type-column {
+      @include set-width(180px);
+    }
+    &.claim-normal {
+      @include set-width(20vw);
+      @include devices(tablet-md) {
+        min-width: 10vw;
+        max-width: 12vw;
+        width: 12vw;
+      }
+    }
+    &.claim-large {
+      @include set-width(30vw);
+      @include devices(tablet-md) {
+        @include set-width(20vw);
+      }
+      @include devices(laptop) {
+        @include set-width(24vw);
+      }
+    }
+  }
+  thead {
+    display: table-header-group !important;
+    background-color: var(--info);
+    border-radius: 6px;
+    th {
+      padding: 22px 0px 22px 20px !important;
+      white-space: nowrap;
+      border-left: 1px solid var(--white);
+      @extend %column-classes;
+      font-family: Moderat Bold;
+      font-size: 14px;
+      @include devices(desktop) {
+        font-size: 16px;
+      }
+      &:first-child {
+        border-radius: 6px 0 0 0;
+        border-left: 0;
+      }
+      &:last-child {
+        border-right: 0;
+        border-radius: 0 6px 0 0;
+      }
+    }
+  }
+  tbody {
+    td {
+      vertical-align: baseline !important;
+      padding: 15px 0px 10px 20px !important;
+      @extend %column-classes;
+      font-family: Moderat Regular;
+      font-size: 14px;
+      vertical-align: middle !important;
+      @include devices(desktop) {
+        font-size: 16px;
+      }
+    }
+
+    tr {
+      border-bottom: 1px solid var(--table-row-active);
+
+      &:hover {
+        background-color: var(--table-row-active);
+      }
+    }
+  }
+
+  mat-checkbox {
+    position: relative;
+    top: 4px;
+  }
+
+  .mat-checkbox-frame {
+    border-radius: 3px;
+    border: 1px solid var(--dark);
+    border-width: 1px;
+  }
+  .mat-checkbox-background {
+    border-radius: 3px;
+  }
+}

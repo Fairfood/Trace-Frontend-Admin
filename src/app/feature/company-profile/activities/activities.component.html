@@ -1,0 +1,21 @@
+<section class="row m-0 common-bg">
+    <div class="block-body">
+        <ul *ngIf="!isLoading" class="act-list">
+            <li *ngFor="let log of activities">
+                <h6 class="text-xs text-off-blue font-1-normal">
+                    {{ (log.created_on * 1000) | date:'fullDate'}}
+                </h6>
+                <h6 class="text-sm text-blue font-1-normal">{{ log.text }}</h6>
+            </li>
+        </ul>
+        <div class="row mx-0 w-100">
+            <aside class="col-12 loader-container" *ngIf="activities?.length == 0">
+                <h6 class="text-sm text-blue font-1-medium">No activities found</h6>
+            </aside>
+            <aside class="col-12 loader-container" *ngIf="isLoading" style="min-height: 300px;"
+                aria-label="loader container">
+                <app-loader loaderText="Loading activities" loaderType="type1"></app-loader>
+            </aside>
+        </div>
+    </div>
+</section>

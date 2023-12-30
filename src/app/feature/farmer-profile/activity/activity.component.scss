@@ -1,0 +1,39 @@
+@import 'src/styles/utils.scss';
+@include reset-ul;
+
+.top-box {
+  border-radius: 3px;
+  margin-top: 15px;
+  background-color: var(--table-row-active);
+  display: flex;
+  flex-direction: column;
+  padding: 20px 30px;
+
+  h6 {
+    margin: 0;
+    margin-bottom: 5px;
+  }
+
+  ul {
+    width: 100%;
+    padding-left: 0;
+    li {
+      padding: 15px 5px;
+      display: flex;
+      .avatar-round,
+      .img-round {
+        margin-right: 20px;
+        height: 50px;
+        width: 50px;
+      }
+      .avatar-round {
+        font-size: 16px;
+        background-color: var(--dark);
+      }
+      .img-round {
+        border-radius: 50%;
+        object-fit: cover;
+      }
+    }
+  }
+}

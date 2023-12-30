@@ -1,0 +1,73 @@
+<h2 class="font-1-bold text-xl">Products</h2>
+
+
+<!-- filter and search  -->
+<section class="d-flex justify-content-between">
+    <div class="d-flex align-items-center w-50">
+        <app-search-box [placeholder]="'Search here'" [searchByOptions]="searchBy" class="w-100"
+            (searchText)="searchFilter($event)"></app-search-box>
+        <app-buttons buttonType="secondary" (buttonClicked)="filterClicked()" class="ml-10">
+            <ng-container *ngIf="toggleFilter">
+                <mat-icon>close</mat-icon>
+                <span class="button-text">Clear filters</span>
+            </ng-container>
+            <ng-container *ngIf="!toggleFilter">
+                <img src="./assets/images/settings-slider-icon.svg" alt="icon">
+                <span class="button-text">Filters</span>
+            </ng-container>
+        </app-buttons>
+    </div>
+    <aside aria-label="action button section">
+        <app-buttons buttonType="fill" (buttonClicked)="createProduct()">
+            Create new product
+        </app-buttons>
+    </aside>
+</section>
+
+<section class="filter-section" *ngIf="toggleFilter">
+    <app-ff-dropdown label="Supply chain" [defaultValue]="appliedFilters.selectedSupplyChain"
+        [dropdownOptions]="supplyChainList" [clearButtonText]="'Reset to All'" class="m-l-35"
+        (newSelectionValue)="otherFilters($event)">
+    </app-ff-dropdown>
+</section>
+
+
+<section class="ff-table-container w-100">
+    <table class="product-listing-table">
+        <thead>
+            <tr>
+                <th *ngFor="let item of displayedColumns" class="{{item?.class}}">{{item.name}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of dataSource">
+                <td class="mat-cell large-column text-product" title="{{item?.name}}">
+                    <article class="d-flex align-items-center">
+                        <img [src]="item?.image || '../../../assets/images/product_icon.svg'" class="product-icon" alt="">
+                        {{item?.name}}
+                    </article>
+                </td>
+                <td class="mat-cell normal-column">{{item?.supply_chain?.name}}</td>
+                <td class="mat-cell large-column text-product" title="{{item?.description || ''}}">{{item?.description || '-'}}</td>
+                <td class="mat-cell options-column">
+                    <mat-icon class="cursor-pointer" [matMenuTriggerFor]="beforeMenu">more_vert</mat-icon>
+                    <mat-menu class="mat-menu" #beforeMenu="matMenu" xPosition="before">
+                        <ul>
+                            <li class="cursor-pointer" (click)="createProduct(true, item)">
+                                Edit
+                            </li>
+                        </ul>
+                    </mat-menu>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="no-data w-100" aria-label="" *ngIf="dataSource?.length === 0" [hidden]="loading">
+        No data to display
+    </div>
+
+    <app-loader [loaderText]="'Loading products'" [loaderType]="'type1'" *ngIf="loading" class="min-h-300"></app-loader>
+</section>
+
+<app-ff-pagination [totalCount]="totalCount" (paginationAction)="paginatorEvent($event)"></app-ff-pagination>

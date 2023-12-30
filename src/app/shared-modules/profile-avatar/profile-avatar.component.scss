@@ -1,0 +1,54 @@
+@import 'src/styles/responsive.scss';
+
+%common-image {
+  height: 120px;
+  width: 120px;
+  @include devices(desktop) {
+    height: 140px;
+    width: 140px;
+  }
+}
+
+.img-round {
+  border-radius: 50%;
+  @extend %common-image;
+}
+
+.avatar-round {
+  @extend %common-image;
+  font-size: 30px;
+  @include devices(desktop) {
+    font-size: 36px;
+  }
+}
+
+.avatar-wrapper {
+  position: relative;
+  @extend %common-image;
+}
+
+.overlay {
+  z-index: 3;
+  background: rgb(0 58 96);
+  opacity: 0.5;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  border-radius: 50%;
+}
+.edit-propic {
+  position: absolute;
+  top: 41%;
+  left: 37%;
+  font-size: 40px;
+  color: var(--white);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3;
+  cursor: pointer;
+}

@@ -1,0 +1,7 @@
+<ul class="filter-box margin-tb">
+    <li class="mr-3 cursor-pointer" *ngFor="let item of mapActorTypes"
+        [ngClass]="mapFilter === item ?'active': 'inactive'" (click)="changeLegend(item)">
+        {{item}}
+    </li>
+</ul>
+<div id="chartdiv"></div>

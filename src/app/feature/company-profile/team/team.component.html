@@ -1,0 +1,52 @@
+<section class="ff-table-container w-100">
+    <table class="claim-listing-table">
+        <thead>
+            <tr>
+                <th *ngFor="let item of displayedColumns" class="{{item?.class}}">{{item.name}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of dataSource">
+                <td class="mat-cell large-column">
+                    <article class="d-flex align-items-center">
+                        <img class="user-img user-pic mr-2" *ngIf="item?.image" [src]="item?.image" alt="avatar">
+                        <span class="avatar-round mr-2" *ngIf="!item?.image">
+                            {{ item?.first_name[0] }} {{ item?.last_name[0] }}
+                        </span>
+
+                        {{item?.first_name}} {{item?.last_name}}
+                    </article>
+
+                </td>
+                <td class="mat-cell large-column">
+                    {{item?.email}}
+                </td>
+                <td class="mat-cell normal-column">
+                    <article class="d-flex align-items-center">
+                        <ng-container *ngIf="item?.type === 1">
+                            Admin
+                        </ng-container>
+                        <ng-container *ngIf="item?.type === 2">
+                            Member
+                        </ng-container>
+                        <ng-container *ngIf="item?.type === 3">
+                            Viewer
+                        </ng-container>
+                    </article>
+
+                </td>
+                <td class="mat-cell normal-column">
+                    {{item?.active ? 'Active': 'Inactive'}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="no-data w-100" aria-label="" *ngIf="dataSource?.length === 0" [hidden]="loading">
+        No data to display
+    </div>
+    <app-loader [loaderText]="'Loading supply chain'" [loaderType]="'type1'" *ngIf="loading"
+        class="min-h-300"></app-loader>
+</section>
+
+<app-ff-pagination [totalCount]="totalCount" (paginationAction)="paginatorEvent($event)"></app-ff-pagination>

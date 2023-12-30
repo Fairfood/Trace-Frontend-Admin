@@ -1,0 +1,24 @@
+<ul class="tab-group" [class.border-tab]="stockProcess">
+    <!-- tab with icon and states are handled seperately -->
+    <ng-container *ngIf="!stockProcess; else stockProcessTabs">
+        <ng-container *ngFor="let tr of tabList">
+            <li class="tab-item" [ngClass]="activeTabId === tr.id? 'active': ''" (click)="changeTab(tr)">
+                {{tr?.name}}
+            </li>
+        </ng-container>
+
+    </ng-container>
+</ul>
+
+
+<ng-template #stockProcessTabs>
+    <ng-container *ngFor="let ta of tabList">
+        <li class="tab-item no-left-p" [ngClass]="activeTabId === ta.id? 'active': ''" (click)="changeTab(ta)">
+            <mat-icon [ngClass]="ta?.active ? 'set-primary': 'set-disabled'">check_circle</mat-icon>
+            <aside class="details" [class.disabled-details]="!ta.active">
+                <span>{{ta?.name}}</span>
+                <p *ngIf="ta?.description">{{ta?.description}}</p>
+            </aside>
+        </li>
+    </ng-container>
+</ng-template>

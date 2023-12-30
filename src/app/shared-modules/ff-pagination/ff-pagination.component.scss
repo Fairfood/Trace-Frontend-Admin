@@ -1,0 +1,12 @@
+@import 'src/styles/responsive.scss';
+@import 'src/styles/utils.scss';
+
+@include common-paginator;
+
+.custom-style-paginator-select {
+  margin-top: 10px;
+  @extend %flex-between;
+  @include devices(tablet-md) {
+    justify-content: flex-end;
+  }
+}

@@ -1,0 +1,27 @@
+@import 'src/styles/responsive.scss';
+@import 'src/styles/utils.scss';
+@include key-value-pair;
+@include common-list-styles;
+
+
+
+h3 {
+  font-size: 16px;
+  color: var(--font-color);
+  padding: 0 10px;
+  margin: 0;
+  margin-top: 10px;
+}
+.item-wrapper {
+  flex-wrap: wrap;
+
+  .item {
+    max-width: 250px;
+    min-width: 250px;
+  }
+}
+.no-ref {
+  padding: 0;
+  margin-bottom: 10px;
+  width: 100%;
+}
