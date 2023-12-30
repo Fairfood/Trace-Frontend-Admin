@@ -1,0 +1,118 @@
+.sidebar {
+  border-radius: 0;
+  position: fixed;
+  z-index: 1000;
+  top: 100px;
+  left: 235px;
+  width: 225px;
+  margin-left: -235px;
+  border: none;
+  border-radius: 0;
+  overflow-y: auto;
+  background-color: var(--info);
+  bottom: 0;
+  overflow-x: hidden;
+  padding-bottom: 10px;
+  transition: all 0.2s ease-in-out;
+
+  .sidebar-img {
+    margin-top: 10%;
+  }
+  .nested-menu .arrow-drop-down {
+    position: relative;
+    right: 0%;
+  }
+
+  .sidebar-img h5 {
+    font-weight: bold;
+    color: var(--border-color);
+    letter-spacing: 1px;
+    font-size: 1.15rem;
+  }
+
+  .list-group {
+    a.list-group-item {
+      background: var(--info);
+      border: 0;
+      border-radius: 0;
+      color: var(--dark);
+      letter-spacing: 1px;
+      text-decoration: none;
+      font-size: 14px;
+      text-transform: none;
+      padding-left: 40px;
+      margin: 0 20px;
+      .fa {
+        margin-right: 10px;
+      }
+    }
+    a:hover {
+      color: var(--dark);
+    }
+    a.router-link-active {
+      background: var(--font-color-2);
+      color: var(--white);
+      font-weight: bold;
+      border-radius: 6px;
+      margin: 0 20px;
+    }
+    .header-fields {
+      padding-top: 10px;
+
+      > .list-group-item:first-child {
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+      }
+    }
+  }
+}
+.nested-menu {
+  .list-group-item {
+    cursor: pointer;
+  }
+  .nested {
+    list-style-type: none;
+  }
+  ul.submenu {
+    display: none;
+    height: 0;
+  }
+  &.expand {
+    ul.submenu {
+      display: block;
+      list-style-type: none;
+      height: auto;
+      li {
+        a {
+          color: var(--dark);
+          padding: 10px;
+          display: block;
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 992px) {
+  .sidebar {
+    left: 0px;
+  }
+}
+@media (min-width: 992px) {
+  .header-fields {
+    display: none;
+  }
+}
+
+.list-group {
+  padding-left: 0;
+  margin-bottom: 0;
+  border-radius: 0.4rem;
+  margin-top: 50px;
+
+  .list-group-item {
+    position: relative;
+    display: block;
+    padding: 0.75rem 1.25rem;
+    background-color: var(--white);
+    border: 1px solid rgba(0, 0, 0, 0.125);
+  }
+}

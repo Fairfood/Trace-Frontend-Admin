@@ -1,0 +1,140 @@
+<section class="top-box">
+    <aside class="widget col-4">
+        <ng-container [ngTemplateOutlet]="commonWidgetItem" [ngTemplateOutletContext]="{
+            valueVar:  farmerData?.income?.total || 0,
+            heading: 'Total Transactions',
+            imageUrl: 'transaction.svg',
+            title: ''
+        }">
+        </ng-container>
+    </aside>
+    <aside class="widget col d-flex ml-20 justify-content-between">
+        <ng-container [ngTemplateOutlet]="commonWidgetItem" [ngTemplateOutletContext]="{
+            valueVar:  farmerData?.income?.product || 0 ,
+            heading: 'Income from products',
+            imageUrl: 'money.svg',
+            title: ''
+        }">
+        </ng-container>
+        <ng-container [ngTemplateOutlet]="commonWidgetItem" [ngTemplateOutletContext]="{
+            valueVar:  farmerData?.income?.premium || 0,
+            heading: 'Income from premium',
+            imageUrl: 'star.svg',
+            title: ''
+        }">
+        </ng-container>
+        <ng-container [ngTemplateOutlet]="commonWidgetItem" [ngTemplateOutletContext]="{
+            valueVar:  farmerData?.income?.others || 0,
+            heading: 'Income from other',
+            imageUrl: 'star.svg',
+            title: 'test'
+        }">
+        </ng-container>
+    </aside>
+</section>
+
+<section class="head-section">
+    <h3 class="text-md font-1-bold">Payments</h3>
+    <aside class="utils">
+        <app-search-box [placeholder]="'Search here'" [searchByOptions]="optionsArray"
+            (searchText)="searchFilter($event)" class="search-item"></app-search-box>
+        <app-export-icon (exportClicked)="initExport()"></app-export-icon>
+    </aside>
+</section>
+
+<section class="ff-table-container w-100">
+    <table>
+        <thead>
+            <tr>
+                <th *ngFor="let item of displayedColumns" class="{{item?.class}}">
+                    <article class="d-flex align-items-center cursor-pointer">
+                        {{item.name}}
+                    </article>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of dataSource" class="cursor-pointer">
+                <td class="mat-cell normal-collumn">{{ item.id }}</td>
+                <td class="mat-cell normal-collumn">
+                    {{ item?.source_details?.full_name }}
+                </td>
+                <td class="mat-cell normal-collumn">
+                    <ng-container [ngSwitch]="item.payment_type">
+                        <ng-container *ngSwitchCase="'TRANSACTION'">Base price</ng-container>
+                        <ng-container *ngSwitchCase="'PREMIUM'">Premium</ng-container>
+                        <ng-container *ngSwitchDefault>Premium</ng-container>
+                    </ng-container>
+                </td>
+                <td class="mat-cell normal-column">
+                    <ng-container [ngSwitch]="item.method">
+                        <ng-container *ngSwitchCase="'CARD'">Card</ng-container>
+                        <ng-container *ngSwitchCase="'INVOICE'">Invoice</ng-container>
+                        <ng-container *ngSwitchDefault>Not verified</ng-container>
+                    </ng-container>
+                </td>
+                <td class="mat-cell normal-collumn">{{item?.created_on * 1000 | date: 'dd MMMM y' }}</td>
+                <td class="mat-cell normal-collumn">
+                    {{item?.amount.toFixed(2).toLocaleString('en-US')}} {{item?.currency}}
+                </td>
+                <td class="mat-cell large-collumn">
+                    <ng-container *ngIf="item?.invoice">
+
+                        <span class="pointer text-overflow filename" (click)="downloadFile(item)"
+                            *ngIf="downloadingId !== item.id">
+                            <svg width="13" height="10" viewBox="0 0 13 10" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M6.10979 6.71212L6.10962 6.71195L3.4844 3.96172L3.48428 3.96159C3.40864 3.88246 3.4653 3.75029 3.57459 3.75029H4.9497H5.1997V3.50029V0.625051C5.1997 0.418594 5.3683 0.25 5.57475 0.25H6.82485C7.03131 0.25 7.19991 0.418594 7.19991 0.625051V3.50029V3.75029H7.44991H8.82502C8.93431 3.75029 8.99096 3.88246 8.91532 3.96159L8.9152 3.96172L6.28999 6.71195L6.28982 6.71212C6.26656 6.73654 6.23399 6.75058 6.1998 6.75058C6.16561 6.75058 6.13305 6.73654 6.10979 6.71212Z"
+                                    fill="#003A60" stroke="#003A60" stroke-width="0.5" />
+                                <path
+                                    d="M11.3233 9.74984H1.07415C0.729759 9.74984 0.449219 9.4693 0.449219 9.12491V8.87493C0.449219 8.53054 0.729759 8.25 1.07415 8.25H11.3233C11.6677 8.25 11.9483 8.53054 11.9483 8.87493V9.12491C11.9483 9.4693 11.6677 9.74984 11.3233 9.74984Z"
+                                    fill="#003A60" stroke="#003A60" stroke-width="0.5" />
+                            </svg>
+                            {{item.invoice?.split('/').pop()}}
+                        </span>
+                        <span *ngIf="downloadingId === item.id">
+                            <ng-container [ngTemplateOutlet]="roundLoader"></ng-container>
+                        </span>
+                    </ng-container>
+                    <ng-container *ngIf="!item?.invoice">
+                        -
+                    </ng-container>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="no-data w-100" aria-label="" *ngIf="dataSource?.length === 0" [hidden]="incomeData.loading">
+        No data to display
+    </div>
+
+    <app-loader [loaderText]="'Loading payments'" [loaderType]="'type1'" *ngIf="incomeData.loading"
+        class="min-h-300"></app-loader>
+</section>
+
+<app-ff-pagination [totalCount]="tableCount" (paginationAction)="paginatorEvent($event)"></app-ff-pagination>
+
+<ng-template #commonWidgetItem let-imageUrl="imageUrl" let-heading="heading" let-valueVar="valueVar" let-title="title">
+
+    <aside class="widget-item" aria-label="individual items first row 2">
+        <span class="svg-wrap">
+            <img src="./assets/images/farmer-profile/{{imageUrl}}" alt="ac">
+        </span>
+        <article class="info">
+            <span class="key font-1-normal">{{heading}}</span>
+            <span class="value font-1-bold" title="{{title}}">{{valueVar}}</span>
+        </article>
+    </aside>
+</ng-template>
+
+<ng-template #roundLoader>
+    <svg width="25px" height="25px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"
+        preserveAspectRatio="xMidYMid" class="rolling" style="background: none;">
+        <circle cx="50" cy="50" fill="none" stroke="#4dcaf4" stroke-width="8" r="30"
+            stroke-dasharray="141.37166941154067 49.12388980384689" transform="rotate(94.0408 50 50)">
+            <animateTransform attributeName="transform" type="rotate" calcMode="linear" values="0 50 50;360 50 50"
+                keyTimes="0;1" dur="0.9s" begin="0s" repeatCount="indefinite"></animateTransform>
+        </circle>
+    </svg>
+</ng-template>

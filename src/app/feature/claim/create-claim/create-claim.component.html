@@ -1,0 +1,302 @@
+<app-ff-custom-tab [tabGroupItems]="tabGroup" [stockProcess]="true" [activeTabId]="activeTabId"
+    (tabChanged)="changeTab($event)" class="w-100">
+</app-ff-custom-tab>
+
+<div class="d-flex w-100 content-section" *ngIf="dataLoaded">
+    <section class="d-flex flex-column dropdown-wrapper-options">
+
+        <!-- first tab basic claim details like title desc etcc -->
+        <div class="form-left" [formGroup]="basicsForm" *ngIf="activeTabId === 'details'">
+            <article class="input-container-with-error w-100">
+                <app-ff-input label="Claim title*" inputSize="full" [parentFormGroup]="basicsForm" controlName="name"
+                    class="form-item">
+                </app-ff-input>
+                <ng-container [ngTemplateOutlet]="formErrorMessages"
+                    [ngTemplateOutletContext]="{formcontrol:'name', formgroup: basicsForm?.controls}">
+                </ng-container>
+            </article>
+            <aside class="w-100 d-flex align-items-center">
+                <h4 class="sub-label">Select claim type*</h4>
+                <mat-radio-group aria-label="Select an option" formControlName="type">
+                    <mat-radio-button [value]="1">Product</mat-radio-button>
+                    <mat-radio-button [value]="2">Company</mat-radio-button>
+                </mat-radio-group>
+            </aside>
+
+            <!-- claim type is 1 ( Product claim ) then  -->
+            <ng-container *ngIf="basicsForm?.controls['type'].value === 1">
+
+                <article class="input-container-with-error w-100">
+                    <app-ff-dropdown label="Supply chain*" [dropdownOptions]="supplyChainList" class="form-item"
+                        [defaultValue]="basicsForm?.controls['supplyChain'].value" [multiple]="true"
+                        (newSelectionValue)="dropdownFormValue($event, 'supplyChain')" size="large">
+                    </app-ff-dropdown>
+                    <ng-container [ngTemplateOutlet]="formErrorMessages"
+                        [ngTemplateOutletContext]="{formcontrol:'supplyChain', formgroup: basicsForm?.controls}">
+                    </ng-container>
+                </article>
+                <article class="input-container-with-error w-100">
+                    <app-ff-input label="Short description*" inputSize="full" [parentFormGroup]="basicsForm"
+                        controlName="shortDesc" class="form-item" [isTextarea]="true">
+                    </app-ff-input>
+                    <ng-container [ngTemplateOutlet]="formErrorMessages"
+                        [ngTemplateOutletContext]="{formcontrol:'shortDesc', formgroup: basicsForm?.controls}">
+                    </ng-container>
+                </article>
+                <article class="input-container-with-error w-100">
+                    <app-ff-input label="Long description*" inputSize="full" [parentFormGroup]="basicsForm"
+                        controlName="longDesc" class="form-item" [isTextarea]="true">
+                    </app-ff-input>
+                    <ng-container [ngTemplateOutlet]="formErrorMessages"
+                        [ngTemplateOutletContext]="{formcontrol:'longDesc', formgroup: basicsForm?.controls}">
+                    </ng-container>
+                </article>
+
+            </ng-container>
+
+            <!-- claim type is 2 ( Company claim ) then  -->
+            <ng-container *ngIf="basicsForm?.controls['type'].value === 2">
+                <article class="input-container-with-error w-100">
+                    <app-ff-input label="Description*" inputSize="full" [parentFormGroup]="basicsForm"
+                        controlName="companyDesciption" class="form-item" [isTextarea]="true">
+                    </app-ff-input>
+                    <ng-container [ngTemplateOutlet]="formErrorMessages"
+                        [ngTemplateOutletContext]="{formcontrol:'companyDesciption', formgroup: basicsForm?.controls}">
+                    </ng-container>
+                </article>
+
+                <aside aria-label="assign verifier" class="w-100 d-flex align-items-center">
+                    <mat-checkbox [checked]="basicsForm?.controls['assignVerifier'].value"
+                        formControlName="assignVerifier">
+                        <h4 class="sub-label">
+                            Check if you want to assign verifier for this claim
+                        </h4>
+                    </mat-checkbox>
+                </aside>
+
+                <article class="input-container-with-error w-100" *ngIf="basicsForm?.controls['assignVerifier'].value">
+                    <app-ff-dropdown label="Verifier*" [dropdownOptions]="verifierList"
+                        [defaultValue]="basicsForm?.controls['verifier'].value" class="form-item" [multiple]="true"
+                        (newSelectionValue)="dropdownFormValue($event, 'verifier')" size="large">
+                    </app-ff-dropdown>
+                    <ng-container *ngIf="basicsForm?.controls['verifier'].errors">
+                        <span class="error-message" *ngIf="basicsForm?.controls['verifier']?.errors?.required && submitted">
+                            This field shouldn't be empty
+                        </span>
+                    </ng-container>
+                </article>
+            </ng-container>
+
+        </div>
+        <!-- evidence tab multiple evidence types text, dropdown and file can be add -->
+        <section class="form-left" *ngIf="activeTabId === 'evidence'" [formGroup]="evidenceForm">
+            <div aria-label="form array row" class="w-100" formArrayName="evidenceRow">
+                <ng-container *ngFor="let itemRow of evidenceFormArray.controls; let i = index;" [formGroupName]="i">
+                    <div class="d-flex w-100 flex-column"
+                        *ngIf="itemRow.value.fieldType === 1 || itemRow.value.fieldType === 2">
+                        <section class="d-flex w-100 flex-wrap">
+                            <article class="row-options">
+                                <label class="has-float-label custom-input"
+                                    [ngClass]="{'has-error': itemRow.get('name').invalid && itemRow.get('name').touched }">
+                                    <input placeholder=" " formControlName="name" type="text" class="full" />
+                                    <span class="label">Field name*</span>
+                                </label>
+                                <span class="error-message"
+                                    *ngIf="itemRow.get('name').errors?.required && (itemRow.get('name').touched || submitted)">
+                                    This field shouldn't be empty
+                                </span>
+                            </article>
+                            <article class="row-options">
+                                <app-ff-dropdown label="Field type*" [defaultValue]="itemRow.value.fieldType"
+                                    [dropdownOptions]="evidenceDropdown" [hideSearch]="true" [hideClear]="true"
+                                    (newSelectionValue)="fieldTypeUpdate($event, i)" size="large">
+                                </app-ff-dropdown>
+
+                                <span class="error-message"
+                                    *ngIf="itemRow.get('fieldType').errors?.required && (itemRow.get('fieldType').touched || submitted)">
+                                    This field shouldn't be empty
+                                </span>
+                            </article>
+                            <article class="w-20 d-flex">
+                                <app-buttons buttonType="stroked" buttonSize="medium"
+                                    (buttonClicked)="deleteEvidenceRow(i)">
+                                    <ng-container [ngTemplateOutlet]="removeIcon"></ng-container>
+                                </app-buttons>
+                            </article>
+                        </section>
+                        <section class="d-flex dropdown-wrapper-options flex-column mt-10"
+                            *ngIf="itemRow.value.fieldType === 2" formArrayName="options">
+                            <!-- if the field type is dropdown then dropdown options need to be added  -->
+                            <ng-container *ngFor="let item of getControls(itemRow); let j=index;">
+                                <aside class="d-flex" aria-label="inner form array-name">
+                                    <article class="drop-options">
+                                        <label class="has-float-label custom-input"
+                                            [ngClass]="{'has-error': item?.status === 'INVALID' && item?.touched }">
+                                            <input placeholder=" " [formControlName]="j" type="text" class="full" />
+                                            <span class="label">Dropdown option {{j+1}}*</span>
+                                        </label>
+                                        <span class="error-message"
+                                            *ngIf="item?.status === 'INVALID' && (item?.touched || submitted)">
+                                            This field shouldn't be empty
+                                        </span>
+                                    </article>
+                                    <app-buttons buttonType="stroked" buttonSize="medium" class="w-20"
+                                        (buttonClicked)="deleteOption(i, j)">
+                                        <ng-container [ngTemplateOutlet]="removeIcon"></ng-container>
+                                    </app-buttons>
+                                </aside>
+                            </ng-container>
+                            <p class="text-danger cursor-pointer">
+                                <u (click)="addOptionsField(i)">Add dropdown option</u>
+                            </p>
+                        </section>
+
+                    </div>
+                    <aside aria-label="file type" class="d-flex w-100" *ngIf="itemRow.value.fieldType === 3">
+                        <article class="row-options file-input">
+                            <label class="has-float-label custom-input"
+                                [ngClass]="{'has-error': itemRow.get('name').invalid && itemRow.get('name').touched }">
+                                <input placeholder=" " formControlName="name" type="text" class="full" />
+                                <span class="label">File input label*</span>
+                            </label>
+                            <span class="error-message"
+                                *ngIf="itemRow.get('name').errors?.required && (itemRow.get('name').touched || submitted)">
+                                This field shouldn't be empty
+                            </span>
+                        </article>
+                        <article class="w-20 d-flex justify-content-end align-items-center">
+                            <app-buttons buttonType="stroked"  buttonSize="medium" (buttonClicked)="deleteEvidenceRow(i)">
+                                <ng-container [ngTemplateOutlet]="removeIcon"></ng-container>
+                            </app-buttons>
+                        </article>
+                    </aside>
+                </ng-container>
+                <aside class="d-flex add-more">
+                    <app-buttons buttonType="stroked" (buttonClicked)="addEvidenceRow(1)">
+                        Add input field
+                    </app-buttons>
+                    <app-buttons buttonType="stroked" (buttonClicked)="addEvidenceRow(3)">
+                        Add file attachment
+                    </app-buttons>
+                </aside>
+            </div>
+        </section>
+
+        <section class="form-left" [formGroup]="propsForm" *ngIf="activeTabId === 'props'">
+            <h3>Claim properties</h3>
+            <aside aria-label="is inheritable" class="w-100 d-flex checkbox-group">
+                <mat-checkbox [checked]="propsForm?.controls['inheritable'].value" formControlName="inheritable">
+                    <h4 class="sub-label">
+                        Inheritable
+                    </h4>
+                </mat-checkbox>
+                <p class="sub-text-label">
+                    Product inherits a percentage of the claim property from its original state when the product is
+                    mixed or modified.
+                </p>
+            </aside>
+            <div class="sub-box" *ngIf="propsForm?.controls['inheritable'].value">
+                <mat-radio-group aria-label="Select an option" formControlName="inheritanceType">
+                    <mat-radio-button [value]="1">Always inheritable</mat-radio-button>
+                    <mat-radio-button [value]="3">Claim wont be inheritable if product name changed</mat-radio-button>
+                </mat-radio-group>
+                <aside aria-label="is proportional" class="w-100 d-flex checkbox-group">
+                    <mat-checkbox [checked]="propsForm?.controls['isPropotional'].value"
+                        formControlName="isPropotional">
+                        <h4 class="sub-label">
+                            Proportional
+                        </h4>
+                    </mat-checkbox>
+                    <p class="sub-text-label">
+                        A batch with a proportional claim when merged with another batch, the resultant batch will
+                        acquire a proportional percentage of that claim.
+                    </p>
+                </aside>
+                <aside aria-label="is removable" class="w-100 d-flex checkbox-group">
+                    <mat-checkbox [checked]="propsForm?.controls['isRemovable'].value" formControlName="isRemovable">
+                        <h4 class="sub-label">
+                            Removable
+                        </h4>
+                    </mat-checkbox>
+                    <p class="sub-text-label">
+                        Claim can removed from a batch while doing the transactions.
+                    </p>
+                </aside>
+            </div>
+            <h3>Verification configuration</h3>
+            <p class="sub-text-label">Select how this claim will be verified*</p>
+            <mat-radio-group aria-label="Select an option verification config" class="d-flex flex-column"
+                formControlName="claimVerificationType">
+                <mat-radio-button [value]="4">
+                    Auto verified (The claim will automatically be approved when it is attached.)
+                </mat-radio-button>
+                <mat-radio-button [value]="1">
+                    Second party verifier (Reciever will be assigned as verifier)
+                </mat-radio-button>
+                <mat-radio-button [value]="2">
+                    Third party verifier
+                </mat-radio-button>
+            </mat-radio-group>
+            <div class="sub-box" *ngIf="propsForm?.controls['claimVerificationType'].value === 2">
+                <mat-radio-group class="d-flex flex-column" formControlName="thirdPartyType">
+                    <mat-radio-button [value]="1">
+                        Fixed verifier
+                    </mat-radio-button>
+                    <mat-radio-button [value]="2">
+                        Others (Verifier can be direct connections or any verifier in the supply chain)
+                    </mat-radio-button>
+                </mat-radio-group>
+                <article class="input-container-with-error w-100"
+                    *ngIf="propsForm?.controls['thirdPartyType'].value === 1">
+                    <app-ff-dropdown label="Verifier*" [dropdownOptions]="verifierList"
+                        [defaultValue]="propsForm?.controls['verifiers'].value" class="form-item" [multiple]="true"
+                        (newSelectionValue)="dropdownFormValueThirdParty($event)" size="large">
+                    </app-ff-dropdown>
+                    <ng-container [ngTemplateOutlet]="formErrorMessages"
+                        [ngTemplateOutletContext]="{formcontrol:'supplyChain', formgroup: basicsForm?.controls}">
+                    </ng-container>
+                </article>
+            </div>
+        </section>
+
+        <aside class="d-flex justify-content-between add-more">
+            <app-buttons buttonType="stroked" (buttonClicked)="backToListing()">
+                Back
+            </app-buttons>
+            <app-buttons buttonType="fill" (buttonClicked)="continue()">
+                {{activeTabId === tabGroup[tabGroup.length - 1].id ? 'Create claim': 'Continue'}}
+            </app-buttons>
+        </aside>
+    </section>
+
+    <aside aria-label="illustration" class="right-illustration">
+        <img src="../../../../assets/images/create_claim.svg" alt="invite">
+    </aside>
+</div>
+
+<app-loader [loaderText]="loaderText" [loaderType]="'type1'" *ngIf="!dataLoaded" class="special"></app-loader>
+
+
+<ng-template let-formcontrol="formcontrol" let-formgroup="formgroup" #formErrorMessages>
+    <span class="error-message"
+        *ngIf="formgroup[formcontrol]?.errors?.required && (formgroup[formcontrol]?.touched || submitted)">
+        This field shouldn't be empty
+    </span>
+</ng-template>
+
+<ng-template #removeIcon>
+    <svg width="20" height="20" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+            d="M3.8737 8.42057V5.03109C3.8737 4.90267 3.82268 4.7795 3.73188 4.6887C3.64107 4.59789 3.51791 4.54688 3.38949 4.54688C3.26106 4.54688 3.1379 4.59789 3.0471 4.6887C2.95629 4.7795 2.90527 4.90267 2.90527 5.03109V8.42057C2.90527 8.54899 2.95629 8.67216 3.0471 8.76296C3.1379 8.85377 3.26106 8.90479 3.38949 8.90479C3.51791 8.90479 3.64107 8.85377 3.73188 8.76296C3.82268 8.67216 3.8737 8.54899 3.8737 8.42057Z"
+            fill="#EA2553" />
+        <path
+            d="M7.74756 3.57837C7.61914 3.57837 7.49598 3.62938 7.40517 3.72019C7.31436 3.811 7.26335 3.93416 7.26335 4.06258V9.4814C7.24946 9.72626 7.13938 9.95571 6.95708 10.1198C6.77479 10.2838 6.53505 10.3692 6.29008 10.3573H2.42607C2.1811 10.3692 1.94136 10.2838 1.75907 10.1198C1.57677 9.95571 1.46669 9.72626 1.4528 9.4814V4.06258C1.4528 3.93416 1.40178 3.811 1.31098 3.72019C1.22017 3.62938 1.09701 3.57837 0.968587 3.57837C0.840166 3.57837 0.717005 3.62938 0.626198 3.72019C0.53539 3.811 0.484375 3.93416 0.484375 4.06258V9.4814C0.498196 9.98316 0.7103 10.459 1.07423 10.8047C1.43817 11.1504 1.92426 11.3377 2.42607 11.3258H6.29008C6.79188 11.3377 7.27798 11.1504 7.64192 10.8047C8.00585 10.459 8.21795 9.98316 8.23177 9.4814V4.06258C8.23177 3.93416 8.18076 3.811 8.08995 3.72019C7.99914 3.62938 7.87598 3.57837 7.74756 3.57837Z"
+            fill="#EA2553" />
+        <path
+            d="M8.23161 2.12598H6.29476V1.15755C6.29476 1.02913 6.24374 0.90597 6.15294 0.815162C6.06213 0.724355 5.93897 0.67334 5.81055 0.67334H2.90527C2.77685 0.67334 2.65369 0.724355 2.56288 0.815162C2.47208 0.90597 2.42106 1.02913 2.42106 1.15755V2.12598H0.484212C0.355791 2.12598 0.23263 2.17699 0.141822 2.2678C0.0510151 2.35861 0 2.48177 0 2.61019C0 2.73861 0.0510151 2.86177 0.141822 2.95258C0.23263 3.04339 0.355791 3.0944 0.484212 3.0944H8.23161C8.36003 3.0944 8.48319 3.04339 8.574 2.95258C8.66481 2.86177 8.71582 2.73861 8.71582 2.61019C8.71582 2.48177 8.66481 2.35861 8.574 2.2678C8.48319 2.17699 8.36003 2.12598 8.23161 2.12598ZM3.38949 2.12598V1.64176H5.32633V2.12598H3.38949Z"
+            fill="#EA2553" />
+        <path
+            d="M5.81022 8.42057V5.03109C5.81022 4.90267 5.75921 4.7795 5.6684 4.6887C5.57759 4.59789 5.45443 4.54688 5.32601 4.54688C5.19759 4.54688 5.07443 4.59789 4.98362 4.6887C4.89281 4.7795 4.8418 4.90267 4.8418 5.03109V8.42057C4.8418 8.54899 4.89281 8.67216 4.98362 8.76296C5.07443 8.85377 5.19759 8.90479 5.32601 8.90479C5.45443 8.90479 5.57759 8.85377 5.6684 8.76296C5.75921 8.67216 5.81022 8.54899 5.81022 8.42057Z"
+            fill="#EA2553" />
+    </svg>
+</ng-template>

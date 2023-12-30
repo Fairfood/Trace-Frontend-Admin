@@ -1,0 +1,26 @@
+.disp-flex {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.mr-20 {
+  margin-right: 20px;
+}
+.fontsucces {
+  font-size: 16px;
+  color: var(--dark);
+}
+.fonterror {
+  font-size: 16px;
+  color: var(--secondary);
+}
+
+::ng-deep .mat-snack-bar-container {
+  border-radius: 0px !important;
+  min-width: 555px;
+  padding: 13px 25px;
+  max-width: 560px !important;
+  background: white;
+}
+
+

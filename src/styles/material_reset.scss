@@ -1,0 +1,329 @@
+.mat-mdc-radio-button
+  .mdc-radio
+  .mdc-radio__native-control:enabled:not(:checked)
+  + .mdc-radio__background
+  .mdc-radio__outer-circle {
+  border-color: var(--secondary) !important;
+}
+
+.mat-mdc-radio-button
+  .mdc-radio
+  .mdc-radio__native-control:enabled:checked
+  + .mdc-radio__background
+  .mdc-radio__outer-circle {
+  border-color: var(--secondary) !important;
+}
+.mat-mdc-radio-button
+  .mdc-radio
+  .mdc-radio__native-control:enabled
+  + .mdc-radio__background
+  .mdc-radio__inner-circle {
+  border-color: var(--secondary) !important;
+}
+input.mat-mdc-input-element {
+  margin-top: -0.0625em;
+}
+
+.mat-menu-item {
+  font-family: 'Moderat Regular', Roboto, 'Helvetica Neue', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.cdk-high-contrast-active .mat-ripple-element {
+  display: none;
+}
+
+.cdk-visually-hidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  outline: 0;
+}
+
+.cdk-overlay-container,
+.cdk-global-overlay-wrapper {
+  pointer-events: none;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.cdk-overlay-container {
+  position: fixed;
+  z-index: 1000;
+}
+
+.cdk-overlay-container:empty {
+  display: none;
+}
+
+.cdk-global-overlay-wrapper {
+  display: flex;
+  position: absolute;
+  z-index: 1000;
+}
+
+.cdk-overlay-pane {
+  position: absolute;
+  pointer-events: auto;
+  box-sizing: border-box;
+  z-index: 1000;
+  display: flex;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.cdk-overlay-backdrop {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  pointer-events: auto;
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
+  opacity: 0;
+}
+
+.cdk-overlay-backdrop.cdk-overlay-backdrop-showing {
+  opacity: 1;
+}
+
+@media screen and (-ms-high-contrast: active) {
+  .cdk-overlay-backdrop.cdk-overlay-backdrop-showing {
+    opacity: 0.6;
+  }
+}
+
+.cdk-overlay-dark-backdrop {
+  background: rgba(0, 0, 0, 0.32);
+}
+
+.cdk-overlay-transparent-backdrop,
+.cdk-overlay-transparent-backdrop.cdk-overlay-backdrop-showing {
+  opacity: 0;
+}
+
+.cdk-overlay-connected-position-bounding-box {
+  position: absolute;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  min-width: 1px;
+  min-height: 1px;
+}
+
+.cdk-global-scrollblock {
+  position: fixed;
+  width: 100%;
+  overflow-y: scroll;
+}
+
+.cdk-text-field-autofill-monitored:-webkit-autofill {
+  animation: cdk-text-field-autofill-start 0s 1ms;
+}
+
+.cdk-text-field-autofill-monitored:not(:-webkit-autofill) {
+  animation: cdk-text-field-autofill-end 0s 1ms;
+}
+
+textarea.cdk-textarea-autosize {
+  resize: none;
+}
+
+textarea.cdk-textarea-autosize-measuring {
+  padding: 2px 0 !important;
+  box-sizing: content-box !important;
+  height: auto !important;
+  overflow: hidden !important;
+}
+
+textarea.cdk-textarea-autosize-measuring-firefox {
+  padding: 2px 0 !important;
+  box-sizing: content-box !important;
+  height: 0 !important;
+}
+.ng-animate-disabled .mat-badge-content,
+.mat-badge-content._mat-animation-noopable {
+  transition: none;
+}
+
+.mat-sort-header-arrow {
+  color: #757575;
+}
+
+.mat-mdc-menu-panel.mat-mdc-menu-panel {
+  background-color: var(--white);
+}
+.mat-elevation-z4,
+.mat-mdc-menu-panel {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+.mat-mdc-checkbox
+  .mdc-checkbox
+  .mdc-checkbox__native-control:enabled:not(:checked):not(:indeterminate):not(
+    [data-indeterminate='true']
+  )
+  ~ .mdc-checkbox__background {
+  border-color: var(--font-color-2) !important;
+  border-radius: 4px;
+  border-width: 1px;
+}
+
+.mat-mdc-checkbox
+  .mdc-checkbox
+  .mdc-checkbox__native-control:enabled:checked
+  ~ .mdc-checkbox__background {
+  border-color: var(--font-color-2) !important;
+  background-color: var(--font-color-2) !important;
+  border-width: 1px;
+  border-width: 1px;
+}
+.mdc-form-field > label {
+  font-size: 14px !important;
+}
+
+.mat-mdc-form-field-can-float.mat-mdc-form-field-should-float
+  .mat-mdc-form-field-label,
+.mat-mdc-form-field-can-float
+  .mat-input-server:focus
+  + .mat-mdc-form-field-label-wrapper
+  .mat-mdc-form-field-label {
+  transform: translateY(-1.34375em) scale(0.75);
+  width: 133.3333333333%;
+}
+
+.mat-mdc-form-field-can-float
+  .mat-input-server[label]:not(:label-shown)
+  + .mat-mdc-form-field-label-wrapper
+  .mat-mdc-form-field-label {
+  transform: translateY(-1.34374em) scale(0.75);
+  width: 133.3333433333%;
+}
+
+.mat-mdc-form-field-appearance-legacy.mat-mdc-form-field-can-float.mat-mdc-form-field-should-float
+  .mat-mdc-form-field-label,
+.mat-mdc-form-field-appearance-legacy.mat-mdc-form-field-can-float
+  .mat-input-server:focus
+  + .mat-mdc-form-field-label-wrapper
+  .mat-mdc-form-field-label {
+  transform: translateY(-1.28125em) scale(0.75) perspective(100px)
+    translateZ(0.001px);
+  -ms-transform: translateY(-1.28125em) scale(0.75);
+  width: 133.3333333333%;
+}
+
+.mat-mdc-form-field-appearance-legacy.mat-mdc-form-field-can-float
+  .mat-input-server[label]:not(:label-shown)
+  + .mat-mdc-form-field-label-wrapper
+  .mat-mdc-form-field-label {
+  transform: translateY(-1.28125em) scale(0.75) perspective(100px)
+    translateZ(0.00102px);
+  -ms-transform: translateY(-1.28123em) scale(0.75);
+  width: 133.3333533333%;
+}
+
+.mat-mdc-form-field-appearance-fill.mat-mdc-form-field-can-float.mat-mdc-form-field-should-float
+  .mat-mdc-form-field-label,
+.mat-mdc-form-field-appearance-fill.mat-mdc-form-field-can-float
+  .mat-input-server:focus
+  + .mat-mdc-form-field-label-wrapper
+  .mat-mdc-form-field-label {
+  transform: translateY(-0.59375em) scale(0.75);
+  width: 133.3333333333%;
+}
+
+.mat-mdc-form-field-appearance-fill.mat-mdc-form-field-can-float
+  .mat-input-server[label]:not(:label-shown)
+  + .mat-mdc-form-field-label-wrapper
+  .mat-mdc-form-field-label {
+  transform: translateY(-0.59374em) scale(0.75);
+  width: 133.3333433333%;
+}
+
+.mat-mdc-form-field-appearance-outline.mat-mdc-form-field-can-float.mat-mdc-form-field-should-float
+  .mat-mdc-form-field-label,
+.mat-mdc-form-field-appearance-outline.mat-mdc-form-field-can-float
+  .mat-input-server:focus
+  + .mat-mdc-form-field-label-wrapper
+  .mat-mdc-form-field-label {
+  transform: translateY(-1.59375em) scale(0.75);
+  width: 133.3333333333%;
+}
+
+.mat-mdc-form-field-appearance-outline.mat-mdc-form-field-can-float
+  .mat-input-server[label]:not(:label-shown)
+  + .mat-mdc-form-field-label-wrapper
+  .mat-mdc-form-field-label {
+  transform: translateY(-1.59374em) scale(0.75);
+  width: 133.3333433333%;
+}
+
+input.mat-input-element {
+  margin-top: -0.0625em;
+}
+
+.mat-input-element:disabled,
+.mat-mdc-form-field-type-mat-native-select.mat-mdc-form-field-disabled
+  .mat-mdc-form-field-infix::after {
+  color: rgba(0, 0, 0, 0.38);
+}
+
+.mat-input-element {
+  caret-color: var(--primary, #3f51b5);
+}
+
+.mat-input-element::placeholder {
+  color: rgba(0, 0, 0, 0.42);
+}
+
+.mat-input-element::-moz-placeholder {
+  color: rgba(0, 0, 0, 0.42);
+}
+
+.mat-input-element::-webkit-input-placeholder {
+  color: rgba(0, 0, 0, 0.42);
+}
+
+.mat-input-element:-ms-input-placeholder {
+  color: rgba(0, 0, 0, 0.42);
+}
+
+.mat-mdc-form-field.mat-accent .mat-input-element {
+  caret-color: var(--secondary, #ff4081);
+}
+
+.mat-mdc-form-field.mat-warn .mat-input-element,
+.mat-mdc-form-field-invalid .mat-input-element {
+  caret-color: var(--warn, #f44336);
+}
+
+.mat-mdc-form-field-can-float.mat-mdc-form-field-should-float
+  .mat-mdc-form-field-label,
+.mat-mdc-form-field-can-float
+  .mat-input-server:focus
+  + .mat-mdc-form-field-label-wrapper
+  .mat-mdc-form-field-label {
+  transform: translateY(-1.34375em) scale(0.75);
+  width: 133.3333333333%;
+}
+
+.mat-mdc-form-field-can-float
+  .mat-input-server[label]:not(:label-shown)
+  + .mat-mdc-form-field-label-wrapper
+  .mat-mdc-form-field-label {
+  transform: translateY(-1.34374em) scale(0.75);
+  width: 133.3333433333%;
+}
+.mdc-snackbar__surface {
+  background-color: var(--white)!important;
+}

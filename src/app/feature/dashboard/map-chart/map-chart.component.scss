@@ -1,0 +1,10 @@
+#chartdiv {
+  width: 65vw;
+  height: 500px;
+}
+:host {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}

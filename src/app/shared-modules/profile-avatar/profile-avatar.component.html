@@ -1,0 +1,8 @@
+<article class="avatar-wrapper">
+    <ng-container *ngIf="!isEditing">
+        <span class="avatar-round" *ngIf="!imageUrl">{{ avatar }}</span>
+    </ng-container>
+    <img class="img-round" [src]="imageUrl" alt="img" *ngIf="imageUrl" />
+    <span class="overlay pointer" (click)="openImageUpload()" *ngIf="isEditing"></span>
+    <mat-icon class="edit-propic" (click)="openImageUpload()" *ngIf="isEditing">camera_alt</mat-icon>
+</article>

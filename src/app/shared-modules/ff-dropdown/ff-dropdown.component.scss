@@ -1,0 +1,24 @@
+@import 'src/styles/utils.scss';
+@include dropdown-common-css();
+
+::ng-deep .mat-mdc-menu-panel.ff-mat-menu-dropdown {
+  width: 300px;
+}
+
+@include reset-ul;
+
+.multi-select {
+  height: 225px;
+  overflow: auto;
+  padding: 10px 0 10px 20px;
+  margin-bottom: 0;
+
+  li {
+    width: 230px;
+    @include text-overflow();
+    font-size: 14px;
+    color: var(--dark);
+    font-style: normal;
+    font-family: 'Moderat Regular';
+  }
+}

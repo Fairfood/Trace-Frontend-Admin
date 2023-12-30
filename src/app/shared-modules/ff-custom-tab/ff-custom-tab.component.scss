@@ -1,0 +1,63 @@
+@import 'src/styles/responsive.scss';
+@import 'src/styles/utils.scss';
+// tab section
+@include reset-ul;
+.tab-group {
+  @extend %flex-common-center;
+  padding: 0;
+  margin-bottom: -3px;
+  overflow-x: auto;
+  display: flex;
+  align-items: flex-end;
+  &.border-tab {
+    border-bottom: 1px solid var(--disaled);
+  }
+  @include scrollbar;
+  .tab-item {
+    font-size: 14px;
+    color: var(--dark);
+    padding: 20px 20px;
+    font-family: 'Moderat Bold';
+    cursor: pointer;
+    @extend %flex-common-center;
+    white-space: nowrap;
+    @include devices(laptop-xlg) {
+      font-size: 16px;
+    }
+    &.active {
+      border-bottom: 5px solid var(--info);
+      transition: all 0.3s linear;
+      padding: 15px 20px;
+    }
+
+    &.no-left-p {
+      padding-left: 0;
+      padding-bottom: 10px;
+    }
+
+    .details {
+      display: flex;
+      flex-direction: column;
+      padding-left: 15px;
+
+      &.disabled-details {
+        color: var(--tab-disabled);
+      }
+
+      p {
+        font-family: 'Moderat Regular';
+        font-size: 12px;
+        color: var(--font-color-2);
+        margin: 0;
+      }
+    }
+
+    .set-primary {
+      color: var(--font-color-2);
+    }
+
+    .set-disabled {
+      color: var(--disabled);
+    }
+  }
+}

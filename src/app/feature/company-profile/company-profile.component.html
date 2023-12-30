@@ -1,0 +1,117 @@
+<h2 class="font-1-bold text-xl">Company profile</h2>
+<section class="main-details col-12" *ngIf="dataLoaded">
+    <aside class="wrap-profile">
+        <!-- picture section  -->
+        <app-profile-avatar [imageUrl]="companyProfileData?.image" [avatar]="companyProfileData?.icon"
+            class="profile"></app-profile-avatar>
+
+        <!-- main details  -->
+        <aside class="company-details" aria-label="basic info">
+            <span class="font-1-medium text-md value-tr">
+                {{companyProfileData?.name}}
+                <span class="badge">{{companyProfileData?.status === 1 ? 'Active': 'Inactive'}}</span>
+            </span>
+            <article class="label-tr">
+                <span class="location">{{companyProfileData?.city}}, {{companyProfileData?.country}}</span>
+            </article>
+            <article class="reg-no-container" *ngIf="companyProfileData?.identification_no">
+                <span class="reg-no-label font-1-normal">Registration number: </span>
+                <span class="reg-no font-1-medium">{{companyProfileData?.identification_no}}</span>
+            </article>
+        </aside>
+    </aside>
+
+
+    <aside class="right-side-action">
+        <article class="row-item-ff">
+            <span class="text-sm font-1-normal">View as {{companyProfileData?.name}}'s admin</span>
+            <app-buttons buttonType="fill" (buttonClicked)="navigateToDashboard()">
+                View as admin
+            </app-buttons>
+        </article>
+        <article class="row-item-ff">
+            <span>Storytelling theming</span>
+            <label class="switch">
+                <input type="checkbox" id="storytelling" name="story" aria-label="Story telling theme setting"
+                    (change)="themeSetting($event, 2)" [checked]="storyTheming"
+                    [attr.disabled]="isUpdating ? true : null">
+                <span class="slider round"></span>
+            </label>
+        </article>
+        <article class="row-item-ff">
+            <span>Trace dashboard theming</span>
+            <label class="switch">
+                <input type="checkbox" id="dashboardTheme" name="dashboard" (change)="themeSetting($event, 1)"
+                    [checked]="dashboardTheming" [attr.disabled]="isUpdating ? true : null">
+                <span class="slider round"></span>
+            </label>
+        </article>
+    </aside>
+</section>
+
+<section class="col-12" *ngIf="dataLoaded">
+    <div class="tab-container" #tabWrapper>
+        <app-ff-custom-tab [tabGroupItems]="tabGroup" [activeTabId]="activeTabId" (tabChanged)="changeTab($event)"
+            class="w-100">
+        </app-ff-custom-tab>
+    </div>
+    <div class="w-100 d-flex">
+        <section class="tab-content">
+            <ng-container *ngIf="activeTabId === 'basic'" [ngTemplateOutlet]="basicDetails">
+            </ng-container>
+            <ng-container *ngIf="activeTabId === 'team'">
+                <app-team [companyId]="companyId"></app-team>
+            </ng-container>
+            <ng-container *ngIf="activeTabId === 'supplyChain'">
+                <app-active-supply-chain [companyId]="companyId"></app-active-supply-chain>
+            </ng-container>
+            <ng-container *ngIf="activeTabId === 'logs'">
+                <app-activities [companyId]="companyId"></app-activities>
+            </ng-container>
+        </section>
+    </div>
+
+</section>
+
+<!-- loader section -->
+<app-loader loaderText="Loading profile data" [loaderType]="'type1'" *ngIf="!dataLoaded"></app-loader>
+
+
+
+<!-- company details like location, email, name  etcc  -->
+<ng-template #basicDetails>
+    <h3>Company details</h3>
+    <section class="first-details mb-15">
+        <ng-container *ngFor="let item of tabOne">
+            <div class="item">
+                <span class="key">{{item?.label}}</span>
+                <span class="value">
+                    {{companyProfileData[item.key] || '-'}}
+                </span>
+            </div>
+        </ng-container>
+    </section>
+    <article class="underline"></article>
+    <h3>Contact details</h3>
+    <section class="second-details">
+        <div class="item">
+            <span class="key">Name</span>
+            <span class="value">
+                {{companyProfileData?.incharge?.first_name}}
+            </span>
+        </div>
+        <div class="item">
+            <span class="key">Email</span>
+            <span class="value">
+                {{companyProfileData?.incharge?.email}}
+            </span>
+        </div>
+        <div class="item">
+            <span class="key">Contact number</span>
+            <span class="value">
+                {{companyProfileData?.incharge?.phone?.dial_code + ' ' + companyProfileData?.incharge?.phone?.phone}}
+            </span>
+        </div>
+    </section>
+    <article class="underline"></article>
+</ng-template>

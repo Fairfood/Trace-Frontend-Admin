@@ -1,0 +1,62 @@
+<h2 class="font-1-bold text-xl">Users</h2>
+<!-- filter and search  -->
+<section class="d-flex justify-content-between">
+    <div class="d-flex align-items-center w-50">
+        <app-search-box [placeholder]="'Search here'" [searchByOptions]="searchBy" class="w-100"
+            (searchText)="searchFilter($event)"></app-search-box>
+    </div>
+    <aside aria-label="action button section">
+        <app-buttons buttonType="fill" (buttonClicked)="addNewUser()">
+            Add user
+        </app-buttons>
+    </aside>
+</section>
+
+<section class="ff-table-container w-100">
+    <table class="claim-listing-table">
+        <thead>
+            <tr>
+                <th *ngFor="let item of displayedColumns" class="{{item?.class}}">{{item.name}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of dataSource">
+                <td class="mat-cell large-column">
+                    <article class="wrapper">
+                        <img class="user-img user-pic mr-2" *ngIf="item?.image" [src]="item?.image" alt="avatar">
+                        <span class="avatar-round mr-2" *ngIf="!item?.image">
+                            {{ item?.first_name[0] }} {{ item?.last_name[0] }}
+                        </span>
+
+                        {{item?.first_name}} {{item?.last_name}}
+                    </article>
+
+                </td>
+                <td class="mat-cell large-column">
+                    {{item?.email}}
+                </td>
+                <td class="mat-cell normal-column">
+                    <svg width="18" height="17" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg"
+                        *ngIf="item?.type === 1">
+                        <path
+                            d="M9 0L11.0206 6.21885H17.5595L12.2694 10.0623L14.2901 16.2812L9 12.4377L3.70993 16.2812L5.73056 10.0623L0.440492 6.21885H6.97937L9 0Z"
+                            fill="#F5E54D" fill-opacity="0.75" />
+                    </svg>
+
+                    {{item?.type === 3 ? 'Manager': 'Super Admin'}}
+                </td>
+                <td class="mat-cell normal-column">
+                    {{item?.is_active ? 'Active': 'Inactive'}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="no-data w-100" aria-label="" *ngIf="dataSource.length === 0" [hidden]="loading">
+        No data to display
+    </div>
+    <app-loader [loaderText]="'Loading supply chain'" [loaderType]="'type1'" *ngIf="loading"
+        class="min-h-300"></app-loader>
+</section>
+
+<app-ff-pagination [totalCount]="totalCount" (paginationAction)="paginatorEvent($event)"></app-ff-pagination>

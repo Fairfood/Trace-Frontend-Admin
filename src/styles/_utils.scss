@@ -1,0 +1,472 @@
+@import './responsive';
+
+@mixin scrollbar {
+  &::-webkit-scrollbar {
+    width: 10px;
+    height: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    border-radius: 2px;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background-color: var(--scrollbar);
+  }
+}
+
+%common-widget {
+  background-color: var(--white);
+  box-shadow: 0px 4px 23px 5px rgba(0, 0, 0, 0.04);
+  border-radius: 6px;
+  padding: 15px 20px;
+  width: 100%;
+  display: flex;
+}
+
+@mixin text-overflow() {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+%flex-common-center {
+  display: flex;
+  align-items: center;
+}
+%flex-end-common {
+  @extend %flex-common-center;
+  justify-content: flex-end;
+}
+%flex-between {
+  @extend %flex-common-center;
+  justify-content: space-between;
+}
+%flex-default {
+  @extend %flex-common-center;
+  justify-content: center;
+}
+
+@mixin reset-ul {
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@mixin common-paginator {
+  ::ng-deep.mat-mdc-paginator-page-size {
+    position: relative;
+    right: 100px;
+    .mat-form-field-appearance-legacy .mat-form-field-infix {
+      padding-bottom: 2px !important;
+      color: var(--secondary);
+    }
+  }
+  .mat-mdc-paginator-range-label {
+    margin-right: 45px;
+  }
+
+  ::ng-deep.mat-mdc-paginator {
+    .mat-mdc-paginator-navigation-previous {
+      right: 100px;
+      margin-left: 0px;
+    }
+    .mat-mdc-paginator-navigation-next {
+      right: 17px;
+    }
+    .mat-mdc-paginator-range-label {
+      height: 40px;
+      position: absolute;
+      margin-right: 0px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      right: 85px;
+      color: var(--dark);
+      font-size: 14px;
+      font-family: 'Moderat Regular';
+      line-height: 0px;
+      top: 6px;
+    }
+  }
+}
+
+@mixin dropdown-common-css() {
+  .ff-dropdown-container {
+    display: flex;
+    padding: 5px 20px;
+    border-radius: 6px;
+    margin: 10px 20px 10px 0;
+    cursor: pointer;
+    position: relative;
+
+    mat-icon {
+      position: absolute;
+      right: 6px;
+      height: 20px;
+      width: 20px;
+      font-size: 20px;
+      top: 8px;
+      @include devices(laptop) {
+        top: 10px;
+      }
+    }
+
+    &.large {
+      padding: 15px 20px 15px 16px;
+      width: 100%;
+      margin: 0;
+      &.active,
+      &.default {
+        background-color: var(--white);
+        border: 1px solid var(--disabled);
+      }
+
+      mat-icon {
+        right: 8px;
+        top: 18px;
+      }
+
+      .selected {
+        text-align: right;
+        font-family: 'Moderat Regular' !important;
+        &.active {
+          width: auto;
+          min-width: auto;
+          max-width: 50%;
+        }
+      }
+    }
+    @include devices(laptop-xlg) {
+      padding: 8px 20px;
+    }
+
+    &.active {
+      background-color: var(--white);
+      border: 1px solid var(--disabled);
+    }
+    &.default {
+      border: 1px solid var(--disabled);
+    }
+
+    .label {
+      font-family: Moderat Regular;
+      color: var(--dark);
+      opacity: 0.6;
+    }
+    .selected {
+      margin: 0 10px;
+
+      @include text-overflow();
+      &.active {
+        font-family: Moderat Bold;
+        color: var(--dark);
+        max-width: 150px;
+      }
+      &.default {
+        font-family: Moderat Regular;
+        color: var(--dark);
+        opacity: 0.6;
+        width: auto;
+      }
+    }
+  }
+  %footer-action {
+    @extend %flex-common-center;
+    border-top: 1px solid var(--disabled);
+    padding: 5px 0;
+    justify-content: center;
+  }
+}
+
+@mixin checkbox-custom {
+  ::ng-deep.mat-checkbox-frame {
+    border-radius: 3px;
+    border: 1px solid var(--dark);
+    border-width: 1px;
+  }
+  ::ng-deep.mat-checkbox-background {
+    border-radius: 3px;
+  }
+}
+
+@mixin key-value-pair {
+  .item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px 10px;
+    min-width: 200px;
+    .key {
+      color: var(--dark);
+      font-weight: 400;
+      font-size: 11px;
+      opacity: 0.8;
+      @include devices(tablet-md) {
+        font-size: 12px;
+      }
+      @include devices(laptop-xlg) {
+        font-size: 13px;
+      }
+    }
+    .value {
+      color: var(--dark);
+      font-weight: 400;
+      font-size: 14px;
+      @include devices(tablet-md) {
+        font-size: 15px;
+      }
+      @include devices(laptop-xlg) {
+        font-size: 16px;
+      }
+    }
+  }
+}
+
+@mixin input-common-css {
+  .has-float-label {
+    display: block;
+    position: relative;
+    margin: 0;
+
+    &.has-error {
+      border: 1px solid var(--secondary);
+      border-radius: 6px;
+    }
+
+    &.white-bg {
+      background-color: var(--white);
+    }
+
+    textarea {
+      width: 100%;
+      resize: none;
+    }
+    input,
+    textarea {
+      font-size: inherit;
+      padding: 20px 0 10px 16px;
+      border-radius: 6px;
+      box-shadow: none;
+      background-color: initial;
+      color: var(--dark);
+      border: 1px solid var(--disabled);
+      margin: 0;
+      outline: none;
+      &.full {
+        width: 100%;
+      }
+
+      &.small {
+        width: 120px;
+      }
+
+      &.medium {
+        width: 150px;
+      }
+    }
+  }
+
+  .has-float-label input:placeholder-shown:not(:focus) + .label,
+  .has-float-label textarea:placeholder-shown:not(:focus) + .label {
+    font-size: 14px;
+    top: 22px;
+    left: 16px;
+    color: var(--font-color-2);
+  }
+
+  .has-float-label label,
+  .has-float-label > .label {
+    position: absolute;
+    left: 16px;
+    top: 4px;
+    cursor: text;
+    font-size: 14px;
+    color: var(--font-color-2);
+    transition: all 0.2s;
+    pointer-events: none;
+  }
+
+  .has-float-label input:focus ~ .label,
+  .has-float-label textarea:focus ~ .label {
+    color: var(--font-color-2);
+  }
+}
+
+@mixin profile-tabs {
+  .tab-container {
+    @extend %flex-common-center;
+    border-bottom: 1px solid var(--disabled);
+    @include devices(desktop) {
+      max-width: 70%;
+    }
+  }
+  .tab-content {
+    padding: 24px 0;
+    height: auto;
+    width: 100%;
+    @include devices(desktop) {
+      width: 70%;
+    }
+    h3 {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--dark);
+      padding: 0 10px;
+      margin: 0;
+      padding-top: 10px;
+    }
+  }
+
+  .first-details,
+  .second-details {
+    @extend %flex-common-center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 10px 0;
+    width: 70%;
+
+    .form-items {
+      min-width: 260px;
+      padding: 15px 10px;
+      padding-bottom: 0;
+    }
+
+    @include key-value-pair;
+  }
+
+  .location-section {
+    color: var(--dark);
+    @extend %flex-common-center;
+    .symbol {
+      background-color: var(--dark);
+      border-radius: 50%;
+      @extend %flex-default;
+      height: 20px;
+      width: 20px;
+      padding: 2px;
+      margin-right: 10px;
+      margin-bottom: 5px;
+    }
+    mat-icon {
+      color: var(--white);
+      font-size: 15px;
+      height: 15px;
+      width: 15px;
+    }
+  }
+}
+
+@mixin profile-heading {
+  .main-details {
+    padding: 20px;
+    display: flex;
+    font-family: 'Moderat Regular';
+    margin-top: 20px;
+    border-radius: 3px;
+    flex-direction: column;
+    background-color: var(--table-row-active);
+    @include devices(mobile) {
+      flex-direction: row;
+    }
+
+    @include devices(desktop) {
+      max-width: 70%;
+    }
+
+    .company-details {
+      display: flex;
+      align-items: flex-start;
+      flex-direction: column;
+      @include devices(mobile) {
+        margin-left: 30px;
+        width: 60%;
+      }
+      .reg-no-container {
+        padding: 4px 0;
+      }
+
+      .reg-no-label {
+        font-size: 16px;
+        color: var(--font-color-2);
+      }
+      .reg-no {
+        font-size: 16px;
+        color: var(--dark);
+      }
+    }
+  }
+}
+
+@mixin custom-material-sort {
+  ::ng-deep.mat-sort-header-arrow[style] {
+    .mat-sort-header-stem {
+      display: none;
+    }
+    .mat-sort-header-indicator {
+      opacity: 1;
+      color: black;
+
+      .mat-sort-header-pointer-left,
+      .mat-sort-header-pointer-right,
+      .mat-sort-header-pointer-middle {
+        display: none;
+      }
+    }
+  }
+}
+
+%flex-common-center {
+  display: flex;
+  align-items: center;
+}
+%flex-start-common {
+  @extend %flex-common-center;
+  justify-content: flex-start;
+}
+%flex-end-common {
+  @extend %flex-common-center;
+  justify-content: flex-end;
+}
+%flex-between {
+  @extend %flex-common-center;
+  justify-content: space-between;
+}
+
+%flex-center {
+  @extend %flex-common-center;
+  justify-content: center;
+}
+
+@mixin common-list-styles {
+  .list-detail-container {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    padding: 0 10px;
+  }
+  .list-information {
+    width: 100%;
+    margin-right: 15px;
+    @include devices(tablet-md) {
+      width: calc(50% - 15px);
+    }
+
+    .section-detail {
+      width: 100%;
+      background-color: var(--table-row-active);
+      padding: 20px 25px;
+      border-radius: 6px;
+      @include devices(tablet-md) {
+        margin-left: 25px;
+      }
+    }
+  }
+
+  .mb-25 {
+    margin-bottom: 25px!important;
+  }
+}

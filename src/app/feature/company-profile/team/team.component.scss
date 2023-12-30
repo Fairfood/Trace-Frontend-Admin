@@ -1,0 +1,16 @@
+.avatar-round {
+  width: 40px;
+  height: 40px;
+  font-size: 10px;
+  margin-right: 10px;
+}
+.user-pic {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.wrapper {
+  display: flex;
+  align-items: center;
+}

@@ -1,0 +1,61 @@
+<aside class="pop-header">
+    <h3 class="font-1-medium">
+        Edit claim details
+    </h3>
+    <mat-icon class="cursor-pointer" (click)="close()">close</mat-icon>
+</aside>
+
+<div class="content" *ngIf="dataLoaded">
+    <article class="input-container-with-error w-100">
+        <app-ff-input label="Claim title*" inputSize="full" [parentFormGroup]="basicsForm" controlName="name"
+            class="form-item">
+        </app-ff-input>
+        <ng-container [ngTemplateOutlet]="formErrorMessages"
+            [ngTemplateOutletContext]="{formcontrol:'name', formgroup: basicsForm?.controls}">
+        </ng-container>
+    </article>
+    <article class="input-container-with-error w-100" *ngIf="data.claimData.type === 1">
+        <app-ff-dropdown label="Supply chain*" [multiple]="true"
+            [defaultValue]="basicsForm?.controls['supplyChain'].value" [dropdownOptions]="data?.supplyChainData"
+            [clearButtonText]="'Reset to All'" class="m-l-35" size="large"
+            (newSelectionValue)="selectSupplychain($event)">
+        </app-ff-dropdown>
+        <ng-container *ngIf="basicsForm?.controls['supplyChain'].errors">
+            <span class="error-message" *ngIf="basicsForm?.controls['supplyChain']?.errors?.required && submitted">
+                This field shouldn't be empty
+            </span>
+        </ng-container>
+    </article>
+    <article class="input-container-with-error w-100" *ngIf="data.claimData.type === 1">
+        <app-ff-input label="Short description*" inputSize="full" [parentFormGroup]="basicsForm" controlName="shortDesc"
+            class="form-item" [isTextarea]="true">
+        </app-ff-input>
+        <ng-container [ngTemplateOutlet]="formErrorMessages"
+            [ngTemplateOutletContext]="{formcontrol:'shortDesc', formgroup: basicsForm?.controls}">
+        </ng-container>
+    </article>
+    <article class="input-container-with-error w-100">
+        <app-ff-input [label]="data.claimData.type === 1?'Long description*':'Description*'" inputSize="full"
+            [parentFormGroup]="basicsForm" controlName="longDesc" class="form-item" [isTextarea]="true">
+        </app-ff-input>
+        <ng-container [ngTemplateOutlet]="formErrorMessages"
+            [ngTemplateOutletContext]="{formcontrol:'longDesc', formgroup: basicsForm?.controls}">
+        </ng-container>
+    </article>
+
+    <aside aria-label="action button section" class="action">
+        <app-buttons buttonType="stroked" (buttonClicked)="close()">
+            Close
+        </app-buttons>
+        <app-buttons buttonType="fill" (buttonClicked)="updateClaim()" [isDisabled]="disabled">
+            Update claim
+        </app-buttons>
+    </aside>
+</div>
+
+<ng-template let-formcontrol="formcontrol" let-formgroup="formgroup" #formErrorMessages>
+    <span class="error-message"
+        *ngIf="formgroup[formcontrol]?.errors?.required && (formgroup[formcontrol]?.touched || submitted)">
+        This field shouldn't be empty
+    </span>
+</ng-template>

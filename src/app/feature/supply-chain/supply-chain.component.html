@@ -1,0 +1,66 @@
+<h2 class="font-1-bold text-xl">Supply chains</h2>
+
+
+<!-- filter and search  -->
+<section class="d-flex justify-content-between">
+    <div class="d-flex align-items-center w-50">
+        <app-search-box [placeholder]="'Search here'" [searchByOptions]="searchBy" class="w-100"
+            (searchText)="searchFilter($event)"></app-search-box>
+    </div>
+    <aside aria-label="action button section">
+        <app-buttons buttonType="fill" (buttonClicked)="createSupplyChain(false)">
+            Create supply chain
+        </app-buttons>
+    </aside>
+</section>
+
+
+<section class="ff-table-container w-100">
+    <table class="supplychain-table">
+        <thead>
+            <tr>
+                <th *ngFor="let item of displayedColumns" class="{{item?.class}}">{{item.name}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of dataSource">
+                <td class="mat-cell normal-column">{{item?.name}}</td>
+                <td class="mat-cell large-column">
+                    <span *ngFor="let sup of item.products; let i = index; let l = count" class="mb-0">
+                        <span *ngIf="i < 3">
+                            <span>{{sup?.name}}</span>
+                            <span *ngIf="l > 1 && i != l - 1">, </span>
+                        </span>
+                    </span>
+                    <span *ngIf="item.products.length == 0">-</span>
+                    <span *ngIf="item.products.length > 3" class="text-primary cursor-pointer">
+                        +{{item?.products.length - 3 }} more
+                    </span>
+                </td>
+                <td class="mat-cell normal-column">{{item?.active_actor_count}}</td>
+                <td class="mat-cell normal-column">{{item?.farmer_count}}</td>
+                <td class="mat-cell options-column">
+                    <mat-icon class="cursor-pointer" [matMenuTriggerFor]="beforeMenu">more_vert</mat-icon>
+                    <mat-menu class="medit" #beforeMenu="matMenu" xPosition="before">
+
+                        <ul>
+                            <li class="cursor-pointer" (click)="createSupplyChain(true, item.id, item.name)">
+                                Edit
+                            </li>
+                        </ul>
+                    </mat-menu>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="no-data w-100" aria-label="" *ngIf="dataSource.length === 0" [hidden]="loading">
+        No data to display
+    </div>
+
+    <app-loader [loaderText]="'Loading supply chain'" [loaderType]="'type1'" *ngIf="loading" class="min-h-300"></app-loader>
+
+</section>
+
+
+<app-ff-pagination [totalCount]="totalCount" (paginationAction)="paginatorEvent($event)"></app-ff-pagination>

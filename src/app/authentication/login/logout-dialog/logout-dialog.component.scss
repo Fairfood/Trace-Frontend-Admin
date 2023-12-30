@@ -1,0 +1,15 @@
+@import 'src/styles/utils.scss';
+
+.pop-content {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  p {
+    color: var(-dark);
+    font-size: 16px;
+    word-break: break-word;
+  }
+  .button-container {
+    @extend %flex-between;
+  }
+}

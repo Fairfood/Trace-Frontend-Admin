@@ -1,0 +1,26 @@
+@import 'src/styles/utils.scss';
+
+.min-h-300 {
+  min-height: 300px;
+  padding-bottom: 50px;
+}
+
+.text-product {
+  max-width: 250px;
+  @include text-overflow();
+}
+.filter-section {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+@include reset-ul;
+ul li {
+  padding-left: 10px;
+  font-size: 14px;
+}
+.product-icon {
+  height: 25px;
+  width: 25px;
+  margin-right: 5px;
+}

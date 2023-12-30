@@ -1,0 +1,147 @@
+variables:
+  DEV_BUCKET: "admin-dev.fairfood.nl"
+  DEV_CLOUDFRONT_ID: "E165KIODMCGHVU"
+
+  STAGING_BUCKET: "admin-stage.fairfood.nl"
+  STAGING_CLOUDFRONT_ID: "E16NO38JPM27K7"
+
+  PROD_BUCKET: "admin-trace.fairfood.org"
+  PROD_CLOUDFRONT_ID: "E2GD9J52FIDQ7K"
+
+  DEMO_BUCKET: "admin-demo.fairfood.nl"
+  DEMO_CLOUDFRONT_ID: "E16B34N1FVSQG"
+
+# Node Image for docker on which code will execute
+image: node:16.16.0
+
+# This is the stages / task to perfom in jobs
+stages:
+  - build
+  - deploy
+
+# caching for reuse
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+    - dist/
+
+# This command is run before the execution of stages
+before_script:
+  - npm install
+
+# DEVELOPMENT
+# Job One for making build in development
+build_dev:
+  stage: build
+  script:
+    - node --max_old_space_size=5048 ./node_modules/@angular/cli/bin/ng build --configuration=dev
+  variables:
+    ENVIRONMENT: "Development"
+    EXIT_STATUS: $?
+  only: ["development"]
+
+# Job Two for deploy build to S3 in development
+deploy_dev:
+  image: python:latest
+  stage: deploy
+  before_script:
+    - pip install awscli
+  script:
+    - aws s3 sync ./dist s3://${DEV_BUCKET}/ --acl=public-read --delete
+    - |
+      if [ "$DEV_CLOUDFRONT_ID" != "" ]; then
+        aws cloudfront create-invalidation --distribution-id ${DEV_CLOUDFRONT_ID} --paths "/*"
+      fi
+  variables:
+    ENVIRONMENT: "Development"
+    EXIT_STATUS: $?
+  only: ["development"]
+#######################
+
+#STAGING
+# Job One for making build in staging
+build_staging:
+  stage: build
+  script:
+    - node --max_old_space_size=5048 ./node_modules/@angular/cli/bin/ng build --configuration=staging
+  variables:
+    ENVIRONMENT: "Staging"
+    EXIT_STATUS: $?
+  only: ["staging"]
+
+# Job Two for deploy build to S3 in staging
+deploy_staging:
+  image: python:latest
+  stage: deploy
+  before_script:
+    - pip install awscli
+  script:
+    - aws s3 sync ./dist s3://${STAGING_BUCKET}/ --acl=public-read --delete
+    - |
+      if [ "$STAGING_CLOUDFRONT_ID" != "" ]; then
+        aws cloudfront create-invalidation --distribution-id ${STAGING_CLOUDFRONT_ID} --paths "/*"
+      fi
+  variables:
+    ENVIRONMENT: "Staging"
+    EXIT_STATUS: $?
+  only: ["staging"]
+########
+
+#DEMO
+# Job One for making build in demo
+build_demo:
+  stage: build
+  script:
+    - node --max_old_space_size=5048 ./node_modules/@angular/cli/bin/ng build --configuration=demo
+  variables:
+    ENVIRONMENT: "Demo"
+    EXIT_STATUS: $?
+  only: ["demo"]
+
+# Job Two for deploy build to S3 in demo
+deploy_demo:
+  image: python:latest
+  stage: deploy
+  before_script:
+    - pip install awscli
+  script:
+    - aws s3 sync ./dist s3://${DEMO_BUCKET}/ --acl=public-read --delete
+    - |
+      if [ "$DEMO_CLOUDFRONT_ID" != "" ]; then
+        aws cloudfront create-invalidation --distribution-id ${DEMO_CLOUDFRONT_ID} --paths "/*"
+      fi
+  variables:
+    ENVIRONMENT: "DEMO"
+    EXIT_STATUS: $?
+  only: ["demo"]
+########
+
+#PRODUCTION
+# Job One for making build in production
+build_prod:
+  stage: build
+  script:
+    - node --max_old_space_size=5048 ./node_modules/@angular/cli/bin/ng build --configuration=production
+  variables:
+    ENVIRONMENT: "Production"
+    EXIT_STATUS: $?
+  only: ["production"]
+
+# Job Two for deploy build to S3 in production
+deploy_prod:
+  image: python:latest
+  stage: deploy
+  before_script:
+    - pip install awscli
+  script:
+    - aws s3 sync ./dist s3://${PROD_BUCKET}/ --acl=public-read --delete
+    - |
+      if [ "$PROD_CLOUDFRONT_ID" != "" ]; then
+        aws cloudfront create-invalidation --distribution-id ${PROD_CLOUDFRONT_ID} --paths "/*"
+      fi
+  variables:
+    ENVIRONMENT: "Production"
+    EXIT_STATUS: $?
+  only: ["production"]
+########

@@ -1,0 +1,59 @@
+@import 'src/styles/table-custom.scss';
+@import 'src/styles/responsive.scss';
+@import 'src/styles/utils.scss';
+@include reset-ul;
+.row1 {
+  color: var(--dark);
+}
+.right-text {
+  color: var(--secondary);
+}
+
+.margin-l {
+  margin-left: 0;
+  @include devices(tablet-md) {
+    margin-left: 15px;
+  }
+}
+
+.section-heading {
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+.widget {
+  @extend %common-widget;
+  padding: 25px 20px;
+  margin-bottom: 15px;
+  min-width: 100%;
+  @include devices(tablet-md) {
+    min-width: auto;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.map-bg {
+  @extend %common-widget;
+  display: block;
+  padding: 25px 20px;
+  margin-bottom: 15px;
+}
+
+
+
+.farmer-name {
+  max-width: 250px;
+  @include text-overflow();
+}
+
+.product-name {
+  max-width: 150px;
+  @include text-overflow();
+}
+
+.more-menu li {
+  padding-left: 10px;
+  font-size: 14px;
+}

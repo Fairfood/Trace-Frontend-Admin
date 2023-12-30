@@ -1,0 +1,18 @@
+<ng-container *ngIf="isTextarea;else normalInput" [formGroup]="parentFormGroup">
+    <label class="has-float-label">
+        <textarea rows="4" cols="30" [formControlName]="controlName"
+            [ngClass]="{'has-error': parentFormGroup.controls[controlName].invalid && parentFormGroup.controls[controlName].touched }"></textarea>
+        <span class="label textarea-label">{{label}}</span>
+    </label>
+
+</ng-container>
+
+<ng-template #normalInput>
+    <ng-container [formGroup]="parentFormGroup">
+        <label class="has-float-label"
+            [ngClass]="{'has-error': parentFormGroup.controls[controlName].invalid && parentFormGroup.controls[controlName].touched }">
+            <input placeholder=" " type="{{inputType}}" [formControlName]="controlName" class="{{inputSize}}" />
+            <span class="label">{{label}}</span>
+        </label>
+    </ng-container>
+</ng-template>

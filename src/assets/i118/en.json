@@ -1,0 +1,17 @@
+{
+  "commonErrorMessage": "This field shouldn't be empty *",
+  "login": {
+    "emailSent": "Your email has been resent successfully",
+    "errorEmail": "Error sending email",
+    "invalidEmail": "Invalid email",
+    "passwordInfo": "Your password must be atleast 8 characters long and include a number or symbol.",
+    "forgotPassword": "Forgot password?",
+    "loginText": "Login"
+  },
+  "dashboard": {
+    "heading": "Dashboard",
+    "loading1": "Loading recent farmers",
+    "loading2": "Loading companies list",
+    "loading3": "Loading recent transactions"
+  }
+}

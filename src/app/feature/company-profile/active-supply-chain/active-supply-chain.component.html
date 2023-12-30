@@ -1,0 +1,42 @@
+<aside class="d-flex justify-content-end">
+    <app-buttons buttonType="stroked" (buttonClicked)="addSupplychain()">
+        Add supply chain
+    </app-buttons>
+</aside>
+
+<section class="ff-table-container w-100">
+    <table class="claim-listing-table">
+        <thead>
+            <tr>
+                <th *ngFor="let item of displayedColumns" class="{{item?.class}}">{{item.name}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of dataSource">
+                <td class="mat-cell large-column">
+                    {{ item?.supply_chain?.name }}
+                </td>
+                <td class="mat-cell normal-column">
+                    {{item?.primary_operation?.name }}
+                </td>
+                <td class="mat-cell normal-column">
+                    {{item?.tier_count }}
+                </td>
+                <td class="mat-cell normal-column">
+                    {{item?.company_count}}
+                </td>
+                <td class="mat-cell normal-column">
+                    {{item?.farmer_count}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="no-data w-100" aria-label="" *ngIf="dataSource?.length === 0" [hidden]="loading">
+        No supply chains found
+    </div>
+    <app-loader [loaderText]="'Loading supply chain'" [loaderType]="'type1'" *ngIf="loading"
+        class="min-h-300"></app-loader>
+</section>
+
+<app-ff-pagination [totalCount]="totalCount" (paginationAction)="paginatorEvent($event)"></app-ff-pagination>

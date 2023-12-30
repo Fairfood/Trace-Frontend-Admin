@@ -1,0 +1,32 @@
+<aside aria-label="" class="head-dd" *ngIf="!hideSearch" [ngClass]="isMobile?'mobile-input': ''">
+    <input type="text" placeholder="Search" class="search-item" [(ngModel)]="searchString"
+        [ngModelOptions]="{standalone: true}" autocomplete="off">
+    <img src="./assets/images/search-icon.svg" alt="search">
+</aside>
+<ul [ngClass]="hideSearch?'auto-height':'minimum-height'">
+    <li *ngFor="let item of dropdownOptions | searchOptions:searchString">
+        <ng-container *ngIf="!isMultiple">
+            <mat-radio-group>
+                <mat-radio-button [checked]="item.id === selectedValue?.id" [value]="item"
+                    (click)="menuItemSelected(item)">
+                    {{ item.name }}
+                </mat-radio-button>
+            </mat-radio-group>
+        </ng-container>
+
+        <ng-container *ngIf="isMultiple">
+            <mat-checkbox [checked]="selectedItems?.includes(item?.id)" (change)="multipleSelection(item)"
+                [disabled]="item.disabled">
+                {{item.name}}
+            </mat-checkbox>
+        </ng-container>
+    </li>
+    <li *ngIf="(dropdownOptions | searchOptions: searchString)?.length === 0">
+        No results found
+    </li>
+</ul>
+<aside aria-label="" class="footer-dd" *ngIf="!hideClear">
+    <app-buttons buttonType="secondary" (buttonClicked)="clearItem()">
+        {{ clearButtonText || 'Clear selection' }}
+    </app-buttons>
+</aside>

@@ -1,0 +1,52 @@
+@import 'src/styles/feature-common.scss';
+@import 'src/styles/utils.scss';
+@import 'src/styles/responsive.scss';
+
+@include input-common-css;
+
+.sub-label {
+  width: auto;
+}
+
+.w-60 {
+  width: 100%;
+  @include devices(tablet-md) {
+    width: 60%;
+  }
+}
+.delete-button {
+  width: 10%;
+  @include devices(laptop) {
+    justify-content: flex-end;
+  }
+}
+.sub-box {
+  padding-left: 30px;
+  padding-top: 15px;
+}
+
+.checkbox-group {
+  flex-direction: column;
+  p {
+    padding-left: 45px;
+  }
+}
+
+.sub-text-label {
+  margin: 0;
+  color: var(--font-color-2);
+  font-size: 14px;
+  font-family: 'Moderat Regular';
+  word-break: break-word;
+  width: 100%;
+}
+.mt-10 {
+  margin-top: 10px;
+}
+
+.file-input {
+  width: 100%;
+  @include devices(laptop) {
+    width: 86%!important;
+  }
+}

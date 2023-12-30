@@ -1,0 +1,44 @@
+/* variables for app */
+:root {
+
+    /* Primary color for app (used by bootstrap classes) */
+    --primary: #4dcaf4;
+    --secondary: #EA2553;
+    --light:#ddf3ff;
+    --danger:#dc3545;
+    --success: #28a745;
+    --dark: #003a60;
+    --info: #92ddf6;
+    --warning: #ffc107;
+    --white: #fff;
+    --scrollbar: #d3e2e8;
+
+
+
+    /* Other custom colors for project */
+    --border-color: #E8E8E8;
+    --text-color: #2A2A2A;
+    --hover-color: #277dcd94;
+    --font-color-2: #5691ae;
+    --table-row-active: #eef9ff;
+    --disabled: #e5ebef;
+    --sort-inactive: #678aa0;
+    --text-inactive: #A1A1AA;
+    --map-bg: #c5edfa;
+    --tab-disabled: #b2b5b7;
+    --slide-toggle-bg: #5691aead;
+    --secondary-border:#bae3fa;
+
+    /* Font size for app - colors */
+    --size-xxsmall: 1.0rem;
+    --size-xsmall: 1.2rem;
+    --size-small: 1.4rem;
+    --size-regular :1.6rem;
+    --size-medium :1.8rem;
+    --size-large : 2.4rem;
+    --size-xlarge : 2.8rem;
+    --size-xxlarge : 3.6rem;
+
+    --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  }

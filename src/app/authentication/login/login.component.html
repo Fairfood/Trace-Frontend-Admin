@@ -1,0 +1,6 @@
+<div class="container-ff">
+    <app-loader [loaderText]="'Authenticating'" [loaderType]="'type1'" *ngIf="isMagicLinkLogin"
+        class="min-h-300"></app-loader>
+    <app-loader [loaderText]="errorMessage" [loaderType]="'type1'" *ngIf="!isMagicLinkLogin"
+        class="min-h-300"></app-loader>
+</div>

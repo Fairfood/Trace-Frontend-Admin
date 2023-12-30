@@ -1,0 +1,232 @@
+<h2 class="font-1-bold text-xl">{{'dashboard.heading'|translate}}</h2>
+
+<!-- statistics section  -->
+<section class="d-flex flex-wrap w-100 mt-25">
+    <div class="widget col d-flex justify-content-between">
+        <ng-container [ngTemplateOutlet]="commonWidgetItem" [ngTemplateOutletContext]="{
+            valueVar: statisticsData?.actors?.value || 0,
+            heading: 'Total actors',
+            imageUrl: 'total_actors.svg',
+            title: statisticsData?.actors?.title
+        }">
+        </ng-container>
+        <ng-container [ngTemplateOutlet]="commonWidgetItem" [ngTemplateOutletContext]="{
+            valueVar: statisticsData?.farmers?.value || 0,
+            heading: 'Farmers',
+            imageUrl: 'farmers_dash.svg',
+            title: statisticsData?.farmers?.title
+        }">
+        </ng-container>
+        <ng-container [ngTemplateOutlet]="commonWidgetItem" [ngTemplateOutletContext]="{
+            valueVar: statisticsData?.companies?.value || 0,
+            heading: 'Companies',
+            imageUrl: 'company.svg',
+            title: statisticsData?.companies?.title
+        }">
+        </ng-container>
+    </div>
+    <article class="widget col-4 margin-l">
+        <ng-container [ngTemplateOutlet]="commonWidgetItem" [ngTemplateOutletContext]="{
+            valueVar: statisticsData?.transactions?.value || 0,
+            heading: 'Total Transactions',
+            imageUrl: 'transaction.svg',
+            title: statisticsData?.transactions?.title
+        }">
+        </ng-container>
+    </article>
+</section>
+
+
+
+<section class="d-flex flex-wrap w-100">
+    <article class="widget col">
+        <ng-container [ngTemplateOutlet]="commonWidgetItem" [ngTemplateOutletContext]="{
+            valueVar: statisticsData?.supplyChains?.value || 0,
+            heading: 'Active supplychains',
+            imageUrl: 'active_supply.svg',
+            title: statisticsData?.supplyChains?.title
+        }">
+        </ng-container>
+    </article>
+    <article class="widget col margin-l">
+        <ng-container [ngTemplateOutlet]="commonWidgetItem" [ngTemplateOutletContext]="{
+            valueVar: statisticsData?.products?.value || 0,
+            heading: 'Active Commodities',
+            imageUrl: 'commodities.svg',
+            title: statisticsData?.products?.title
+        }">
+        </ng-container>
+    </article>
+    <article class="widget col-4 margin-l">
+        <ng-container [ngTemplateOutlet]="commonWidgetItem" [ngTemplateOutletContext]="{
+            valueVar: statisticsData?.totalQuantity?.value || 0,
+            heading: 'Farmer initiated transaction quantity (kg)',
+            imageUrl: 'qty.svg',
+            title: statisticsData?.totalQuantity?.title
+        }">
+        </ng-container>
+    </article>
+</section>
+
+<section class="section-heading d-flex justify-content-between">
+    <aside class="d-flex flex-column">
+        <aside class="row1 text-md font-1-bold">Map Report</aside>
+        <span class="text-off-blue text-xs font-1-normal">Map actors</span>
+    </aside>
+</section>
+
+<section class="map-bg">
+    <app-map-chart>
+    </app-map-chart>
+
+</section>
+
+<!-- two graphs  -->
+<app-line-graph-dashboard></app-line-graph-dashboard>
+
+<!-- recently added famers  -->
+<ng-container [ngTemplateOutlet]="commonHeading" [ngTemplateOutletContext]="farmerContext">
+</ng-container>
+
+<app-loader [loaderText]="'dashboard.loading1'|translate" [loaderType]="'type1'" *ngIf="loaderValue === 1"
+    class="min-h-300"></app-loader>
+
+<section class="ff-table-container w-100" *ngIf="loaderValue>1">
+    <table>
+        <thead>
+            <tr>
+                <th *ngFor="let item of farmerHeading" class="{{item?.class}}">{{item.name}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of recentlyAddedFarmers" (click)="viewFarmerDetails(item.id)" class="cursor-pointer">
+                <td class="mat-cell large-column farmer-name" title="{{item?.name}}">{{item?.name}}</td>
+                <td class="mat-cell normal-column">
+                    {{item?.created_on * 1000 |date: 'dd MMMM y'}}
+                </td>
+                <td class="mat-cell large-column">{{item?.buyers.join(', ')}}</td>
+                <td class="mat-cell normal-column">{{item?.country}}</td>
+                <td class="mat-cell large-column">{{item?.supply_chains.join(', ')}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <ng-container *ngIf="recentlyAddedFarmers.length === 0 then noData">
+    </ng-container>
+</section>
+
+
+<!-- recently added companies  -->
+<ng-container [ngTemplateOutlet]="commonHeading" [ngTemplateOutletContext]="companyContext">
+</ng-container>
+
+<app-loader [loaderText]="'dashboard.loading2'|translate" [loaderType]="'type1'" *ngIf="loaderValue === 2"
+    class="min-h-300"></app-loader>
+
+<section class="ff-table-container w-100" *ngIf="loaderValue>2">
+    <table class="company-listing-table">
+        <thead>
+            <tr>
+                <th *ngFor="let item of companyHeading" class="{{item?.class}}">{{item.name}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of recentlyAddedCompanies" (click)="viewDetails(item.id)" class="cursor-pointer">
+                <td class="mat-cell large-collumn">{{item?.name}}</td>
+                <td class="mat-cell normal-collumn">
+                    {{item?.created_on * 1000 |date: 'dd MMMM y'}}
+                </td>
+                <td class="mat-cell normal-collumn">{{item?.country}}</td>
+                <td class="mat-cell large-column">
+                    <span *ngFor="let sup of item.supply_chain_names; let i = index; let l = count" class="mb-0">
+                        <span *ngIf="i < 3">
+                            <span>{{sup}}</span>
+                            <span *ngIf="l > 1 && i != l - 1">, </span>
+                        </span>
+                    </span>
+                    <span *ngIf="item.supply_chain_names.length === 0">-</span>
+                    <span *ngIf="item.supply_chain_names.length > 3" class="text-primary cursor-pointer"
+                        title="{{item.supply_chain_names.slice(3, item.supply_chain_names.length).join(', ')}}">
+                        +{{item.supply_chain_names.length - 3 }} more
+                    </span>
+                </td>
+                <td class="mat-cell normal-collumn">{{item?.farmers_connected_count}}</td>
+                <td class="mat-cell normal-collumn">{{item?.transaction_count}}</td>
+                <td class="mat-cell normal-collumn">
+                    <span *ngIf="item?.status == 1">Active</span>
+                    <span *ngIf="item?.status == 2">Inactive</span>
+                    <span *ngIf="item?.status == 3">Blocked</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <ng-container *ngIf="recentlyAddedCompanies.length === 0 then noData">
+    </ng-container>
+</section>
+
+<!-- recently added transactions  -->
+<ng-container [ngTemplateOutlet]="commonHeading" [ngTemplateOutletContext]="transactionContext">
+</ng-container>
+
+<app-loader [loaderText]="'dashboard.loading3'|translate" [loaderType]="'type1'" *ngIf="loaderValue === 3"
+    class="min-h-300"></app-loader>
+
+<section class="ff-table-container w-100" *ngIf="loaderValue>3">
+    <table class="company-listing-table">
+        <thead>
+            <tr>
+                <th *ngFor="let item of transactionHeading" class="{{item?.class}}">{{item.name}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of recentTransactions">
+                <td class="mat-cell smaller-column">{{item?.number}}</td>
+                <td class="mat-cell large-column">{{item?.source_name}}</td>
+                <td class="mat-cell large-column">{{item?.destination_name}}</td>
+                <td class="mat-cell normal-column product-name">{{item?.product_name}}</td>
+                <td class="mat-cell normal-column">{{item?.quantity.toFixed(2)}}</td>
+                <td class="mat-cell normal-column">{{item?.date * 1000 |date: 'd MMMM y'}}</td>
+                <td class="mat-cell large-column">
+                    <span *ngIf="!item.blockchain_address">In progress</span>
+                    <a *ngIf="item.blockchain_address" class="hash-text d-flex align-items-center"
+                        href="{{item?.explorer_url}}" target="_blank">
+                        <img src="./assets/images/hedra.svg" class="mr-3 cursor-pointer" alt="">
+                        {{(item.blockchain_address.length > 20)? (item.blockchain_address |
+                        slice:0:19)+'..':(item.blockchain_address)}}
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <ng-container *ngIf="recentTransactions.length === 0 then noData">
+    </ng-container>
+</section>
+
+
+<ng-template #commonHeading let-heading="heading" let-subHeading="subHeading" let-routerUrl="routerUrl" let-text="text">
+    <section class="section-heading d-flex flex-column">
+        <aside class="row1 text-md font-1-bold">{{heading}}</aside>
+        <aside class="d-flex justify-content-between">
+            <span class="text-off-blue text-xs font-1-normal">{{subHeading}}</span>
+            <span class="right-text text-sm cursor-pointer" [routerLink]="routerUrl">{{text}} ></span>
+        </aside>
+    </section>
+</ng-template>
+
+<ng-template #commonWidgetItem let-imageUrl="imageUrl" let-heading="heading" let-valueVar="valueVar" let-title="title">
+
+    <aside class="widget-item" aria-label="individual items first row 2">
+        <span class="svg-wrap">
+            <img src="./assets/images/{{imageUrl}}" alt="ac">
+        </span>
+        <article class="info">
+            <span class="key font-1-normal">{{heading}}</span>
+            <span class="value font-1-bold" title="{{title}}">{{valueVar}}</span>
+        </article>
+    </aside>
+</ng-template>
+
+<ng-template #noData>
+    <div class="no-data w-100" aria-label="">
+        No data to display
+    </div>
+</ng-template>

@@ -1,0 +1,102 @@
+/* Text based classes */
+
+.text-xxl {
+  font-size: var(--size-xxlarge, 3.6rem) !important;
+}
+
+.text-xl {
+  font-size: var(--size-xlarge, 2.8rem) !important;
+}
+
+.text-lg {
+  font-size: var(--size-large, 2.4rem) !important;
+}
+
+.text-md {
+  font-size: var(--size-medium, 1.8rem) !important;
+}
+
+.text-sm {
+  font-size: var(--size-regular, 1.6rem) !important;
+}
+
+.text-xs {
+  font-size: var(--size-small, 1.4rem) !important;
+}
+
+.text-xxs {
+  font-size: var(--size-xsmall, 1.2rem) !important;
+}
+
+.text-xxxs {
+  font-size: var(--size-xxsmall, 1rem) !important;
+}
+
+/* Image/icon sizes */
+
+.img-icon {
+  width: 1.6rem !important;
+  height: 1.6rem !important;
+  object-fit: cover;
+}
+
+.img-square-sm {
+  width: 3.5rem !important;
+  height: 3.5rem !important;
+  object-fit: cover;
+}
+
+.img-square-m {
+  width: 7rem !important;
+  height: 7rem !important;
+  object-fit: cover;
+}
+
+.img-circle-sm {
+  width: 3.5rem !important;
+  height: 3.5rem !important;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.img-circle-m {
+  width: 7rem !important;
+  height: 7rem !important;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+@font-face {
+  font-family: 'Moderat Regular';
+  src: url('src/assets/fonts/Moderat-Regular.woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Moderat Medium';
+  src: url('src/assets/fonts/Moderat-Medium.woff');
+  font-weight: 500;
+  font-style: normal;
+}
+
+
+@font-face {
+  font-family: 'Moderat Bold';
+  src: url('src/assets/fonts/Moderat-Bold.woff');
+  font-weight: bold;
+  font-style: normal;
+}
+
+
+.font-1-bold {
+  font-family: 'Moderat Bold', sans-serif !important;
+}
+
+.font-1-medium {
+  font-family: 'Moderat Medium', sans-serif !important;
+}
+
+.font-1-normal {
+  font-family: 'Moderat Regular', sans-serif !important;
+}

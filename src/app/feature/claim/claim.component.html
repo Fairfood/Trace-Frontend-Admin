@@ -1,0 +1,114 @@
+<h2 class="font-1-bold text-xl">{{create?'Create new claim':'Claims'}}</h2>
+
+<ng-container *ngIf="!create">
+    <!-- filter and search  -->
+    <section class="d-flex justify-content-between">
+        <div class="d-flex align-items-center w-50">
+            <app-search-box [placeholder]="'Search here'" [searchByOptions]="searchBy" class="w-100"
+                (searchText)="searchFilter($event)"></app-search-box>
+
+            <app-buttons buttonType="secondary" (buttonClicked)="filterClicked()" class="ml-10">
+                <ng-container *ngIf="toggleFilter">
+                    <mat-icon>close</mat-icon>
+                    <span class="button-text">Clear filters</span>
+                </ng-container>
+                <ng-container *ngIf="!toggleFilter">
+                    <img src="./assets/images/settings-slider-icon.svg" alt="icon">
+                    <span class="button-text">Filters</span>
+                </ng-container>
+            </app-buttons>
+        </div>
+        <aside aria-label="action button section">
+            <app-buttons buttonType="fill" (buttonClicked)="toggleCreateClaim()">
+                Create new claim
+            </app-buttons>
+        </aside>
+    </section>
+
+    <section class="filter-section" *ngIf="toggleFilter">
+        <app-ff-dropdown label="Type" [defaultValue]="appliedFilters.type" [dropdownOptions]="typeFilter"
+            [hideSearch]="true" class="m-l-35" (newSelectionValue)="otherFilters($event, 'type')">
+        </app-ff-dropdown>
+        <app-ff-dropdown label="Status" [defaultValue]="appliedFilters.status" [dropdownOptions]="statusFilter"
+            [hideSearch]="true" class="m-l-35" (newSelectionValue)="otherFilters($event, 'status')">
+        </app-ff-dropdown>
+        <app-ff-dropdown label="Supply chain" [defaultValue]="appliedFilters.selectedSupplyChain"
+            [dropdownOptions]="supplyChainList" [clearButtonText]="'Reset to All'" class="m-l-35" *ngIf="appliedFilters?.type === 1"
+            (newSelectionValue)="otherFilters($event, 'supply')">
+        </app-ff-dropdown>
+    </section>
+
+    <section class="ff-table-container w-100">
+        <table class="claim-listing-table">
+            <thead>
+                <tr>
+                    <th *ngFor="let item of displayedColumns" class="{{item?.class}}">{{item.name}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of dataSource">
+                    <td class="mat-cell large-column" [ngClass]="{'inactive-claim': !item.active}">{{item?.name}}</td>
+                    <td class="mat-cell normal-column">
+                        <span [ngClass]="{'inactive-claim': !item.active}">
+                            {{item.type === 1?'Product claim': 'Company claim'}}
+                        </span>
+                    </td>
+                    <td>
+
+                        <ng-container *ngIf="item.type === 1">
+                            <span *ngFor="let sup of item?.supplyNames; let i = index; let l = count" class="mb-0">
+                                <span *ngIf="i < 3">
+                                    <span>{{sup}}</span>
+                                    <span *ngIf="l > 1 && i != l - 1">, </span>
+                                </span>
+                            </span>
+                            <span *ngIf="item?.supplyNames.length == 0">-</span>
+                            <span *ngIf="item?.supplyNames.length > 3" class="text-primary cursor-pointer">
+                                +{{item?.supplyNames.length - 3 }} more
+                            </span>
+                        </ng-container>
+                        <ng-container *ngIf="item.type === 2">
+                            -
+                        </ng-container>
+                    </td>
+                    <td class="mat-cell large-column">
+                        <article class="text-supplychain" [ngClass]="{'inactive-claim': !item.active}"
+                            title="{{item.description_full}}">
+                            {{ item.description_full }}
+                        </article>
+                    </td>
+                    <td class="mat-cell normal-column" [ngClass]="{'inactive-claim': !item.active}">
+                        {{item?.active?'Active': 'Disabled'}}
+                    </td>
+                    <td class="mat-cell options-column">
+                        <mat-icon class="cursor-pointer" [matMenuTriggerFor]="beforeMenu">more_vert</mat-icon>
+                        <mat-menu class="mat-menu" #beforeMenu="matMenu" xPosition="before">
+
+                            <ul>
+                                <li class="cursor-pointer" (click)="disableClaim(item)">
+                                    {{item?.active?'Disable': 'Enable'}}
+                                </li>
+                                <li class="cursor-pointer" (click)="editClaim(item)">
+                                    Edit
+                                </li>
+                            </ul>
+                        </mat-menu>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="no-data w-100" aria-label="" *ngIf="dataSource?.length === 0" [hidden]="loading">
+            No data to display
+        </div>
+        <app-loader [loaderText]="'Loading claims'" [loaderType]="'type1'" *ngIf="loading"
+            class="min-h-300"></app-loader>
+    </section>
+
+    <app-ff-pagination [totalCount]="totalCount" (paginationAction)="paginatorEvent($event)"></app-ff-pagination>
+</ng-container>
+
+
+<ng-container *ngIf="create">
+    <app-create-claim (navigationBack)="toggleCreateClaim($event)"></app-create-claim>
+</ng-container>
