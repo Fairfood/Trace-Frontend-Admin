@@ -4,8 +4,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 // services and configs
-import { ACTION_TYPE } from 'src/app/core/utils/app.constants';
-import { DataService } from 'src/app/core/data.service';
+import { ACTION_TYPE } from 'src/app/shared/configs/app.constants';
+import { DataService } from 'src/app/shared/services/data.service';
 import { ClaimService } from '../claim.service';
 
 @Component({

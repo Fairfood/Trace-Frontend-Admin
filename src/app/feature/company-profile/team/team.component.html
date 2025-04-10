@@ -45,7 +45,7 @@
     <div class="no-data w-100" aria-label="" *ngIf="dataSource?.length === 0" [hidden]="loading">
         No data to display
     </div>
-    <app-loader [loaderText]="'Loading supply chain'" [loaderType]="'type1'" *ngIf="loading"
+    <app-loader [loaderText]="'Loading supply chain'" loaderType="type1" *ngIf="loading"
         class="min-h-300"></app-loader>
 </section>
 

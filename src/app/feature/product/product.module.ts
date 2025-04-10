@@ -7,15 +7,17 @@ import { MatDialogModule } from '@angular/material/dialog';
 
 // other modules
 import { CompanyRoutingModule } from './product-routing.module';
-import { FfPaginationModule } from 'src/app/shared-modules/ff-pagination/ff-pagination.module';
-import { SearchBoxModule } from 'src/app/shared-modules/search-box/search-box.module';
-import { LoaderModule } from 'src/app/shared-modules/loader/loader.module';
-import { FairFoodDropdownModule } from 'src/app/shared-modules/ff-dropdown/ff-dropdown.module';
-import { FairFoodInputModule } from 'src/app/shared-modules/ff-input/ff-input.module';
+import { FfPaginationModule } from 'src/app/shared/components/ff-pagination/ff-pagination.module';
+
 // component
 import { ProductComponent } from './product.component';
-import { ProductCreateComponent } from './product-create/product-create.component';
-import { ButtonsComponent } from 'src/app/shared-modules/buttons/buttons.component';
+import { ProductCreateComponent } from '../product-create/product-create.component';
+import { ButtonsComponent, LoaderComponent } from 'fairfood-utils';
+import { SearchBoxComponent } from 'src/app/shared/components/search-box';
+import {
+  FairFoodInputComponent,
+  FfDropdownComponent,
+} from 'fairfood-form-components';
 
 @NgModule({
   declarations: [ProductComponent, ProductCreateComponent],
@@ -24,13 +26,13 @@ import { ButtonsComponent } from 'src/app/shared-modules/buttons/buttons.compone
     CompanyRoutingModule,
     FfPaginationModule,
     MatIconModule,
-    SearchBoxModule,
-    LoaderModule,
-    FairFoodDropdownModule,
+    SearchBoxComponent,
+    FfDropdownComponent,
     MatMenuModule,
-    FairFoodInputModule,
+    FairFoodInputComponent,
     MatDialogModule,
     ButtonsComponent,
+    LoaderComponent,
   ],
 })
 export class ProductModule {}

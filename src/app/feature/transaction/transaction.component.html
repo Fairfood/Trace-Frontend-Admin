@@ -52,17 +52,17 @@
 </section>
 
 <section class="filter-section" *ngIf="toggleFilter">
-    <app-ff-dropdown label="Supply chain" [defaultValue]="appliedFilters.selectedSupplyChain"
-        [dropdownOptions]="supplyChainList" [clearButtonText]="'Reset to All'" class="m-l-35"
-        (newSelectionValue)="otherFilters($event)">
-    </app-ff-dropdown>
+
+    <app-ff-filter-box-wrapper label="Supply chain" [defaultValue]="appliedFilters.selectedSupplyChain"
+    [filterMasterData]="supplyChainList" (selectionChange)="otherFilters($event)" class="m-l-35">
+</app-ff-filter-box-wrapper>
 </section>
 <section class="ff-table-container w-100">
-    <table class="transaction-listing-table">
+    <table class="transaction-listing-table" aria-label="transaction list">
         <thead>
             <tr>
                 <th *ngFor="let item of displayedColumns" class="{{item?.class}}">
-                    <article class="d-flex align-items-center cursor-pointer" (click)="sortData(item.sortKey)">
+                    <article class="d-flex align-items-center pointer" (click)="sortData(item.sortKey)">
                         {{item.name}}
                         <app-sort-custom [filterValues]="appliedFilters" [columnName]="item.sortKey"></app-sort-custom>
                     </article>
@@ -82,7 +82,7 @@
                     <span *ngIf="!item.blockchain_address">In progress</span>
                     <a *ngIf="item.blockchain_address" class="hash-text d-flex align-items-center"
                         href="{{item?.explorer_url}}" target="_blank">
-                        <img src="./assets/images/hedra.svg" class="mr-3 cursor-pointer" alt="">
+                        <img src="./assets/images/hedra.svg" class="mr-3 pointer" alt="">
                         {{(item.blockchain_address.length > 20)? (item.blockchain_address |
                         slice:0:19)+'..':(item.blockchain_address)}}
                     </a>
@@ -90,12 +90,11 @@
             </tr>
         </tbody>
     </table>
-    <div class="no-data w-100" aria-label="" *ngIf="dataSource?.length === 0" [hidden]="loading">
+    <div class="no-data w-100" *ngIf="dataSource?.length === 0" [hidden]="loading">
         No data to display
     </div>
 
-    <app-loader [loaderText]="'Loading transactions'" [loaderType]="'type1'" *ngIf="loading"
-        class="min-h-300"></app-loader>
+    <app-loader [loaderText]="'Loading transactions'" loaderType="type1" *ngIf="loading" class="min-h-300"></app-loader>
 </section>
 
 <app-ff-pagination [totalCount]="totalCount" (paginationAction)="paginatorEvent($event)"></app-ff-pagination>

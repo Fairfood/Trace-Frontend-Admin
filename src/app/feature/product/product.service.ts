@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { map, Observable } from 'rxjs';
+import { headerOptions, HTTP_OPTION_1, HTTP_OPTION_2 } from 'fairfood-utils';
 const BASE_URL = environment.baseUrl;
 
 @Injectable({
@@ -30,7 +31,7 @@ export class ProductService {
           limit +
           '&offset=' +
           offset,
-        this.options()
+        headerOptions(HTTP_OPTION_1)
       )
       .pipe(
         map((res: any) => {
@@ -48,9 +49,9 @@ export class ProductService {
     let url = BASE_URL + '/supply-chain/admin/products/';
     if (isEdit) {
       url += `${id}/`;
-      return this.http.patch(url, req, this.options2());
+      return this.http.patch(url, req, headerOptions(HTTP_OPTION_2));
     }
-    return this.http.post(url, req, this.options2());
+    return this.http.post(url, req, headerOptions(HTTP_OPTION_2));
   }
 
   options2() {
@@ -58,20 +59,6 @@ export class ProductService {
     const data = item && JSON.parse(item);
     const httpOptions = {
       headers: new HttpHeaders({
-        Bearer: data.token,
-        'User-ID': data.id,
-      }),
-    };
-    return httpOptions;
-  }
-
-  // httpOptions
-  options() {
-    const item = localStorage.getItem('adminData');
-    const data = item && JSON.parse(item);
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
         Bearer: data.token,
         'User-ID': data.id,
       }),

@@ -12,7 +12,7 @@
 
             <div class="d-flex justify-content-between" *ngIf="formattedChart?.length">
                 <ul class="filter-box margin-tb">
-                    <li class="mr-3 cursor-pointer" *ngFor="let item of actorFilters.actorTypes"
+                    <li class="mr-3 pointer" *ngFor="let item of actorFilters.actorTypes"
                         (click)="changeActor(item)"
                         [ngClass]="item === actorFilters.currentActorType? 'active': 'inactive'">
                         {{item}}
@@ -20,8 +20,8 @@
                 </ul>
 
                 <ul class="filter-box margin-tb" *ngIf="actorFilters.currentActorType === 'All'">
-                    <li class="mr-3 cursor-pointer"> <span class="c-box farmer"></span> Farmer</li>
-                    <li class="mr-3 cursor-pointer"> <span class="c-box company"></span> Company</li>
+                    <li class="mr-3 pointer"> <span class="c-box farmer"></span> Farmer</li>
+                    <li class="mr-3 pointer"> <span class="c-box company"></span> Company</li>
                 </ul>
             </div>
 
@@ -32,7 +32,7 @@
             <div class="no-data w-100" aria-label="" *ngIf="formattedChart?.length === 0" [hidden]="actorReportLoader">
                 No data to display
             </div>
-            <app-loader [loaderText]="'Loading actor report data'" [loaderType]="'type1'"
+            <app-loader [loaderText]="'Loading actor report data'" loaderType="type1"
                 *ngIf="actorReportLoader"></app-loader>
         </aside>
 
@@ -47,7 +47,7 @@
         </section>
         <aside aria-label="chart container" class="chart-wrap min-h-390">
             <ul class="filter-box margin-tb" *ngIf="farmerTransactionData.length">
-                <li class="mr-3 cursor-pointer" *ngFor="let item of farmerFilters.filterItems"
+                <li class="mr-3 pointer" *ngFor="let item of farmerFilters.filterItems"
                     (click)="changeTransaction(item)"
                     [ngClass]="item === farmerFilters.innerFilter? 'active': 'inactive'">
                     {{item}}
@@ -61,7 +61,7 @@
                 [hidden]="farmerLoader">
                 No data to display
             </div>
-            <app-loader [loaderText]="'Loading transaction data'" [loaderType]="'type1'"
+            <app-loader [loaderText]="'Loading transaction data'" loaderType="type1"
                 *ngIf="farmerLoader"></app-loader>
         </aside>
     </div>

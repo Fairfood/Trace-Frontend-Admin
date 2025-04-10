@@ -33,18 +33,18 @@
                         </span>
                     </span>
                     <span *ngIf="item.products.length == 0">-</span>
-                    <span *ngIf="item.products.length > 3" class="text-primary cursor-pointer">
+                    <span *ngIf="item.products.length > 3" class="text-primary pointer">
                         +{{item?.products.length - 3 }} more
                     </span>
                 </td>
                 <td class="mat-cell normal-column">{{item?.active_actor_count}}</td>
                 <td class="mat-cell normal-column">{{item?.farmer_count}}</td>
                 <td class="mat-cell options-column">
-                    <mat-icon class="cursor-pointer" [matMenuTriggerFor]="beforeMenu">more_vert</mat-icon>
+                    <mat-icon class="pointer" [matMenuTriggerFor]="beforeMenu">more_vert</mat-icon>
                     <mat-menu class="medit" #beforeMenu="matMenu" xPosition="before">
 
                         <ul>
-                            <li class="cursor-pointer" (click)="createSupplyChain(true, item.id, item.name)">
+                            <li class="pointer" (click)="createSupplyChain(true, item.id, item.name)">
                                 Edit
                             </li>
                         </ul>
@@ -58,7 +58,7 @@
         No data to display
     </div>
 
-    <app-loader [loaderText]="'Loading supply chain'" [loaderType]="'type1'" *ngIf="loading" class="min-h-300"></app-loader>
+    <app-loader [loaderText]="'Loading supply chain'" loaderType="type1" *ngIf="loading" class="min-h-300"></app-loader>
 
 </section>
 

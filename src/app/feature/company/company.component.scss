@@ -1,5 +1,7 @@
 @import 'src/styles/utils.scss';
 
+@include filter-dropdown-common;
+
 .filter-section {
   display: flex;
   align-items: center;
@@ -47,3 +49,4 @@ ul li {
   margin-left: 25px;
   width: 49%;
 }
+

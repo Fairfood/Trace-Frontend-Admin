@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { MONTH_ABB } from 'src/app/core/utils/app.constants';
+import { MONTH_ABB } from 'src/app/shared/configs/app.constants';
 import { environment } from 'src/environments/environment';
 /**
  * start year can be configured in the environment
@@ -70,13 +70,13 @@ export interface YearObj {
 
 export const YEAR_DROPDOWN: YearObj[] = [
   {
-    name: 'Last 6 months',
+    name: 'dropdownOptions.lastSixMonth',
     id: '6M',
     startDate: previousStartDate(6),
     endDate: previousStartDate(0),
   },
   {
-    name: 'Last 12 months',
+    name: 'dropdownOptions.lastYear',
     id: '12M',
     startDate: previousStartDate(12),
     endDate: previousStartDate(0),

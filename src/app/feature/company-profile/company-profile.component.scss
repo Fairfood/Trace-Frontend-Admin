@@ -7,7 +7,7 @@
   width: 40%;
   display: flex;
   flex-direction: column;
-  background-color: var(--white);
+  background-color: var(--color-white);
 
   .row-item-ff {
     display: flex;
@@ -64,11 +64,11 @@
 }
 
 input:checked + .slider {
-  background-color: var(--info);
+  background-color: var(--color-primary-2);
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px var(--info);
+  box-shadow: 0 0 1px var(--color-primary-2);
 }
 
 input:checked + .slider:before {
@@ -91,4 +91,14 @@ input:checked + .slider:before {
 
 .main-details {
   align-items: center!important;
+}
+
+.header-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  h2 {
+    margin: 0;
+  }
 }

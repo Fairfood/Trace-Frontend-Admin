@@ -43,7 +43,7 @@
   align-items: center;
   width: 48%;
   ::ng-deep .mat-checkbox-label {
-    color: var(--dark);
+    color: var(--font-color);
     font-size: 14px;
   }
 
@@ -59,7 +59,7 @@
 h3 {
   font-size: 16px;
   font-family: 'Moderat Bold';
-  color: var(--dark);
+  color: var(--font-color);
   margin: 15px 0;
   width: 100%;
 }
@@ -67,7 +67,7 @@ h3 {
 h4 {
   font-size: 14px;
   font-family: 'Moderat Medium';
-  color: var(--dark);
+  color: var(--font-color);
   margin: 10px 0;
   width: 100%;
 }

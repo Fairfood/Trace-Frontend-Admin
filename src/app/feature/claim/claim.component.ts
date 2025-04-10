@@ -2,14 +2,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
-import { DataService } from 'src/app/core/data.service';
+import { DataService } from 'src/app/shared/services/data.service';
 // services and configs
 import {
   ACTION_TYPE,
   CLAIM_COLUMNS,
   SEARCHBY_OPTIONS,
   TableColumnHeader,
-} from 'src/app/core/utils/app.constants';
+} from 'src/app/shared/configs/app.constants';
 import { STATUS_FILTER, TYPE_FILTER } from './claim.config';
 import { ClaimService } from './claim.service';
 import { EditClaimComponent } from './edit-claim/edit-claim.component';
