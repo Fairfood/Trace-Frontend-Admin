@@ -1,8 +1,10 @@
 @import 'src/styles/utils.scss';
+
+@include filter-dropdown-common;
 .hash-text {
   width: 220px;
   text-decoration: underline;
-  color: var(--dark);
+  color: var(--font-color);
 }
 
 .product-name {

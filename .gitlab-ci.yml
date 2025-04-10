@@ -26,27 +26,23 @@ cache:
     - node_modules/
     - dist/
 
-# This command is run before the execution of stages
-before_script:
-  - npm install
-
 # DEVELOPMENT
 # Job One for making build in development
 build_dev:
   stage: build
   script:
+    - npm install
     - node --max_old_space_size=5048 ./node_modules/@angular/cli/bin/ng build --configuration=dev
   variables:
     ENVIRONMENT: "Development"
     EXIT_STATUS: $?
   only: ["development"]
 
-# Job Two for deploy build to S3 in development
+
+  # Job Two for deploy build to S3 in development
 deploy_dev:
-  image: python:latest
+  image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
   stage: deploy
-  before_script:
-    - pip install awscli
   script:
     - aws s3 sync ./dist s3://${DEV_BUCKET}/ --acl=public-read --delete
     - |
@@ -64,6 +60,7 @@ deploy_dev:
 build_staging:
   stage: build
   script:
+    - npm install
     - node --max_old_space_size=5048 ./node_modules/@angular/cli/bin/ng build --configuration=staging
   variables:
     ENVIRONMENT: "Staging"
@@ -72,10 +69,8 @@ build_staging:
 
 # Job Two for deploy build to S3 in staging
 deploy_staging:
-  image: python:latest
+  image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
   stage: deploy
-  before_script:
-    - pip install awscli
   script:
     - aws s3 sync ./dist s3://${STAGING_BUCKET}/ --acl=public-read --delete
     - |
@@ -93,6 +88,7 @@ deploy_staging:
 build_demo:
   stage: build
   script:
+    - npm install
     - node --max_old_space_size=5048 ./node_modules/@angular/cli/bin/ng build --configuration=demo
   variables:
     ENVIRONMENT: "Demo"
@@ -101,10 +97,8 @@ build_demo:
 
 # Job Two for deploy build to S3 in demo
 deploy_demo:
-  image: python:latest
+  image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
   stage: deploy
-  before_script:
-    - pip install awscli
   script:
     - aws s3 sync ./dist s3://${DEMO_BUCKET}/ --acl=public-read --delete
     - |
@@ -122,6 +116,7 @@ deploy_demo:
 build_prod:
   stage: build
   script:
+    - npm install
     - node --max_old_space_size=5048 ./node_modules/@angular/cli/bin/ng build --configuration=production
   variables:
     ENVIRONMENT: "Production"
@@ -130,10 +125,8 @@ build_prod:
 
 # Job Two for deploy build to S3 in production
 deploy_prod:
-  image: python:latest
+  image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
   stage: deploy
-  before_script:
-    - pip install awscli
   script:
     - aws s3 sync ./dist s3://${PROD_BUCKET}/ --acl=public-read --delete
     - |

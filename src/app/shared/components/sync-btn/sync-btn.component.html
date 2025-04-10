@@ -1,0 +1,12 @@
+<article>
+    <div [matMenuTriggerFor]="syncMenu" class="pointer ff-flex-align-center">
+      <img src="../../../assets/images/sync.svg" class="sync-icon" alt="">
+      <span class="sync-text ml-8">Sync</span>
+      <mat-icon class="down-arrow">keyboard_arrow_down</mat-icon>
+    </div>
+    <mat-menu class="profile-dropdown navbar-collapse" #syncMenu="matMenu" xPosition="before">
+      <ng-container *ngIf="showNavigateBtn">
+        <button mat-menu-item class="sync-navigate" (click)="syncWithNavigate()">Sync with Navigate</button>
+      </ng-container>
+    </mat-menu>
+  </article>

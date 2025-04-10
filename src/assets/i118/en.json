@@ -1,17 +1,49 @@
 {
-  "commonErrorMessage": "This field shouldn't be empty *",
-  "login": {
-    "emailSent": "Your email has been resent successfully",
-    "errorEmail": "Error sending email",
-    "invalidEmail": "Invalid email",
-    "passwordInfo": "Your password must be atleast 8 characters long and include a number or symbol.",
-    "forgotPassword": "Forgot password?",
-    "loginText": "Login"
+  "loaderText": {
+    "authenticating": "Authenticating",
+    "awaitingUserInput": "Awaiting user input",
+    "invalidRequest": "Invalid request redirecting to login page",
+    "somethingWentWrong": "Something went wrong! Please try again."
   },
+  "dropdownLabel": {
+    "supplyChain": "Supply chain",
+    "commodity": "Commodity"
+  },
+  "dropdownOptions": {
+    "lastSixMonth": "Last 6 months",
+    "lastYear":"Last 12 months"
+  },
+  "clearBtnText":{
+    "resetToAll":"Reset to All",
+    "clearSelection":"Clear selection"
+  },
+  "selectedValue":{
+    "selectHere":"Select here",
+    "all":"All"
+  },
+  "header": {
+    "admin": "Admin",
+    "logout": "Logout"
+  },
+  "sideBar": {
+    "dashboard": "Dashboard",
+    "companies": "Companies",
+    "farmers": "Farmers",
+    "supplyChains": "Supply chains",
+    "products": "Products",
+    "claims": "Claims",
+    "transactions": "Transactions",
+    "team": "Team"
+  },
+  "button": {
+    "continueWithAdmin": "Continue with admin app",
+    "logoutFromAdmin": "Logout from admin"
+  },
+  "heading": {
+    "adminLoggedIn": "Admin logged in"
+  },
+  "login": {},
   "dashboard": {
-    "heading": "Dashboard",
-    "loading1": "Loading recent farmers",
-    "loading2": "Loading companies list",
-    "loading3": "Loading recent transactions"
+    "heading": "Dashboard"
   }
 }

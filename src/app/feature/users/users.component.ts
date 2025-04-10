@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 
@@ -8,17 +8,24 @@ import {
   USERS_COLUMNS,
   SEARCHBY_OPTIONS,
   TableColumnHeader,
-} from 'src/app/core/utils/app.constants';
-import { DataService } from 'src/app/core/data.service';
+} from 'src/app/shared/configs/app.constants';
+import { DataService } from 'src/app/shared/services/data.service';
 import { UsersService } from './users.service';
-import { CreateUserComponent } from './create-user/create-user.component';
+import { USER_COMP_IMPORTS } from './users.config';
+import { CreateUserComponent } from '../create-user';
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss'],
+  standalone: true,
+  imports: USER_COMP_IMPORTS,
 })
 export class UsersComponent implements OnDestroy, OnInit {
+  private readonly userService = inject(UsersService);
+  private readonly dataService = inject(DataService);
+  private readonly dialog = inject(MatDialog);
+
   dataSource: any;
   pageApis: Subscription[] = [];
   displayedColumns: TableColumnHeader[] = USERS_COLUMNS;
@@ -27,11 +34,7 @@ export class UsersComponent implements OnDestroy, OnInit {
   loading = true;
   searchBy: any[] = SEARCHBY_OPTIONS;
 
-  constructor(
-    private userService: UsersService,
-    private dataService: DataService,
-    private dialog: MatDialog
-  ) {
+  constructor() {
     this.appliedFilters = {
       status: '',
       limit: 10,
@@ -55,18 +58,18 @@ export class UsersComponent implements OnDestroy, OnInit {
     this.dataSource = [];
     const api = this.userService
       .getAdminUserList(this.appliedFilters)
-      .subscribe(
-        result => {
+      .subscribe({
+        next: result => {
           const { results, count } = result;
           this.totalCount = count;
           this.dataSource = results;
           this.loading = false;
         },
-        () => {
+        error: () => {
           this.dataSource = [];
           this.loading = false;
-        }
-      );
+        },
+      });
     this.pageApis.push(api);
   }
 

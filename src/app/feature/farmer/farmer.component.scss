@@ -1,5 +1,8 @@
 @import 'src/styles/utils.scss';
 
+@include filter-dropdown-common;
+
+
 .farmer-name {
   max-width: 250px;
   @include text-overflow();

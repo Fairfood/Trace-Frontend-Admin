@@ -1,4 +1,4 @@
-import { FormValues, TabItem } from 'src/app/core/utils/app.constants';
+import { FormValues, TabItem } from 'src/app/shared/configs/app.constants';
 
 export const PROFILE_TABS: TabItem[] = [
   {

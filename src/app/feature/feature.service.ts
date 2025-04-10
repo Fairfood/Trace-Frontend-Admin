@@ -2,12 +2,16 @@
 import { Injectable } from '@angular/core';
 
 import { environment } from 'src/environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 import { map, Observable } from 'rxjs';
-import { dateFormatterFF, successFormatter } from '../core/utils/app.config';
+import {
+  dateFormatterFF,
+  successFormatter,
+} from '../shared/configs/app.config';
 import { DashboardService } from './dashboard/dashboard.service';
 import { previousStartDate } from './dashboard/dashboard.config';
+import { headerOptions, HTTP_OPTION_1 } from 'fairfood-utils';
 const BASE_URL = environment.baseUrl;
 @Injectable({
   providedIn: 'root',
@@ -47,7 +51,7 @@ export class FeatureService {
           selectedCountry +
           sortUrl,
 
-        this.options()
+        headerOptions(HTTP_OPTION_1)
       )
       .pipe(map(successFormatter));
   }
@@ -66,7 +70,7 @@ export class FeatureService {
           limit +
           '&offset=' +
           offset,
-        this.options()
+        headerOptions(HTTP_OPTION_1)
       )
       .pipe(map(successFormatter));
   }
@@ -96,7 +100,7 @@ export class FeatureService {
           '&country=' +
           selectedCountry +
           sortUrl,
-        this.options()
+        headerOptions(HTTP_OPTION_1)
       )
       .pipe(map(successFormatter));
   }
@@ -105,7 +109,7 @@ export class FeatureService {
     return this.http
       .get(
         `${BASE_URL}/supply-chain/admin/farmers/${farmerId}/`,
-        this.options()
+        headerOptions(HTTP_OPTION_1)
       )
       .pipe(map(successFormatter));
   }
@@ -132,14 +136,14 @@ export class FeatureService {
           '&supply_chain=' +
           selectedSupplyChain +
           sortUrl,
-        this.options()
+        headerOptions(HTTP_OPTION_1)
       )
       .pipe(map(successFormatter));
   }
 
   getCountryList(): Observable<any> {
     return this.http
-      .get(BASE_URL + '/supply-chain/countries/', this.options())
+      .get(BASE_URL + '/supply-chain/countries/', headerOptions(HTTP_OPTION_1))
       .pipe(
         map((result: any) => {
           const { data } = result;
@@ -152,7 +156,7 @@ export class FeatureService {
     return this.http
       .get(
         BASE_URL + '/transactions/admin/stats/?supply_chain=' + supplyChain,
-        this.options()
+        headerOptions(HTTP_OPTION_1)
       )
       .pipe(map(successFormatter));
   }
@@ -197,19 +201,5 @@ export class FeatureService {
       series: series,
     });
     return result;
-  }
-
-  // httpOptions
-  options() {
-    const item = localStorage.getItem('adminData');
-    const data = item && JSON.parse(item);
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        Bearer: data.token,
-        'User-ID': data.id,
-      }),
-    };
-    return httpOptions;
   }
 }

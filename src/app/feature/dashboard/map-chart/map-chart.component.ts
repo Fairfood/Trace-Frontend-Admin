@@ -9,8 +9,8 @@ import am5themes_Animated from '@amcharts/amcharts5/themes/Animated';
 import am5geodata_worldLow from '@amcharts/amcharts5-geodata/worldLow';
 // services
 import { DashboardService } from '../dashboard.service';
-import { DataService } from 'src/app/core/data.service';
-import { HeaderFilter } from 'src/app/core/utils/app.constants';
+import { DataService } from 'src/app/shared/services/data.service';
+import { HeaderFilter } from 'src/app/shared/configs/app.constants';
 
 // constants
 const TOOLTIP_DATA = {

@@ -1,0 +1,15 @@
+<aside class="pop-header">
+  <h4>
+    {{'heading.adminLoggedIn' | translate}}
+  </h4>
+</aside>
+<aside class="pop-content">
+  <article class="button-container">
+    <app-buttons buttonType="stroked" (buttonClicked)="close()">
+     {{'button.continueWithAdmin'|translate}}
+    </app-buttons>
+    <app-buttons buttonType="fill" (buttonClicked)="logout()">
+      {{'button.logoutFromAdmin'|translate}}
+    </app-buttons>
+  </article>
+</aside>

@@ -8,7 +8,7 @@ Trace support agriculture vaulue chians in with product traceability and provide
 
 Team trace app  (sorted alphabetically)
 ---------------------------------------
-Trace mobile team are actively supporting the project and have made substantial contributions to the repository.<br>
+Trace team are actively supporting the project and have made substantial contributions to the repository.<br>
 
 * **[Amruthesh K S](https://github.com/eashwerks-fairfood)**
    * Backend developer
@@ -34,7 +34,5 @@ Contributors  (sorted alphabetically)
 -------------------------------------
 To contributors: please add your name to the list when you submit a patch to the project.
 
-* **[derekhardwick](https://github.com/derekhardwick)**
-   * Improving documentation
-* **[Shyno](https://github.com/shynofairfoood)**
-   * Improving folder structure
+* **[Midhun P J](https://github.com/midhunfairfood)**
+   * Updating the app with new feature

@@ -2,7 +2,7 @@
     <h3 class="font-1-medium">
         Add supply chain
     </h3>
-    <mat-icon class="cursor-pointer" (click)="close()">close</mat-icon>
+    <mat-icon class="pointer" (click)="close()">close</mat-icon>
 </aside>
 
 
@@ -14,7 +14,7 @@
             <article class="input-container-with-error">
                 <app-ff-dropdown label="Supply chain*" [defaultValue]="supplyChains.at(i).get('supplyChain').value"
                     [dropdownOptions]="supplyChainList" class="form-item"
-                    (newSelectionValue)="dropdownFormValue($event, 'supplyChain', i)" size="large">
+                    (selectionChange)="dropdownFormValue($event, 'supplyChain', i)" size="large">
                 </app-ff-dropdown>
                 <ng-container [ngTemplateOutlet]="formErrorMessages"
                     [ngTemplateOutletContext]="{formcontrol:'supplyChain', formgroup: supplyChains.at(i).controls}">
@@ -23,7 +23,7 @@
 
             <article class="input-container-with-error">
                 <app-ff-dropdown label="Company type*" [defaultValue]="supplyChains.at(i).get('companyType').value"
-                    [dropdownOptions]="operationList[i]" (newSelectionValue)="dropdownFormValue($event, 'type', i)"
+                    [dropdownOptions]="operationList[i]" (selectionChange)="dropdownFormValue($event, 'type', i)"
                     size="large">
                 </app-ff-dropdown>
                 <ng-container [ngTemplateOutlet]="formErrorMessages"
@@ -60,7 +60,7 @@
 
     </ng-container>
 </div>
-<app-loader [loaderText]="loaderText" [loaderType]="'type1'" *ngIf="!dataLoaded"></app-loader>
+<app-loader [loaderText]="loaderText" loaderType="type1" *ngIf="!dataLoaded"></app-loader>
 <p class="text-danger text-sm font-1-normal" *ngIf="duplicateError">
     Please check the supply chain selected. Duplicate supply chain found
 </p>

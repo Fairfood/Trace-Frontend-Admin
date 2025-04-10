@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { DatePipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+
 import { Subscription } from 'rxjs';
-import { DataService } from 'src/app/core/data.service';
+import { DataService } from 'src/app/shared/services/data.service';
 import { CompanyProfileService } from 'src/app/feature/company-profile/company-profile.service';
 // services and configs
 import {
@@ -10,15 +14,41 @@ import {
   FARMER_COLUMNS,
   SEARCHBY_OPTIONS,
   TableColumnHeader,
-} from 'src/app/core/utils/app.constants';
+} from 'src/app/shared/configs/app.constants';
 import { FeatureService } from '../feature.service';
-import { Router } from '@angular/router';
-import { nFormatter } from 'src/app/core/utils/app.config';
+import { nFormatter } from 'src/app/shared/configs/app.config';
+
+import { ChartLineComponent } from 'src/app/shared/components/chart-line';
+import {
+  ButtonsComponent,
+  FfPaginationComponent,
+  LoaderComponent,
+  SortCustomComponent,
+} from 'fairfood-utils';
+import { ExportIconComponent } from 'src/app/shared/components/export-icon';
+import { SearchBoxComponent } from 'src/app/shared/components/search-box';
+import { FfFilterBoxWrapperComponent } from 'fairfood-form-components';
 
 @Component({
   selector: 'app-farmer',
   templateUrl: './farmer.component.html',
   styleUrls: ['./farmer.component.scss'],
+  standalone: true,
+  imports: [
+    NgIf,
+    NgFor,
+    DatePipe,
+    NgTemplateOutlet,
+    FfPaginationComponent,
+    SearchBoxComponent,
+    MatIconModule,
+    SortCustomComponent,
+    ExportIconComponent,
+    ChartLineComponent,
+    ButtonsComponent,
+    LoaderComponent,
+    FfFilterBoxWrapperComponent,
+  ],
 })
 export class FarmerComponent implements OnInit, OnDestroy {
   dataSource: any;

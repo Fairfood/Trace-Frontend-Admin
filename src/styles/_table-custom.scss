@@ -57,12 +57,12 @@
   }
   thead {
     display: table-header-group !important;
-    background-color: var(--info);
+    background-color: var(--color-primary-2);
     border-radius: 6px;
     th {
       padding: 22px 0px 22px 20px !important;
       white-space: nowrap;
-      border-left: 1px solid var(--white);
+      border-left: 1px solid var(--color-white);
       @extend %column-classes;
       font-family: Moderat Bold;
       font-size: 14px;
@@ -108,7 +108,7 @@
 
   .mat-checkbox-frame {
     border-radius: 3px;
-    border: 1px solid var(--dark);
+    border: 1px solid var(--font-color);
     border-width: 1px;
   }
   .mat-checkbox-background {

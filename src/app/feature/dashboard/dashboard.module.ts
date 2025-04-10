@@ -6,13 +6,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 // other modules
 import { DashboardRoutingModule } from './dashboard-routing.module';
-import { LoaderModule } from 'src/app/shared-modules/loader/loader.module';
-import { FairFoodDropdownModule } from 'src/app/shared-modules/ff-dropdown/ff-dropdown.module';
+
 // component
 import { DashboardComponent } from './dashboard.component';
 import { LineGraphDashboardComponent } from './line-graph-dashboard/line-graph-dashboard.component';
 import { MapChartComponent } from './map-chart/map-chart.component';
-import { ChartLineComponent } from 'src/app/shared-modules/chart-line/chart-line.component';
+import { ChartLineComponent } from 'src/app/shared/components/chart-line';
+import { LoaderComponent } from 'fairfood-utils';
+import { FfDropdownComponent } from 'fairfood-form-components';
 
 @NgModule({
   declarations: [
@@ -24,11 +25,11 @@ import { ChartLineComponent } from 'src/app/shared-modules/chart-line/chart-line
     CommonModule,
     DashboardRoutingModule,
     MatIconModule,
-    LoaderModule,
     TranslateModule.forChild(),
     ChartLineComponent,
     MatMenuModule,
-    FairFoodDropdownModule,
+    FfDropdownComponent,
+    LoaderComponent,
   ],
 })
 export class DashboardModule {}

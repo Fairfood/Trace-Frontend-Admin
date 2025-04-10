@@ -1,4 +1,4 @@
-<app-ff-custom-tab [tabGroupItems]="tabGroup" [stockProcess]="true" [activeTabId]="activeTabId"
+<app-ff-custom-tab [tabGroupItems]="tabGroup" [withDescription]="true" [activeTabId]="activeTabId"
     (tabChanged)="changeTab($event)" class="w-100">
 </app-ff-custom-tab>
 
@@ -146,7 +146,7 @@
                                     </app-buttons>
                                 </aside>
                             </ng-container>
-                            <p class="text-danger cursor-pointer">
+                            <p class="text-danger pointer">
                                 <u (click)="addOptionsField(i)">Add dropdown option</u>
                             </p>
                         </section>
@@ -274,7 +274,7 @@
     </aside>
 </div>
 
-<app-loader [loaderText]="loaderText" [loaderType]="'type1'" *ngIf="!dataLoaded" class="special"></app-loader>
+<app-loader [loaderText]="loaderText" loaderType="type1" *ngIf="!dataLoaded" class="special"></app-loader>
 
 
 <ng-template let-formcontrol="formcontrol" let-formgroup="formgroup" #formErrorMessages>
