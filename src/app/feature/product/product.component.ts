@@ -2,19 +2,22 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
-import { DataService } from 'src/app/core/data.service';
+import { ProductCreateComponent } from '../product-create/product-create.component';
 // services and configs
+import { IMPORTS } from './product.config';
 import {
   PRODUCT_COLUMNS,
   SEARCHBY_OPTIONS,
-} from 'src/app/core/utils/app.constants';
-import { ProductCreateComponent } from './product-create/product-create.component';
+} from 'src/app/shared/configs/app.constants';
+import { DataService } from 'src/app/shared/services/data.service';
 import { ProductService } from './product.service';
 
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.scss'],
+  standalone: true,
+  imports: IMPORTS,
 })
 export class ProductComponent implements OnInit, OnDestroy {
   dataSource: any;

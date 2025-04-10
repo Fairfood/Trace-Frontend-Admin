@@ -13,10 +13,9 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
-import { SnackBarComponent } from './core/components/snack-bar/snack-bar.component';
-import { AuthGuard } from './authentication/services/guard/auth.guard';
-import { IsLoggedIn } from './authentication/services/guard/isLoggedIn';
-import { ErrorInterceptor } from './authentication/services/error.interceptors';
+import { SnackBarComponent } from './shared/components/snack-bar/snack-bar.component';
+import { IsLoggedIn } from './shared/guards/isLoggedIn';
+import { ErrorInterceptor } from './shared/services';
 
 export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i118/', '.json');
@@ -40,7 +39,6 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
     SnackBarComponent,
   ],
   providers: [
-    AuthGuard,
     IsLoggedIn,
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],

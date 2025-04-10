@@ -1,23 +1,30 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { map, Observable } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { successFormatter } from 'src/app/shared/configs/app.config';
+import { headerOptions, HTTP_OPTION_1 } from 'fairfood-utils';
+import { StorageService } from 'src/app/shared/services';
 
-import { map, Observable } from 'rxjs';
-import { successFormatter } from 'src/app/core/utils/app.config';
 const BASE_URL = environment.baseUrl;
 
 @Injectable({
   providedIn: 'root',
 })
 export class CompanyProfileService {
-  constructor(public http: HttpClient, private router: Router) {}
+  readonly http = inject(HttpClient);
+  readonly router = inject(Router);
+  readonly storage = inject(StorageService);
 
   getCompanyDetails(id: string): Observable<any> {
     return this.http
-      .get(BASE_URL + '/supply-chain/admin/company/' + id + '/', this.options())
+      .get(
+        BASE_URL + '/supply-chain/admin/company/' + id + '/',
+        headerOptions(HTTP_OPTION_1)
+      )
       .pipe(map(successFormatter));
   }
 
@@ -25,7 +32,7 @@ export class CompanyProfileService {
     return this.http.post(
       BASE_URL + '/supply-chain/admin/invite/company/',
       params,
-      this.options()
+      headerOptions(HTTP_OPTION_1)
     );
   }
 
@@ -61,7 +68,7 @@ export class CompanyProfileService {
           limit +
           '&offset=' +
           offset,
-        this.options()
+        headerOptions(HTTP_OPTION_1)
       )
       .pipe(map(successFormatter));
   }
@@ -80,7 +87,7 @@ export class CompanyProfileService {
           limit +
           '&offset=' +
           offset,
-        this.options()
+        headerOptions(HTTP_OPTION_1)
       )
       .pipe(map(successFormatter));
   }
@@ -94,7 +101,7 @@ export class CompanyProfileService {
         limit +
         '&offset=' +
         offset,
-      this.options()
+      headerOptions(HTTP_OPTION_1)
     );
   }
 
@@ -102,7 +109,7 @@ export class CompanyProfileService {
     return this.http.post(
       BASE_URL + '/supply-chain/admin/node-supplychain/' + id + '/',
       params,
-      this.options()
+      headerOptions(HTTP_OPTION_1)
     );
   }
 
@@ -112,7 +119,7 @@ export class CompanyProfileService {
         BASE_URL +
           '/supply-chain/admin/supplychain/?search=&limit=500&exclude_node=' +
           nodeId,
-        this.options()
+        headerOptions(HTTP_OPTION_1)
       )
       .pipe(map(successFormatter));
   }
@@ -125,15 +132,17 @@ export class CompanyProfileService {
         '=;' +
         'expires=Thu, 01 Jan 1970 00:00:00 UTC;';
     });
-    const item = localStorage.getItem('adminData');
+    const item = this.storage.retrieveStoredData('adminData');
     const adminData = JSON.parse(item);
+    const id_token = this.storage.retrieveStoredData('id_token');
 
-    localStorage.setItem('viewingAsAdmin', 'true');
-    localStorage.setItem('redirectUrl', this.router.url);
+    this.storage.saveInStorage('viewingAsAdmin', 'true');
+    this.storage.saveInStorage('redirectUrl', this.router.url);
     const localData: any = {
       nodeId: id,
       name,
       ...adminData,
+      id_token,
     };
     let domainPath = '';
 
@@ -155,7 +164,7 @@ export class CompanyProfileService {
       .post(
         BASE_URL + '/supply-chain/admin/theme/node/' + id + '/',
         params,
-        this.options()
+        headerOptions(HTTP_OPTION_1)
       )
       .pipe(
         map((res: any) => {
@@ -169,17 +178,15 @@ export class CompanyProfileService {
       );
   }
 
-  // httpOptions
-  options() {
-    const item = localStorage.getItem('adminData');
-    const data = item && JSON.parse(item);
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        Bearer: data.token,
-        'User-ID': data.id,
-      }),
-    };
-    return httpOptions;
+  /**
+   * The function `syncWithNavigate` sends a POST request to a specific URL with provided parameters
+   * and header options.
+   **/
+  syncWithNavigate(params: any): Observable<any> {
+    return this.http.post(
+      BASE_URL + '/projects/navigate-sync/',
+      params,
+      headerOptions(HTTP_OPTION_1)
+    );
   }
 }

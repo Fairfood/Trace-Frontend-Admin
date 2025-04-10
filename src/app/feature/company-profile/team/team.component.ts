@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import {
   TableColumnHeader,
   USERS_COLUMNS,
-} from 'src/app/core/utils/app.constants';
+} from 'src/app/shared/configs/app.constants';
 import { CompanyProfileService } from '../company-profile.service';
 
 @Component({

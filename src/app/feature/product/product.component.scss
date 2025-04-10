@@ -1,5 +1,7 @@
 @import 'src/styles/utils.scss';
 
+@include filter-dropdown-common;
+
 .min-h-300 {
   min-height: 300px;
   padding-bottom: 50px;

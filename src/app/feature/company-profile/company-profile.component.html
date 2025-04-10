@@ -1,4 +1,9 @@
-<h2 class="font-1-bold text-xl">Company profile</h2>
+<section class="header-section">
+    <h2 class="font-1-bold text-xl">Company profile</h2>
+    <ng-container *ngIf="navigateEnabled">
+        <app-sync-btn></app-sync-btn>
+    </ng-container>
+</section>
 <section class="main-details col-12" *ngIf="dataLoaded">
     <aside class="wrap-profile">
         <!-- picture section  -->
@@ -22,12 +27,21 @@
     </aside>
 
 
-    <aside class="right-side-action">
+    <aside class="right-side-action" aria-label="View as company">
         <article class="row-item-ff">
             <span class="text-sm font-1-normal">View as {{companyProfileData?.name}}'s admin</span>
             <app-buttons buttonType="fill" (buttonClicked)="navigateToDashboard()">
                 View as admin
             </app-buttons>
+        </article>
+        <article class="row-item-ff">
+            <span>Enable Navigate</span>
+            <label class="switch">
+                <input type="checkbox" id="enableNavigate" name="navigate" aria-label="Navigate setting"
+                    (change)="navigateSetting(!navigateEnabled)" [checked]="navigateEnabled"
+                    [attr.disabled]="navigateUpdating ? true : null">
+                <span class="slider round"></span>
+            </label>
         </article>
         <article class="row-item-ff">
             <span>Storytelling theming</span>
@@ -74,7 +88,7 @@
 </section>
 
 <!-- loader section -->
-<app-loader loaderText="Loading profile data" [loaderType]="'type1'" *ngIf="!dataLoaded"></app-loader>
+<app-loader loaderText="Loading profile data" loaderType="type1" *ngIf="!dataLoaded"></app-loader>
 
 
 

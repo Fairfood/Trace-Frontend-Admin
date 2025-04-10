@@ -52,13 +52,14 @@
 </section>
 
 <section class="filter-section" *ngIf="toggleFilter">
-    <app-ff-dropdown label="Supply chain" [defaultValue]="appliedFilters.selectedSupplyChain"
-        [dropdownOptions]="supplyChainList" [clearButtonText]="'Reset to All'" class="m-l-35"
-        (newSelectionValue)="otherFilters($event, 'supply')">
-    </app-ff-dropdown>
-    <app-ff-dropdown label="Countries" [defaultValue]="appliedFilters.selectedCountry" [dropdownOptions]="countryList"
-        class="m-l-35" (newSelectionValue)="otherFilters($event, 'country')">
-    </app-ff-dropdown>
+
+    <app-ff-filter-box-wrapper label="Supply chain" [defaultValue]="appliedFilters.selectedSupplyChain"
+    [filterMasterData]="supplyChainList" (selectionChange)="otherFilters($event, 'supply')" class="m-l-35">
+</app-ff-filter-box-wrapper>
+
+<app-ff-filter-box-wrapper label="Countries" [defaultValue]="appliedFilters.selectedCountry"
+    [filterMasterData]="countryList" (selectionChange)="otherFilters($event, 'country')" class="m-l-35">
+</app-ff-filter-box-wrapper>
 </section>
 
 <section class="ff-table-container w-100">
@@ -66,7 +67,7 @@
         <thead>
             <tr>
                 <th *ngFor="let item of displayedColumns" class="{{item?.class}}">
-                    <article class="d-flex align-items-center cursor-pointer" (click)="sortData(item.sortKey)">
+                    <article class="d-flex align-items-center pointer" (click)="sortData(item.sortKey)">
                         {{item.name}}
                         <app-sort-custom [filterValues]="appliedFilters" [columnName]="item.sortKey"></app-sort-custom>
                     </article>
@@ -76,7 +77,7 @@
 
         </thead>
         <tbody>
-            <tr *ngFor="let item of dataSource" (click)="viewDetails(item?.id)" class="cursor-pointer">
+            <tr *ngFor="let item of dataSource" (click)="viewDetails(item?.id)" class="pointer">
                 <td class="mat-cell large-column farmer-name" title="{{item?.name}}">{{item?.name}}</td>
                 <td class="mat-cell normal-column">
                     {{item?.created_on * 1000 |date: 'dd MMMM y'}}
@@ -87,10 +88,10 @@
             </tr>
         </tbody>
     </table>
-    <div class="no-data w-100" aria-label="" *ngIf="dataSource?.length === 0" [hidden]="loading">
+    <article class="no-data w-100" aria-label="" *ngIf="dataSource?.length === 0" [hidden]="loading">
         No data to display
-    </div>
-    <app-loader [loaderText]="'Loading farmers'" [loaderType]="'type1'" *ngIf="loading" class="min-h-300"></app-loader>
+    </article>
+    <app-loader [loaderText]="'Loading farmers'" loaderType="type1" *ngIf="loading" class="min-h-300"></app-loader>
 </section>
 
 <app-ff-pagination [totalCount]="totalCount" (paginationAction)="paginatorEvent($event)"></app-ff-pagination>

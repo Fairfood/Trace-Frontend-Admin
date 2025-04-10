@@ -25,10 +25,10 @@
 </section>
 
 <section class="filter-section" *ngIf="toggleFilter">
-    <app-ff-dropdown label="Supply chain" [defaultValue]="appliedFilters.selectedSupplyChain"
-        [dropdownOptions]="supplyChainList" [clearButtonText]="'Reset to All'" class="m-l-35"
-        (newSelectionValue)="otherFilters($event)">
-    </app-ff-dropdown>
+
+    <app-ff-filter-box-wrapper label="Supply chain" [defaultValue]="appliedFilters.selectedSupplyChain"
+        [filterMasterData]="supplyChainList" (selectionChange)="otherFilters($event)" class="m-l-35">
+    </app-ff-filter-box-wrapper>
 </section>
 
 
@@ -43,17 +43,19 @@
             <tr *ngFor="let item of dataSource">
                 <td class="mat-cell large-column text-product" title="{{item?.name}}">
                     <article class="d-flex align-items-center">
-                        <img [src]="item?.image || '../../../assets/images/product_icon.svg'" class="product-icon" alt="">
+                        <img [src]="item?.image || '../../../assets/images/product_icon.svg'" class="product-icon"
+                            alt="">
                         {{item?.name}}
                     </article>
                 </td>
                 <td class="mat-cell normal-column">{{item?.supply_chain?.name}}</td>
-                <td class="mat-cell large-column text-product" title="{{item?.description || ''}}">{{item?.description || '-'}}</td>
+                <td class="mat-cell large-column text-product" title="{{item?.description || ''}}">{{item?.description
+                    || '-'}}</td>
                 <td class="mat-cell options-column">
-                    <mat-icon class="cursor-pointer" [matMenuTriggerFor]="beforeMenu">more_vert</mat-icon>
+                    <mat-icon class="pointer" [matMenuTriggerFor]="beforeMenu">more_vert</mat-icon>
                     <mat-menu class="mat-menu" #beforeMenu="matMenu" xPosition="before">
                         <ul>
-                            <li class="cursor-pointer" (click)="createProduct(true, item)">
+                            <li class="pointer" (click)="createProduct(true, item)">
                                 Edit
                             </li>
                         </ul>
@@ -67,7 +69,7 @@
         No data to display
     </div>
 
-    <app-loader [loaderText]="'Loading products'" [loaderType]="'type1'" *ngIf="loading" class="min-h-300"></app-loader>
+    <app-loader [loaderText]="'Loading products'" loaderType="type1" *ngIf="loading" class="min-h-300"></app-loader>
 </section>
 
 <app-ff-pagination [totalCount]="totalCount" (paginationAction)="paginatorEvent($event)"></app-ff-pagination>

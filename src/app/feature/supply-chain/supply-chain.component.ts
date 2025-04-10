@@ -7,9 +7,9 @@ import { MatDialog } from '@angular/material/dialog';
 import {
   SEARCHBY_OPTIONS,
   SUPPLY_CHAIN_COLUMNS,
-} from 'src/app/core/utils/app.constants';
+} from 'src/app/shared/configs/app.constants';
 import { FeatureService } from '../feature.service';
-import { DataService } from 'src/app/core/data.service';
+import { DataService } from 'src/app/shared/services/data.service';
 import { CreateSupplyChainComponent } from './create-supply-chain/create-supply-chain.component';
 
 @Component({

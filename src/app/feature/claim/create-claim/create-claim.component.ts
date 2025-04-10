@@ -14,8 +14,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { DataService } from 'src/app/core/data.service';
-import { ACTION_TYPE, TabItem } from 'src/app/core/utils/app.constants';
+import { DataService } from 'src/app/shared/services/data.service';
+import { ACTION_TYPE, TabItem } from 'src/app/shared/configs/app.constants';
 import { CLAIM_TABS, EVIDENCE_TYPE, CLAIM_TABS_COMPANY } from '../claim.config';
 import { ClaimService } from '../claim.service';
 
@@ -300,7 +300,7 @@ export class CreateClaimComponent implements OnInit, OnDestroy {
    * @param value any[]
    * @param type string
    */
-  dropdownFormValue(value: any[], type: string): void {
+  dropdownFormValue(value: any, type: string): void {
     this.basicsForm.get(type).setValue(value);
   }
 

@@ -1,4 +1,4 @@
-# StorytellingV2 Setup Instructions
+# Fairfood admin V3 Setup Instructions
 
 This is a administrative level application contains all the transaction, farmers, companies, products, supply chains etc..
 
@@ -13,7 +13,7 @@ Before you begin, make sure you have the following installed on your computer:
 
 ### 1. Clone the Repository
 
-1. Open your web browser and navigate to the StorytellingV2 repository on [GitLab](git@git.cied.in:fairfood/trace-v2/frontend/fairfood-admin-v3.git).
+1. Open your web browser and navigate to the Fairfood admin V3 repository on [GitLab](git@git.cied.in:fairfood/trace-v2/frontend/fairfood-admin-v3.git).
 
 2. Look for a "Clone" or "Download" button and click on it to copy the repository URL.
 
@@ -65,4 +65,4 @@ You can now explore the Fairfood Admin application! You can login as an admin us
 
 If you encounter any issues during the setup process, please refer to the [Troubleshooting](#) section in the README.md file or reach out to the Fairfood support team for assistance.
 
-Thank you for using StorytellingV2! If you have any feedback or questions, feel free to contact us.
+Thank you for using Fairfood admin! If you have any feedback or questions, feel free to contact us.

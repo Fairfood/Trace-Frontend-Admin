@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { DataService } from 'src/app/core/data.service';
-import { HeaderFilter } from 'src/app/core/utils/app.constants';
+import { DataService } from 'src/app/shared/services/data.service';
+import { HeaderFilter } from 'src/app/shared/configs/app.constants';
 // services and config
 import { YearObj, YEAR_DROPDOWN } from '../dashboard.config';
 import { DashboardService } from '../dashboard.service';

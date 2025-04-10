@@ -3,7 +3,7 @@ import {
   FormValues,
   TabItem,
   TableColumnHeader,
-} from 'src/app/core/utils/app.constants';
+} from 'src/app/shared/configs/app.constants';
 
 export const PROFILE_TABS: TabItem[] = [
   {

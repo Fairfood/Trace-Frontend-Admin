@@ -6,12 +6,12 @@ import { MatPaginator } from '@angular/material/paginator';
 
 import { IReference, PAYMENTS_COLUMNS } from '../farmer-profile.config';
 import { FarmerProfileService } from '../farmer-profile.service';
-import { DataService } from 'src/app/core/data.service';
+import { DataService } from 'src/app/shared/services/data.service';
 import {
   ACTION_TYPE,
   exportFileType,
   exportType,
-} from 'src/app/core/utils/app.constants';
+} from 'src/app/shared/configs/app.constants';
 
 @Component({
   selector: 'app-income',
