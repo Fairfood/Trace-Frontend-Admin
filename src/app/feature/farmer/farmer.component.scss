@@ -1,19 +1,27 @@
 @import 'src/styles/utils.scss';
 
+@include filter-dropdown-common;
+
+
 .farmer-name {
   max-width: 250px;
   @include text-overflow();
 }
+
 .filter-section {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+  padding: 10px 0px 15px 0px;
+  border-bottom: 1px solid var(--border-color);
 }
+
 .header-section {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 15px;
+
   h2 {
     margin: 0;
   }
@@ -26,18 +34,22 @@
   min-width: 100%;
   height: 200px;
   align-items: center;
+
   @include devices(tablet-md) {
     min-width: auto;
+
     &:last-child {
       margin-right: 0;
     }
   }
 }
+
 .statistics {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 }
+
 .w-49 {
   margin-left: 25px;
   width: 49%;

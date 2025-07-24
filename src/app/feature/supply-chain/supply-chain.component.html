@@ -19,7 +19,17 @@
     <table class="supplychain-table">
         <thead>
             <tr>
-                <th *ngFor="let item of displayedColumns" class="{{item?.class}}">{{item.name}}</th>
+                <th *ngFor="let item of displayedColumns" class="{{item?.class}}">
+                    <!-- {{item.name}} -->
+                    <article class="d-flex align-items-center pointer" (click)="sortData(item.sortKey)">
+                        {{item.name}}
+                        <ng-container *ngIf="!item?.hideSort">
+                            <app-sort-custom [filterValues]="appliedFilters"
+                                [columnName]="item.sortKey"></app-sort-custom>
+                        </ng-container>
+                    </article>
+                </th>
+                
             </tr>
         </thead>
         <tbody>
@@ -33,18 +43,19 @@
                         </span>
                     </span>
                     <span *ngIf="item.products.length == 0">-</span>
-                    <span *ngIf="item.products.length > 3" class="text-primary cursor-pointer">
+                    <span id="products" *ngIf="item.products.length > 3" class="text-primary pointer" [matTooltip]="getProductNames(item.products.slice(3)) || 'No additional items'" 
+                        matTooltipPosition="right">
                         +{{item?.products.length - 3 }} more
                     </span>
                 </td>
                 <td class="mat-cell normal-column">{{item?.active_actor_count}}</td>
                 <td class="mat-cell normal-column">{{item?.farmer_count}}</td>
                 <td class="mat-cell options-column">
-                    <mat-icon class="cursor-pointer" [matMenuTriggerFor]="beforeMenu">more_vert</mat-icon>
+                    <mat-icon class="pointer" [matMenuTriggerFor]="beforeMenu">more_vert</mat-icon>
                     <mat-menu class="medit" #beforeMenu="matMenu" xPosition="before">
 
                         <ul>
-                            <li class="cursor-pointer" (click)="createSupplyChain(true, item.id, item.name)">
+                            <li class="pointer" (click)="createSupplyChain(true, item.id, item.name)">
                                 Edit
                             </li>
                         </ul>
@@ -58,9 +69,10 @@
         No data to display
     </div>
 
-    <app-loader [loaderText]="'Loading supply chain'" [loaderType]="'type1'" *ngIf="loading" class="min-h-300"></app-loader>
+    <app-loader [loaderText]="'Loading supply chain'" loaderType="type1" *ngIf="loading" class="min-h-300"></app-loader>
 
 </section>
 
 
-<app-ff-pagination [totalCount]="totalCount" (paginationAction)="paginatorEvent($event)"></app-ff-pagination>
+<!-- <app-ff-pagination [totalCount]="totalCount" (paginationAction)="paginatorEvent($event)"></app-ff-pagination> -->
+<app-ff-custom-pagination [totalCount]="totalCount" (paginationAction)="paginatorEvent($event)"></app-ff-custom-pagination>

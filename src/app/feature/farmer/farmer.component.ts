@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { DataService } from 'src/app/core/data.service';
+import { NavigationStart, Router } from '@angular/router';
+import { DatePipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+
+import { Subject, Subscription, takeUntil } from 'rxjs';
+import { DataService } from 'src/app/shared/services/data.service';
 import { CompanyProfileService } from 'src/app/feature/company-profile/company-profile.service';
 // services and configs
 import {
@@ -10,15 +14,44 @@ import {
   FARMER_COLUMNS,
   SEARCHBY_OPTIONS,
   TableColumnHeader,
-} from 'src/app/core/utils/app.constants';
+} from 'src/app/shared/configs/app.constants';
 import { FeatureService } from '../feature.service';
-import { Router } from '@angular/router';
-import { nFormatter } from 'src/app/core/utils/app.config';
+import { nFormatter } from 'src/app/shared/configs/app.config';
+
+import { ChartLineComponent } from 'src/app/shared/components/chart-line';
+import {
+  ButtonsComponent,
+  FfPaginationComponent,
+  LoaderComponent,
+  SortCustomComponent,
+  FfCustomPaginationComponent,
+} from 'fairfood-utils';
+import { ExportIconComponent } from 'src/app/shared/components/export-icon';
+import { SearchBoxComponent } from 'src/app/shared/components/search-box';
+import { FfFilterBoxWrapperComponent } from 'fairfood-form-components';
+// import { FfCustompaginationComponent } from 'src/app/shared/components/ff-custom-pagination/ff-custom-pagination.component';
 
 @Component({
   selector: 'app-farmer',
   templateUrl: './farmer.component.html',
   styleUrls: ['./farmer.component.scss'],
+  standalone: true,
+  imports: [
+    NgIf,
+    NgFor,
+    DatePipe,
+    NgTemplateOutlet,
+    FfPaginationComponent,
+    SearchBoxComponent,
+    MatIconModule,
+    SortCustomComponent,
+    ExportIconComponent,
+    ChartLineComponent,
+    ButtonsComponent,
+    LoaderComponent,
+    FfFilterBoxWrapperComponent,
+    FfCustomPaginationComponent,
+  ],
 })
 export class FarmerComponent implements OnInit, OnDestroy {
   dataSource: any;
@@ -33,6 +66,9 @@ export class FarmerComponent implements OnInit, OnDestroy {
   countryList: any[];
   farmerStatistics: any;
   formattedChart: any;
+  customPageSize: { limit: any; offset: any };
+  filters: any;
+  private ngUnsubscribe = new Subject<void>();
 
   constructor(
     private featureService: FeatureService,
@@ -40,12 +76,31 @@ export class FarmerComponent implements OnInit, OnDestroy {
     private cService: CompanyProfileService,
     private router: Router
   ) {
-    this.resetFilter();
+    this.dataService.paginationState$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(state => {
+        this.filters = state;
+        this.toggleFilter = !!(
+          this.filters.selectedCountry || this.filters.selectedSupplyChain
+        );
+        this.resetFilter();
+      });
   }
 
   ngOnInit(): void {
     this.dataService.hideSupplyChain.next('hide');
     this.getSupplyChains();
+    this.router.events.pipe(takeUntil(this.ngUnsubscribe)).subscribe(event => {
+      if (event instanceof NavigationStart) {
+        const nextRoute = event.url;
+        if (
+          nextRoute !== '/farmers' &&
+          !nextRoute.startsWith('/farmer-profile/')
+        ) {
+          this.dataService.resetPaginationState();
+        }
+      }
+    });
   }
 
   loadFarmer(): void {
@@ -99,6 +154,10 @@ export class FarmerComponent implements OnInit, OnDestroy {
     const { limit, offset } = data;
     this.appliedFilters.limit = limit;
     this.appliedFilters.offset = offset;
+    this.customPageSize = {
+      limit: this.appliedFilters?.limit,
+      offset: this.appliedFilters?.offset,
+    };
     this.loadFarmer();
   }
 
@@ -106,13 +165,15 @@ export class FarmerComponent implements OnInit, OnDestroy {
     this.appliedFilters.searchString = data;
     this.appliedFilters.limit = 10;
     this.appliedFilters.offset = 0;
+    this.dataService.setPaginationState(this.appliedFilters);
     this.loadFarmer();
   }
 
   filterClicked(): void {
     this.toggleFilter = !this.toggleFilter;
     if (!this.toggleFilter) {
-      this.resetFilter();
+      // this.resetFilter();
+      this.dataService.resetPaginationState();
       this.loadFarmer();
     }
   }
@@ -124,22 +185,23 @@ export class FarmerComponent implements OnInit, OnDestroy {
     } else {
       this.appliedFilters.selectedCountry = selected;
     }
+    this.customPageSize = {
+      limit: this.appliedFilters?.limit,
+      offset: 0,
+    };
     this.loadFarmer();
   }
 
   resetFilter(): void {
-    this.appliedFilters = {
-      limit: 10,
-      offset: 0,
-      searchString: '',
-      selectedCountry: '',
-      selectedSupplyChain: '',
-      sortBy: 'created_on',
-      orderBy: 'desc',
+    this.appliedFilters = this.filters;
+    this.customPageSize = {
+      limit: this.appliedFilters?.limit,
+      offset: this.appliedFilters?.offset,
     };
   }
 
   viewDetails(id: any): void {
+    this.dataService.setPaginationState(this.appliedFilters);
     this.router.navigateByUrl('/farmer-profile/' + id);
   }
 
@@ -152,9 +214,15 @@ export class FarmerComponent implements OnInit, OnDestroy {
       case 'country':
         sortByColumn = 'country';
         break;
-      // case 'name':
-      //   sortByColumn = 'company.name';
-      //   break;
+      case 'name':
+        sortByColumn = 'name';
+        break;
+      case 'supplying':
+        sortByColumn = 'supplying';
+        break;
+      case 'supplyChains':
+        sortByColumn = 'supplyChains';
+        break;
       default:
         sortByColumn = 'created_on';
         break;
@@ -235,5 +303,7 @@ export class FarmerComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.pageApis?.forEach(a => a.unsubscribe());
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

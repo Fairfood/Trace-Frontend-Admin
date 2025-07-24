@@ -1,19 +1,17 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGuard } from './authentication/services/guard/auth.guard';
-import { IsLoggedIn } from './authentication/services/guard/isLoggedIn';
+import { authGuard, IsLoggedIn } from './shared/guards';
 
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () =>
-      import('./feature/feature.module').then(m => m.FeatureModule),
-    canActivate: [AuthGuard],
+    loadChildren: () => import('./feature').then(m => m.features),
+    canActivate: [authGuard],
   },
   {
     path: 'login',
     loadChildren: () =>
-      import('./authentication/login/login.module').then(m => m.LoginModule),
+      import('./feature/login/login.module').then(m => m.LoginModule),
     canActivate: [IsLoggedIn],
   },
 ];

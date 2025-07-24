@@ -2,11 +2,12 @@
 import { Injectable } from '@angular/core';
 
 import { map, Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
-import { successFormatter } from 'src/app/core/utils/app.config';
+import { successFormatter } from 'src/app/shared/configs/app.config';
 import { environment } from 'src/environments/environment';
 import { genericFormatterChart, YearObj } from './dashboard.config';
+import { headerOptions, HTTP_OPTION_1 } from 'fairfood-utils';
 const BASE_URL = environment.baseUrl;
 
 @Injectable({
@@ -25,7 +26,7 @@ export class DashboardService {
     const url = `${BASE_URL}/supply-chain/admin/node-count/?trunc_type=${type}&start_date=${startDate}&end_date=${endDate}`;
     const url2 = `&supply_chain=${supplyChain}&product=${product}`;
     return this.http
-      .get(url + url2, this.options())
+      .get(url + url2, headerOptions(HTTP_OPTION_1))
       .pipe(map(successFormatter));
   }
 
@@ -39,7 +40,7 @@ export class DashboardService {
     const url = `${BASE_URL}/transactions/admin/external-transaction-count/?trunc_type=${type}&start_date=${startDate}&end_date=${endDate}`;
     const url2 = `&supply_chain=${supplyChain}&product=${product}`;
     return this.http
-      .get(url + url2, this.options())
+      .get(url + url2, headerOptions(HTTP_OPTION_1))
       .pipe(map(successFormatter));
   }
 
@@ -53,7 +54,7 @@ export class DashboardService {
     const url = `${BASE_URL}/transactions/admin/external-transaction-quantity/?trunc_type=${type}&start_date=${startDate}&end_date=${endDate}`;
     const url2 = `&supply_chain=${supplyChain}&product=${product}`;
     return this.http
-      .get(url + url2, this.options())
+      .get(url + url2, headerOptions(HTTP_OPTION_1))
       .pipe(map(successFormatter));
   }
 
@@ -113,7 +114,7 @@ export class DashboardService {
         BASE_URL +
           '/supply-chain/admin/country-node-count/?supply_chain=' +
           supplyChainId,
-        this.options()
+        headerOptions(HTTP_OPTION_1)
       )
       .pipe(map(successFormatter));
   }
@@ -129,22 +130,8 @@ export class DashboardService {
         BASE_URL +
           '/supply-chain/admin/products/?limit=1000&supply_chain=' +
           supplyChainId,
-        this.options()
+        headerOptions(HTTP_OPTION_1)
       )
       .pipe(map(successFormatter));
-  }
-
-  // httpOptions
-  options() {
-    const item = localStorage.getItem('adminData');
-    const data = item && JSON.parse(item);
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        Bearer: data.token,
-        'User-ID': data.id,
-      }),
-    };
-    return httpOptions;
   }
 }

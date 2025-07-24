@@ -63,7 +63,7 @@
                                 </span>
                             </span>
                             <span *ngIf="item?.supplyNames.length == 0">-</span>
-                            <span *ngIf="item?.supplyNames.length > 3" class="text-primary cursor-pointer">
+                            <span *ngIf="item?.supplyNames.length > 3" class="text-primary pointer">
                                 +{{item?.supplyNames.length - 3 }} more
                             </span>
                         </ng-container>
@@ -81,14 +81,14 @@
                         {{item?.active?'Active': 'Disabled'}}
                     </td>
                     <td class="mat-cell options-column">
-                        <mat-icon class="cursor-pointer" [matMenuTriggerFor]="beforeMenu">more_vert</mat-icon>
+                        <mat-icon class="pointer" [matMenuTriggerFor]="beforeMenu">more_vert</mat-icon>
                         <mat-menu class="mat-menu" #beforeMenu="matMenu" xPosition="before">
 
                             <ul>
-                                <li class="cursor-pointer" (click)="disableClaim(item)">
+                                <li class="pointer" (click)="disableClaim(item)">
                                     {{item?.active?'Disable': 'Enable'}}
                                 </li>
-                                <li class="cursor-pointer" (click)="editClaim(item)">
+                                <li class="pointer" (click)="editClaim(item)">
                                     Edit
                                 </li>
                             </ul>
@@ -101,11 +101,11 @@
         <div class="no-data w-100" aria-label="" *ngIf="dataSource?.length === 0" [hidden]="loading">
             No data to display
         </div>
-        <app-loader [loaderText]="'Loading claims'" [loaderType]="'type1'" *ngIf="loading"
+        <app-loader [loaderText]="'Loading claims'" loaderType="type1" *ngIf="loading"
             class="min-h-300"></app-loader>
     </section>
-
-    <app-ff-pagination [totalCount]="totalCount" (paginationAction)="paginatorEvent($event)"></app-ff-pagination>
+    <app-ff-custom-pagination [totalCount]="totalCount" (paginationAction)="paginatorEvent($event)"></app-ff-custom-pagination>
+    <!-- <app-ff-pagination [totalCount]="totalCount" (paginationAction)="paginatorEvent($event)"></app-ff-pagination> -->
 </ng-container>
 
 

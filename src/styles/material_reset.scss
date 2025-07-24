@@ -3,7 +3,7 @@
   .mdc-radio__native-control:enabled:not(:checked)
   + .mdc-radio__background
   .mdc-radio__outer-circle {
-  border-color: var(--secondary) !important;
+  border-color: var(--color-secondary) !important;
 }
 
 .mat-mdc-radio-button
@@ -11,14 +11,14 @@
   .mdc-radio__native-control:enabled:checked
   + .mdc-radio__background
   .mdc-radio__outer-circle {
-  border-color: var(--secondary) !important;
+  border-color: var(--color-secondary) !important;
 }
 .mat-mdc-radio-button
   .mdc-radio
   .mdc-radio__native-control:enabled
   + .mdc-radio__background
   .mdc-radio__inner-circle {
-  border-color: var(--secondary) !important;
+  border-color: var(--color-secondary) !important;
 }
 input.mat-mdc-input-element {
   margin-top: -0.0625em;
@@ -161,7 +161,7 @@ textarea.cdk-textarea-autosize-measuring-firefox {
 }
 
 .mat-mdc-menu-panel.mat-mdc-menu-panel {
-  background-color: var(--white);
+  background-color: var(--color-white);
 }
 .mat-elevation-z4,
 .mat-mdc-menu-panel {
@@ -325,5 +325,5 @@ input.mat-input-element {
   width: 133.3333433333%;
 }
 .mdc-snackbar__surface {
-  background-color: var(--white)!important;
+  background-color: var(--color-white)!important;
 }

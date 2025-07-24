@@ -2,7 +2,7 @@
     <h3 class="font-1-medium">
         {{data?.isEdit? 'Edit supply chain': 'Create supply chain'}}
     </h3>
-    <mat-icon class="cursor-pointer" (click)="close()">close</mat-icon>
+    <mat-icon class="pointer" (click)="close()">close</mat-icon>
 </aside>
 
 <div class="content" *ngIf="data">
@@ -24,7 +24,7 @@
         <app-buttons buttonType="stroked" (buttonClicked)="close()">
             Cancel
         </app-buttons>
-        <app-buttons buttonType="fill" (buttonClicked)="createSupplyChain()">
+        <app-buttons buttonType="fill" [isDisabled]="submitted" (buttonClicked)="createSupplyChain()">
             {{data?.isEdit? 'Save changes': 'Create supply chain'}}
         </app-buttons>
     </aside>

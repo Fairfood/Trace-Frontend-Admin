@@ -3,7 +3,8 @@ import {
   FormValues,
   TabItem,
   TableColumnHeader,
-} from 'src/app/core/utils/app.constants';
+} from 'src/app/shared/configs/app.constants';
+import { ICommonObj } from 'src/app/shared/configs/app.models';
 
 export const PROFILE_TABS: TabItem[] = [
   {
@@ -144,5 +145,20 @@ export const PAYMENTS_COLUMNS: TableColumnHeader[] = [
   {
     name: 'Receipt',
     class: 'large-column',
+  },
+];
+
+export const PLOT_TYPES: ICommonObj[] = [
+  {
+    id: 'APPROXIMATE',
+    name: 'Approximate',
+  },
+  {
+    id: 'ACCURATE',
+    name: 'Accurate',
+  },
+  {
+    id: 'POLYGON',
+    name: 'Geo JSON',
   },
 ];

@@ -8,11 +8,11 @@ import {
   FARMER_COLUMNS,
   TableColumnHeader,
   TRANSACTION_COLUMNS,
-} from 'src/app/core/utils/app.constants';
-import { nFormatter } from 'src/app/core/utils/app.config';
+} from 'src/app/shared/configs/app.constants';
+import { nFormatter } from 'src/app/shared/configs/app.config';
 // services
 import { FeatureService } from '../feature.service';
-import { DataService } from 'src/app/core/data.service';
+import { DataService } from 'src/app/shared/services/data.service';
 import { Router } from '@angular/router';
 
 interface InnerItem {

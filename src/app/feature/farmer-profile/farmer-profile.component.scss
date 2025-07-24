@@ -47,8 +47,8 @@
 }
 
 .badge-white {
-  background-color: var(--white);
-  color: var(--primary) !important;
+  background-color: var(--color-white);
+  color: var(--color-primary-1) !important;
   display: flex;
   align-items: center;
   svg {
@@ -57,7 +57,7 @@
 }
 
 .badge-ff {
-  color: var(--white);
+  color: var(--color-white);
 }
 .badge-ff,
 .value-tr,

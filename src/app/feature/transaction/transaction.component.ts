@@ -2,21 +2,24 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 // services and configs
-import { DataService } from 'src/app/core/data.service';
-import { nFormatter } from 'src/app/core/utils/app.config';
+import { DataService } from 'src/app/shared/services/data.service';
+import { nFormatter } from 'src/app/shared/configs/app.config';
 import {
   TRANSACTION_COLUMNS,
   SEARCHBY_OPTIONS,
   TableColumnHeader,
   exportType,
   exportFileType,
-} from 'src/app/core/utils/app.constants';
+} from 'src/app/shared/configs/app.constants';
 import { FeatureService } from '../feature.service';
+import { CONFIG } from './transaction.config';
 
 @Component({
   selector: 'app-transaction',
   templateUrl: './transaction.component.html',
   styleUrls: ['./transaction.component.scss'],
+  standalone: true,
+  imports: CONFIG,
 })
 export class TransactionComponent implements OnInit, OnDestroy {
   dataSource: any;
@@ -75,19 +78,19 @@ export class TransactionComponent implements OnInit, OnDestroy {
     this.dataSource = [];
     const api = this.featureService
       .getTransactionList(this.appliedFilters)
-      .subscribe(
-        result => {
+      .subscribe({
+        next: result => {
           const { results, count } = result;
           this.totalCount = count;
           this.dataSource = results;
           this.loading = false;
         },
-        () => {
+        error: () => {
           this.dataSource = [];
           this.totalCount = 0;
           this.loading = false;
-        }
-      );
+        },
+      });
     this.pageApis.push(api);
   }
 
@@ -132,7 +135,16 @@ export class TransactionComponent implements OnInit, OnDestroy {
         sortByColumn = 'quantity';
         break;
       case 'name':
-        sortByColumn = 'connection.name';
+        sortByColumn = 'name';
+        break;
+      case 'receiver':
+        sortByColumn = 'receiver';
+        break;
+      case 'product':
+        sortByColumn = 'product';
+        break;
+      case 'blockChain':
+        sortByColumn = 'blockChain';
         break;
       default:
         sortByColumn = 'date';
@@ -166,8 +178,8 @@ export class TransactionComponent implements OnInit, OnDestroy {
    * Statistics like actor count farmer count etcc....
    */
   homeStatistics(): void {
-    const api = this.featureService.statisticsData().subscribe(
-      result => {
+    const api = this.featureService.statisticsData().subscribe({
+      next: result => {
         const {
           transactions,
           farmer_transaction_quantity,
@@ -189,11 +201,11 @@ export class TransactionComponent implements OnInit, OnDestroy {
         };
         this.transactionReportData();
       },
-      () => {
+      error: () => {
         this.statistics = null;
         this.transactionReportData();
-      }
-    );
+      },
+    });
     this.pageApis.push(api);
   }
 

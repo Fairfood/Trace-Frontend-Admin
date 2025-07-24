@@ -1,4 +1,4 @@
-<app-ff-custom-tab [tabGroupItems]="tabGroup" [stockProcess]="true" [activeTabId]="activeTabId"
+<app-ff-custom-tab [tabGroupItems]="tabGroup" [withDescription]="true" [activeTabId]="activeTabId"
     (tabChanged)="changeTab($event)" class="w-100">
 </app-ff-custom-tab>
 
@@ -105,6 +105,10 @@
                                     *ngIf="itemRow.get('name').errors?.required && (itemRow.get('name').touched || submitted)">
                                     This field shouldn't be empty
                                 </span>
+                                <span class="error-message"
+                                    *ngIf="itemRow.get('name').errors?.notOnlyWhitespace && (itemRow.get('name').touched && (!itemRow.get('name').errors?.required))">
+                                    Cannot be only whitespace
+                                </span>
                             </article>
                             <article class="row-options">
                                 <app-ff-dropdown label="Field type*" [defaultValue]="itemRow.value.fieldType"
@@ -146,7 +150,7 @@
                                     </app-buttons>
                                 </aside>
                             </ng-container>
-                            <p class="text-danger cursor-pointer">
+                            <p class="text-danger pointer">
                                 <u (click)="addOptionsField(i)">Add dropdown option</u>
                             </p>
                         </section>
@@ -163,6 +167,10 @@
                                 *ngIf="itemRow.get('name').errors?.required && (itemRow.get('name').touched || submitted)">
                                 This field shouldn't be empty
                             </span>
+                            <span class="error-message"
+                            *ngIf="itemRow.get('name').errors?.notOnlyWhitespace && (itemRow.get('name').touched && (!itemRow.get('name').errors?.required))">
+                            Cannot be only whitespace
+                        </span>
                         </article>
                         <article class="w-20 d-flex justify-content-end align-items-center">
                             <app-buttons buttonType="stroked"  buttonSize="medium" (buttonClicked)="deleteEvidenceRow(i)">
@@ -274,13 +282,17 @@
     </aside>
 </div>
 
-<app-loader [loaderText]="loaderText" [loaderType]="'type1'" *ngIf="!dataLoaded" class="special"></app-loader>
+<app-loader [loaderText]="loaderText" loaderType="type1" *ngIf="!dataLoaded" class="special"></app-loader>
 
 
 <ng-template let-formcontrol="formcontrol" let-formgroup="formgroup" #formErrorMessages>
     <span class="error-message"
         *ngIf="formgroup[formcontrol]?.errors?.required && (formgroup[formcontrol]?.touched || submitted)">
         This field shouldn't be empty
+    </span>
+    <span class="error-message"
+        *ngIf="formgroup[formcontrol]?.errors?.notOnlyWhitespace && (formgroup[formcontrol]?.touched && (!formgroup[formcontrol]?.errors?.required))">
+        Cannot be only whitespace 
     </span>
 </ng-template>
 

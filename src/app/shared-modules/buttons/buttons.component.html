@@ -1,5 +1,0 @@
-<button type="button"
-    [ngClass]="[(buttonType === 'stroked')?'ff-btn-stroke':(buttonType==='secondary'?'ff-btn-secondary': 'ff-btn-filled'), buttonSize==='medium'?'md': 'lg']"
-    (click)="buttonClick()" [disabled]="isDisabled" title="{{tooltip || ''}}">
-    <ng-content></ng-content>
-</button>

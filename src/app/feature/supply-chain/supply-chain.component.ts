@@ -7,9 +7,9 @@ import { MatDialog } from '@angular/material/dialog';
 import {
   SEARCHBY_OPTIONS,
   SUPPLY_CHAIN_COLUMNS,
-} from 'src/app/core/utils/app.constants';
+} from 'src/app/shared/configs/app.constants';
 import { FeatureService } from '../feature.service';
-import { DataService } from 'src/app/core/data.service';
+import { DataService } from 'src/app/shared/services/data.service';
 import { CreateSupplyChainComponent } from './create-supply-chain/create-supply-chain.component';
 
 @Component({
@@ -36,6 +36,8 @@ export class SupplyChainComponent implements OnInit, OnDestroy {
       limit: 10,
       offset: 0,
       searchString: '',
+      sortBy: 'name',
+      orderBy: 'asc',
     };
   }
 
@@ -46,9 +48,10 @@ export class SupplyChainComponent implements OnInit, OnDestroy {
 
   supplyChainData(): void {
     this.dataSource = [];
-    const { limit, offset, searchString } = this.appliedFilters;
+    const { limit, offset, searchString, sortBy, orderBy } =
+      this.appliedFilters;
     const api = this.featureService
-      .getsupplyChainList(searchString, limit, offset)
+      .getsupplyChainList(searchString, limit, offset, sortBy, orderBy)
       .subscribe(
         (result: any) => {
           const { results, count } = result;
@@ -103,6 +106,36 @@ export class SupplyChainComponent implements OnInit, OnDestroy {
         this.resetFilter();
       }
     });
+  }
+
+  getProductNames(products: any[]): string {
+    // Extract the names and join with commas
+    return products.map(product => product.name).join(', ');
+  }
+
+  sortData(column: string): void {
+    let sortByColumn = '';
+    switch (column) {
+      case 'created_on':
+        sortByColumn = 'created_on';
+        break;
+      case 'active_actor_count':
+        sortByColumn = 'active_actor_count';
+        break;
+      default:
+        sortByColumn = 'name';
+        break;
+    }
+    if (this.appliedFilters.sortBy === sortByColumn) {
+      this.appliedFilters.orderBy =
+        this.appliedFilters.orderBy === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.appliedFilters.orderBy = 'asc';
+    }
+    this.appliedFilters.sortBy = sortByColumn;
+
+    console.log(this.appliedFilters, 'ss');
+    this.supplyChainData();
   }
 
   ngOnDestroy(): void {

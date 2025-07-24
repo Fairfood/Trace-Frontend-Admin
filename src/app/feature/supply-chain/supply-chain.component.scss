@@ -4,7 +4,7 @@
 }
 
 ::ng-deep .mat-mdc-menu-panel.medit {
-  background-color: var(--white);
+  background-color: var(--color-white);
 
   ul {
     list-style: none;
@@ -14,4 +14,11 @@
       font-size: 14px;
     }
   }
+}
+
+::ng-deep .mdc-tooltip__surface  {
+  max-width: 450px !important; /* Adjust this value to your desired width */
+  white-space: normal; /* Allows the tooltip content to wrap */
+  border: 1px solid;
+  font-size: 12px !important;
 }

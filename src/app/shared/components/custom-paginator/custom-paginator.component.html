@@ -1,0 +1,55 @@
+<div class="custom-paginator">
+    <!-- Previous Button -->
+    <button 
+      class="paginator-btn" 
+      [disabled]="currentPage === 1" 
+      (click)="goToPreviousPage()">
+      <ng-container *ngIf="currentPage === 1; else enabledPrevIcon">
+        <!-- Disabled SVG for Previous -->
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g opacity="0.5">
+            <rect width="32" height="32" rx="4" fill="#C4CDD5"/>
+            <path d="M19.1599 11.41L14.5799 16L19.1599 20.59L17.7499 22L11.7499 16L17.7499 10L19.1599 11.41Z" fill="white"/>
+          </g>
+        </svg>
+      </ng-container>
+      <ng-template #enabledPrevIcon>
+        <!-- Enabled SVG for Previous -->
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="transform: scaleX(-1);">
+          <rect x="0.5" y="0.5" width="31" height="31" rx="3.5" fill="white"/>
+          <rect x="0.5" y="0.5" width="31" height="31" rx="3.5" stroke="#DFE3E8"/>
+          <path d="M12.8401 11.41L17.4201 16L12.8401 20.59L14.2501 22L20.2501 16L14.2501 10L12.8401 11.41Z" fill="#C4CDD5"/>
+        </svg>
+      </ng-template>
+    </button>
+  
+    <!-- Page Display -->
+    <span class="page-info">
+      {{ currentPage }} of {{ totalPages }}
+    </span>
+  
+    <!-- Next Button -->
+    <button 
+      class="paginator-btn" 
+      [disabled]="currentPage === totalPages" 
+      (click)="goToNextPage()">
+      <ng-container *ngIf="currentPage === totalPages; else enabledNextIcon">
+        <!-- Disabled SVG for Next -->
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g opacity="0.5">
+            <rect width="32" height="32" rx="4" fill="#C4CDD5"/>
+            <path d="M12.8401 11.41L17.4201 16L12.8401 20.59L14.2501 22L20.2501 16L14.2501 10L12.8401 11.41Z" fill="white"/>
+          </g>
+        </svg>
+      </ng-container>
+      <ng-template #enabledNextIcon>
+        <!-- Enabled SVG for Next -->
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="0.5" y="0.5" width="31" height="31" rx="3.5" fill="white"/>
+          <rect x="0.5" y="0.5" width="31" height="31" rx="3.5" stroke="#DFE3E8"/>
+          <path d="M12.8401 11.41L17.4201 16L12.8401 20.59L14.2501 22L20.2501 16L14.2501 10L12.8401 11.41Z" fill="#C4CDD5"/>
+        </svg>
+      </ng-template>
+    </button>
+  </div>
+  

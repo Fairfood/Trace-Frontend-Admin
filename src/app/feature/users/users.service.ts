@@ -5,7 +5,8 @@ import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { map, Observable } from 'rxjs';
-import { successFormatter } from 'src/app/core/utils/app.config';
+import { successFormatter } from 'src/app/shared/configs/app.config';
+import { headerOptions, HTTP_OPTION_1 } from 'fairfood-utils';
 const BASE_URL = environment.baseUrl;
 
 @Injectable({
@@ -27,28 +28,18 @@ export class UsersService {
           limit +
           '&offset=' +
           offset,
-        this.options()
+        headerOptions(HTTP_OPTION_1)
       )
       .pipe(map(successFormatter));
   }
 
   createNewUser(params: any): Observable<any> {
     return this.http
-      .post(BASE_URL + '/accounts/admin/admin-users/', params, this.options())
+      .post(
+        BASE_URL + '/accounts/admin/admin-users/',
+        params,
+        headerOptions(HTTP_OPTION_1)
+      )
       .pipe(map(successFormatter));
-  }
-
-  // httpOptions
-  options() {
-    const item = localStorage.getItem('adminData');
-    const data = item && JSON.parse(item);
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        Bearer: data.token,
-        'User-ID': data.id,
-      }),
-    };
-    return httpOptions;
   }
 }

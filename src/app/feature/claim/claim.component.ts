@@ -2,14 +2,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
-import { DataService } from 'src/app/core/data.service';
+import { DataService } from 'src/app/shared/services/data.service';
 // services and configs
 import {
   ACTION_TYPE,
   CLAIM_COLUMNS,
   SEARCHBY_OPTIONS,
   TableColumnHeader,
-} from 'src/app/core/utils/app.constants';
+} from 'src/app/shared/configs/app.constants';
 import { STATUS_FILTER, TYPE_FILTER } from './claim.config';
 import { ClaimService } from './claim.service';
 import { EditClaimComponent } from './edit-claim/edit-claim.component';
@@ -167,9 +167,9 @@ export class ClaimComponent implements OnInit, OnDestroy {
             const message = res.data.name + ' claim has been disabled';
             this.dataService.customSnackBar(message, ACTION_TYPE.SUCCESS);
           }
-          this.appliedFilters.status = '';
-          this.appliedFilters.type = '';
-          this.appliedFilters.searchString = '';
+          // this.appliedFilters.status = '';
+          // this.appliedFilters.type = '';
+          // this.appliedFilters.searchString = '';
           this.resetFilter();
         } else {
           const message = 'Failed to update claim details';

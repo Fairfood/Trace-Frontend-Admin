@@ -10,36 +10,42 @@ import { MatDialogModule } from '@angular/material/dialog';
 
 // other custom modules
 import { ClaimRoutingModule } from './claim-routing.module';
-import { FfPaginationModule } from 'src/app/shared-modules/ff-pagination/ff-pagination.module';
-import { SearchBoxModule } from 'src/app/shared-modules/search-box/search-box.module';
-import { LoaderModule } from 'src/app/shared-modules/loader/loader.module';
-import { FairFoodCustomTabModule } from 'src/app/shared-modules/ff-custom-tab/ff-custom-tab.module';
-import { FairFoodInputModule } from 'src/app/shared-modules/ff-input/ff-input.module';
-import { FairFoodDropdownModule } from 'src/app/shared-modules/ff-dropdown/ff-dropdown.module';
+
 // component
 import { ClaimComponent } from './claim.component';
 import { CreateClaimComponent } from './create-claim/create-claim.component';
 import { EditClaimComponent } from './edit-claim/edit-claim.component';
-import { ButtonsComponent } from 'src/app/shared-modules/buttons/buttons.component';
+
+import { SearchBoxComponent } from 'src/app/shared/components/search-box';
+import { FairFoodDropdownComponent } from 'src/app/shared/components/ff-dropdown';
+import {
+  ButtonsComponent,
+  FairFoodCustomTabComponent,
+  FfPaginationComponent,
+  LoaderComponent,
+  FfCustomPaginationComponent,
+} from 'fairfood-utils';
+import { FairFoodInputComponent } from 'fairfood-form-components';
 @NgModule({
   declarations: [ClaimComponent, CreateClaimComponent, EditClaimComponent],
   imports: [
     CommonModule,
     ClaimRoutingModule,
-    FfPaginationModule,
     MatIconModule,
-    SearchBoxModule,
-    LoaderModule,
-    FairFoodCustomTabModule,
-    FairFoodInputModule,
+    SearchBoxComponent,
+    FfPaginationComponent,
+    FairFoodCustomTabComponent,
+    FairFoodInputComponent,
     ReactiveFormsModule,
-    FairFoodDropdownModule,
     FormsModule,
     MatRadioModule,
     MatCheckboxModule,
     MatMenuModule,
     MatDialogModule,
     ButtonsComponent,
+    LoaderComponent,
+    FairFoodDropdownComponent,
+    FfCustomPaginationComponent,
   ],
 })
 export class ClaimModule {}
