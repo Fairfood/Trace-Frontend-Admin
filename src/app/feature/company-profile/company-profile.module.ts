@@ -11,14 +11,20 @@ import { TeamComponent } from './team/team.component';
 import { ActiveSupplyChainComponent } from './active-supply-chain/active-supply-chain.component';
 import { ActivitiesComponent } from './activities/activities.component';
 import { AddSupplyChainComponent } from './add-supply-chain/add-supply-chain.component';
-import { ButtonsComponent } from 'src/app/shared-modules/buttons/buttons.component';
 // other modules
 import { CompanyProfileRoutingModule } from './company-profile-routing.module';
-import { FairFoodCustomTabModule } from 'src/app/shared-modules/ff-custom-tab/ff-custom-tab.module';
-import { LoaderModule } from 'src/app/shared-modules/loader/loader.module';
-import { FfPaginationModule } from 'src/app/shared-modules/ff-pagination/ff-pagination.module';
-import { FairFoodDropdownModule } from 'src/app/shared-modules/ff-dropdown/ff-dropdown.module';
-import { ProfileAvatarModule } from 'src/app/shared-modules/profile-avatar/profile-avatar.module';
+
+import { FfPaginationModule } from 'src/app/shared/components/ff-pagination/ff-pagination.module';
+
+import {
+  ButtonsComponent,
+  FairFoodCustomTabComponent,
+  LoaderComponent,
+  FfCustomPaginationComponent,
+} from 'fairfood-utils';
+import { ProfileAvatarComponent } from 'src/app/shared/components/profile-avatar';
+import { FfDropdownComponent } from 'fairfood-form-components';
+import { SyncBtnComponent } from '../../shared/components/sync-btn/sync-btn.component';
 
 @NgModule({
   declarations: [
@@ -32,15 +38,17 @@ import { ProfileAvatarModule } from 'src/app/shared-modules/profile-avatar/profi
     CommonModule,
     CompanyProfileRoutingModule,
     MatIconModule,
-    FairFoodCustomTabModule,
-    LoaderModule,
+    FairFoodCustomTabComponent,
     FfPaginationModule,
     MatDialogModule,
     ReactiveFormsModule,
     FormsModule,
-    FairFoodDropdownModule,
-    ProfileAvatarModule,
+    FfDropdownComponent,
+    ProfileAvatarComponent,
     ButtonsComponent,
+    LoaderComponent,
+    SyncBtnComponent,
+    FfCustomPaginationComponent,
   ],
 })
 export class CompanyProfileModule {}

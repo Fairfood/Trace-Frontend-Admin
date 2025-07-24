@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { FeatureService } from '../feature.service';
 import {
   BASIC_DETAILS,
@@ -9,7 +9,8 @@ import {
   PROFILE_TABS,
 } from './farmer-profile.config';
 import { FarmerProfileService } from './farmer-profile.service';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription, takeUntil } from 'rxjs';
+import { DataService } from 'src/app/shared/services';
 
 @Component({
   selector: 'app-farmer-profile',
@@ -29,11 +30,14 @@ export class FarmerProfileComponent implements OnInit, OnDestroy {
   activeFarmerRef: number;
   activeFarmerDetails: any;
   pageApis: Subscription[] = [];
+  private ngUnsubscribe = new Subject<void>();
 
   constructor(
     private featureService: FeatureService,
     private route: ActivatedRoute,
-    private fService: FarmerProfileService
+    private fService: FarmerProfileService,
+    private router: Router,
+    private dataService: DataService
   ) {
     this.tabGroup = PROFILE_TABS;
     this.activeTabId = PROFILE_TABS[0].id;
@@ -51,6 +55,17 @@ export class FarmerProfileComponent implements OnInit, OnDestroy {
         this.getReferences();
       });
     this.pageApis.push(api);
+    this.router.events.pipe(takeUntil(this.ngUnsubscribe)).subscribe(event => {
+      if (event instanceof NavigationStart) {
+        const nextRoute = event.url;
+        if (
+          nextRoute !== '/farmers' &&
+          !nextRoute.startsWith('/farmer-profile/')
+        ) {
+          this.dataService.resetPaginationState();
+        }
+      }
+    });
   }
 
   formatIncome(): void {
@@ -132,5 +147,7 @@ export class FarmerProfileComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.pageApis?.forEach(a => a.unsubscribe());
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

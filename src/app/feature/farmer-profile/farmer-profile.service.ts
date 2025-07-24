@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HTTP_OPTION_1, headerOptions } from 'fairfood-utils';
 import { Observable, map } from 'rxjs';
 import { environment } from 'src/environments/environment';
 const BASE_URL = environment.baseUrl;
@@ -19,7 +20,7 @@ export class FarmerProfileService {
     return this.http
       .get(
         `${BASE_URL}/projects/projects/payments/?farmer=${farmerId}&limit=${limit}&offset=${offset}&search=${search}`,
-        this.options()
+        headerOptions(HTTP_OPTION_1)
       )
       .pipe(
         map((res: any) => {
@@ -37,7 +38,7 @@ export class FarmerProfileService {
     return this.http
       .get(
         `${BASE_URL}/activity/node/?node=${farmerId}&limit=${limit}&offset=${offset}`,
-        this.options()
+        headerOptions(HTTP_OPTION_1)
       )
       .pipe(
         map((res: any) => {
@@ -60,7 +61,7 @@ export class FarmerProfileService {
         `${BASE_URL}/supply-chain/supply-chains/farmer-references/?farmer=${farmerId}&search=${
           searchString ?? ''
         }`,
-        this.options()
+        headerOptions(HTTP_OPTION_1)
       )
       .pipe(
         map((res: any) => {
@@ -78,7 +79,7 @@ export class FarmerProfileService {
     return this.http
       .get(
         `${BASE_URL}/supply-chain/supply-chains/farmer-plots/?farmer=${farmerId}`,
-        this.options()
+        headerOptions(HTTP_OPTION_1)
       )
       .pipe(
         map((res: any) => {
@@ -99,8 +100,8 @@ export class FarmerProfileService {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        Bearer: data.token,
-        'User-ID': data.id,
+        Bearer: data?.token,
+        'User-ID': data?.id,
       }),
     };
     return httpOptions;

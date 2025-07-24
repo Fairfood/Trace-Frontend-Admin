@@ -1,0 +1,31 @@
+<aside aria-label="paginator wrapper" class="ff-flex-between custom-style-paginator-select" *ngIf="!isLoading">
+    <article class="per-page-wrapper" *ngIf="!hidePageSize">
+        <div class="custom-text">
+            Showing <span class="pagination-text"> {{currentStartIndex}}-{{currentEndIndex}} </span> results out of
+            <span class="pagination-text"> {{totalCount}}</span> &nbsp;
+        </div>
+        <aside aria-label="custom material pagesize dropdown" class="page-size-dropdown pointer"
+            [matMenuTriggerFor]="pageSizeMenu" id="pageSize">
+            {{pageSize}} items / Page <mat-icon>keyboard_arrow_down</mat-icon>
+        </aside>
+        <mat-menu class="mat-menu" #pageSizeMenu="matMenu" xPosition="after">
+            <ul class="dropdown-page">
+                <li *ngFor="let item of getPageSizeOptions()" (click)="pageSizeSetter(item)" id="page{{item}}">
+                    {{item}}
+                </li>
+            </ul>
+        </mat-menu>
+    </article>
+    <article class="paginator-container">
+        <app-custom-paginator [totalCount]="totalCount" [pageSize]="pageSize" [currentPage]="pageIndex + 1"
+            (pageChange)="pageEvent($event)">
+        </app-custom-paginator>
+
+        <article class="page-input-container">
+            <span class="pagination-text pl-3">Page:</span>
+            <input class="page-input" type="text" [(ngModel)]="enteredPageNo" [min]="1" name="pageNo" id="pageNo"
+                [placeholder]="totalPages" />
+            <span class="pagination-text pointer" (click)="jumpToPage(enteredPageNo)">Go</span>
+        </article>
+    </article>
+</aside>

@@ -1,6 +1,7 @@
-<app-header></app-header>
-<app-sidebar (collapsedEvent)="receiveCollapsed($event)"></app-sidebar>
+<app-header *ngIf="canLoadHeader"></app-header>
+<app-sidebar (collapsedEvent)="receiveCollapsed($event)" *ngIf="canLoadHeader"></app-sidebar>
 <section class="main-container" [ngClass]="{collapsed: collapedSideBar}">
-  <router-outlet></router-outlet>
+  <router-outlet *ngIf="canLoadHeader"></router-outlet>
+  <app-loader loaderType="type1" loaderText="Authenticating credentials" *ngIf="!canLoadHeader"></app-loader>
 </section>
 <app-internet-alert></app-internet-alert>

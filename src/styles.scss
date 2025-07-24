@@ -4,6 +4,7 @@
 @import './styles/utils';
 @import './styles/responsive';
 @import './styles/table-custom';
+@import './styles/flex';
 
 html {
   font-family: 'Moderat Regular', sans-serif;
@@ -54,7 +55,7 @@ body {
 
 .body-text2 {
   font-size: var(--size-small, 1.4rem) !important;
-  color: var(--dark) !important;
+  color: var(--font-color) !important;
 }
 
 //button
@@ -63,8 +64,8 @@ button {
   outline: none !important;
 }
 
-.cursor-pointer {
-  cursor: pointer !important;
+.pointer {
+  cursor: pointer;
 }
 
 @media screen and (max-width: 992px) {
@@ -82,14 +83,14 @@ button {
 }
 
 .text-blue {
-  color: var(--dark) !important;
+  color: var(--font-color) !important;
 }
 
 * input:focus {
   outline: none !important;
 }
 * input:disabled {
-  color: var(--dark);
+  color: var(--font-color);
   cursor: default;
   background-color: white !important;
 }
@@ -99,7 +100,7 @@ button:focus {
   outline: 0px auto -webkit-focus-ring-color;
 }
 input:-webkit-autofill {
-  -webkit-text-fill-color: var(--dark) !important;
+  -webkit-text-fill-color: var(--font-color) !important;
 }
 
 .cdk-overlay-container {
@@ -147,7 +148,7 @@ input:-webkit-autofill {
 //loader
 
 .circle1 {
-  stroke: var(--primary) !important;
+  stroke: var(--color-primary-1) !important;
 }
 
 .circle2 {
@@ -209,14 +210,14 @@ p {
   justify-content: space-between;
 }
 
-.per-page-wrapper {
-  display: flex;
-  align-items: center;
-  @include devices(tablet-md) {
-    position: relative;
-    right: 8vw;
-  }
-}
+// .per-page-wrapper {
+//   display: flex;
+//   align-items: center;
+//   @include devices(tablet-md) {
+//     position: relative;
+//     right: 8vw;
+//   }
+// }
 .dropdown-page {
   list-style: none;
   padding-left: 10px;
@@ -232,8 +233,8 @@ p {
   @extend %flex-default;
   padding: 10px;
   border-radius: 50%;
-  background-color: var(--primary);
-  color: var(--white);
+  background-color: var(--color-primary-1);
+  color: var(--color-white);
   text-transform: uppercase;
 }
 
@@ -245,13 +246,13 @@ p {
 
 .slanted-div {
   clip-path: polygon(0 0, 100% 90%, 100% 100%, 0% 100%);
-  background-color: var(--info);
+  background-color: var(--color-primary-2);
   height: 35px !important;
   margin-bottom: -1px !important;
 }
 
 .slanted-bg {
-  background-color: var(--white);
+  background-color: var(--color-white);
 }
 
 ::-webkit-scrollbar {
@@ -288,7 +289,7 @@ ul.filter-box {
     @extend %flex-between;
     padding: 5px 15px;
     font-size: 14px;
-    background-color: var(--white);
+    background-color: var(--color-white);
     border-radius: 6px;
     font-family: 'Moderat Regular';
 
@@ -306,7 +307,7 @@ ul.filter-box {
     &.header {
       padding: 6px 15px;
       border: 1px solid var(--disabled);
-      color: var(--dark);
+      color: var(--font-color);
       font-family: 'Moderat Bold';
       @include devices(laptop-xlg) {
         padding: 9px 15px;
@@ -346,7 +347,7 @@ ngx-tooltip-content.ngx-charts-tooltip-content.type-tooltip {
   border: 1px solid #e4e4e7;
   box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.2);
   border-radius: 8px;
-  color: var(--dark);
+  color: var(--font-color);
 }
 
 .input-container-with-error {
@@ -358,7 +359,7 @@ ngx-tooltip-content.ngx-charts-tooltip-content.type-tooltip {
   }
 }
 .error-message {
-  color: var(--secondary);
+  color: var(--color-secondary);
   font-size: 12px;
 }
 
@@ -373,7 +374,7 @@ ngx-tooltip-content.ngx-charts-tooltip-content.type-tooltip {
   padding: 20px;
   h3 {
     font-weight: 700;
-    color: var(--dark);
+    color: var(--font-color);
     font-size: 18px;
     margin: 0;
     font-family: 'Moderat Regular';
@@ -393,7 +394,7 @@ ngx-tooltip-content.ngx-charts-tooltip-content.type-tooltip {
 }
 
 .text-danger {
-  color: var(--secondary);
+  color: var(--color-secondary);
 }
 
 .badge {
@@ -401,7 +402,7 @@ ngx-tooltip-content.ngx-charts-tooltip-content.type-tooltip {
   background-color: var(--table-row-active);
   font-size: 12px;
   margin-left: 12px;
-  color: var(--dark);
+  color: var(--font-color);
   padding: 5px;
 }
 
@@ -427,7 +428,7 @@ ngx-tooltip-content.ngx-charts-tooltip-content.type-tooltip {
 
     .value {
       font-size: 20px;
-      color: var(--dark);
+      color: var(--font-color);
     }
   }
 }
@@ -438,14 +439,14 @@ ngx-tooltip-content.ngx-charts-tooltip-content.type-tooltip {
 }
 
 .value-tr {
-  color: var(--dark);
+  color: var(--font-color);
   font-family: 'Moderat Medium';
 }
 
 .badge-ff {
   padding: 3px 10px;
-  background-color: var(--info);
-  color: var(--dark);
+  background-color: var(--color-primary-2);
+  color: var(--font-color);
   font-family: 'Moderat Medium';
   border-radius: 4px;
 }

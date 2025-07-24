@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { DataService } from 'src/app/core/data.service';
-import { nFormatter } from 'src/app/core/utils/app.config';
+import { NavigationStart, Router } from '@angular/router';
+import { Subject, Subscription, takeUntil } from 'rxjs';
 // services and configs
 import {
   COMPANY_COLUMNS,
@@ -11,14 +9,22 @@ import {
   exportType,
   SEARCHBY_OPTIONS,
   TableColumnHeader,
-} from 'src/app/core/utils/app.constants';
+} from 'src/app/shared/configs/app.constants';
+import { IMPORTS_COMPANY } from './company.config';
+import { nFormatter } from 'src/app/shared/configs/app.config';
+
+// services
 import { CompanyProfileService } from '../company-profile/company-profile.service';
+import { DataService } from 'src/app/shared/services';
+
 import { FeatureService } from '../feature.service';
 
 @Component({
   selector: 'app-company',
   templateUrl: './company.component.html',
   styleUrls: ['./company.component.scss'],
+  standalone: true,
+  imports: IMPORTS_COMPANY,
 })
 export class CompanyComponent implements OnInit, OnDestroy {
   dataSource: any;
@@ -31,15 +37,15 @@ export class CompanyComponent implements OnInit, OnDestroy {
   loading = true;
   statusFilterMaster = [
     {
-      id: 1,
+      id: '1',
       name: 'Active',
     },
     {
-      id: 2,
+      id: '2',
       name: 'Inactive',
     },
     {
-      id: 3,
+      id: '3',
       name: 'Blocked',
     },
   ];
@@ -51,6 +57,9 @@ export class CompanyComponent implements OnInit, OnDestroy {
   companyStatistics: any;
   actorColors: string[];
   formattedChart: any;
+  filters: any;
+  customPageSize: { limit: any; offset: any };
+  private ngUnsubscribe = new Subject<void>();
 
   constructor(
     private featureService: FeatureService,
@@ -58,25 +67,41 @@ export class CompanyComponent implements OnInit, OnDestroy {
     private router: Router,
     private cService: CompanyProfileService
   ) {
-    this.resetFilter();
+    this.cService.paginationState$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(state => {
+        this.filters = state;
+        this.toggleFilter = !!(
+          this.filters.selectedCountry ||
+          this.filters.selectedSupplyChain ||
+          this.filters.status
+        );
+        this.resetFilter();
+      });
   }
 
   ngOnInit(): void {
     this.dataService.hideSupplyChain.next('hide');
     this.loading = true;
     this.getSupplyChains();
+    this.router.events.pipe(takeUntil(this.ngUnsubscribe)).subscribe(event => {
+      if (event instanceof NavigationStart) {
+        const nextRoute = event.url;
+        if (
+          nextRoute !== '/company' &&
+          !nextRoute.startsWith('/company-profile/')
+        ) {
+          this.cService.resetPaginationState();
+        }
+      }
+    });
   }
 
   resetFilter(): void {
-    this.appliedFilters = {
-      status: '',
-      limit: 10,
-      offset: 0,
-      searchString: '',
-      selectedSupplyChain: '',
-      selectedCountry: '',
-      sortBy: 'date',
-      orderBy: 'desc',
+    this.appliedFilters = this.filters;
+    this.customPageSize = {
+      limit: this.appliedFilters?.limit,
+      offset: this.appliedFilters?.offset,
     };
   }
 
@@ -131,6 +156,10 @@ export class CompanyComponent implements OnInit, OnDestroy {
     const { limit, offset } = data;
     this.appliedFilters.limit = limit;
     this.appliedFilters.offset = offset;
+    this.customPageSize = {
+      limit: this.appliedFilters?.limit,
+      offset: this.appliedFilters?.offset,
+    };
     this.loadCompanies();
   }
 
@@ -151,31 +180,35 @@ export class CompanyComponent implements OnInit, OnDestroy {
     } else {
       this.appliedFilters.status = selected;
     }
-
+    this.customPageSize = {
+      limit: this.appliedFilters?.limit,
+      offset: 0,
+    };
     this.loadCompanies();
   }
 
   filterClicked(): void {
     this.toggleFilter = !this.toggleFilter;
     if (!this.toggleFilter) {
-      this.resetFilter();
+      this.cService.resetPaginationState();
       this.loadCompanies();
     }
   }
 
   viewDetails(id: string): void {
+    this.cService.setPaginationState(this.appliedFilters);
     this.router.navigateByUrl('/company-profile/' + id);
   }
 
-  inviteCompany(data?: string): void {
+  inviteCompany(data?: any): void {
     this.invite = !this.invite;
     if (data && data === 'reload') {
       this.toggleFilter = false;
-      this.resetFilter();
+      this.cService.resetPaginationState();
       this.loadCompanies();
     } else {
       this.toggleFilter = false;
-      this.resetFilter();
+      this.cService.resetPaginationState();
       this.loadCompanies();
     }
   }
@@ -192,9 +225,18 @@ export class CompanyComponent implements OnInit, OnDestroy {
       case 'country':
         sortByColumn = 'country';
         break;
-      // case 'name':
-      //   sortByColumn = 'company.name';
-      //   break;
+      case 'name':
+        sortByColumn = 'name';
+        break;
+      case 'supplyChain':
+        sortByColumn = 'supplyChain';
+        break;
+      case 'farmer':
+        sortByColumn = 'farmer';
+        break;
+      case 'transaction':
+        sortByColumn = 'transaction';
+        break;
       default:
         sortByColumn = 'created_on';
         break;
@@ -282,5 +324,7 @@ export class CompanyComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.pageApis?.forEach(a => a.unsubscribe());
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

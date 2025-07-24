@@ -58,7 +58,7 @@
                 <article class="item">
                     <span class="key">Location type</span>
                     <span class="value">
-                        {{ activePlotDetails?.location_type === 'APPROXIMATE'?'Approximate location': '-'}}
+                        {{ activePlotDetails?.location_type|| '-'}}
                     </span>
                 </article>
             </aside>
@@ -67,7 +67,7 @@
                 <article class="item">
                     <span class="key">Total plot area</span>
                     <span class="value">
-                        {{activePlotDetails?.total_plot_area}}
+                        {{activePlotDetails?.total_plot_area!=0?activePlotDetails?.total_plot_area:'-'}}
                     </span>
                 </article>
                 <article class="item">
@@ -76,6 +76,25 @@
                         {{activePlotDetails?.crop_types || '-'}}
                     </span>
                 </article>
+            </aside>
+            <article class="underline"></article>
+            <aside class="map-height" *ngIf="apiLoaded | async" aria-label="Map view">
+                <google-map height="350px" width="100%" [center]="center" [zoom]="zoom" [options]="mapDefaultOptions"
+                    (mapInitialized)="mapReady($event)">
+                    <ng-container
+                        *ngIf="activePlotDetails?.location_type === plotTypes[0].id || activePlotDetails?.location_type === plotTypes[1].id">
+                        <map-marker *ngFor="let markerPosition of markerPositions" [position]="markerPosition"
+                            [options]="markerOptions"></map-marker>
+                    </ng-container>
+                    <ng-container *ngIf="activePlotDetails?.location_type === 'POLYGON'">
+                        <map-polygon [paths]="markerPositions" />
+                    </ng-container>
+                    <ng-container
+                        *ngIf="geoJsonType === 'Point'">
+                        <map-marker *ngFor="let markerPosition of markerPositions" [position]="markerPosition"
+                            [options]="markerOptions"></map-marker>
+                    </ng-container>
+                </google-map>
             </aside>
         </section>
     </aside>

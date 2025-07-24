@@ -18,5 +18,6 @@
         </section>
     </ul>
 </section>
-<app-ff-pagination [totalCount]="activities.count" (paginationAction)="paginatorEvent($event)"></app-ff-pagination>
+<!-- <app-ff-pagination [totalCount]="activities.count" (paginationAction)="paginatorEvent($event)"></app-ff-pagination> -->
+<app-ff-custom-pagination [totalCount]="activities.count" (paginationAction)="paginatorEvent($event)"></app-ff-custom-pagination>
 <app-loader loaderText="Loading logs" loaderType="type1" *ngIf="activities.loading"></app-loader>

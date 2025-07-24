@@ -3,10 +3,10 @@
 @import 'src/styles/utils.scss';
 @include reset-ul;
 .row1 {
-  color: var(--dark);
+  color: var(--font-color);
 }
 .right-text {
-  color: var(--secondary);
+  color: var(--color-secondary);
 }
 
 .margin-l {

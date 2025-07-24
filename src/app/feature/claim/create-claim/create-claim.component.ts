@@ -14,10 +14,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { DataService } from 'src/app/core/data.service';
-import { ACTION_TYPE, TabItem } from 'src/app/core/utils/app.constants';
+import { DataService } from 'src/app/shared/services/data.service';
+import { ACTION_TYPE, TabItem } from 'src/app/shared/configs/app.constants';
 import { CLAIM_TABS, EVIDENCE_TYPE, CLAIM_TABS_COMPANY } from '../claim.config';
 import { ClaimService } from '../claim.service';
+import { notOnlyWhitespace } from 'src/app/shared/configs/app.methods';
 
 @Component({
   selector: 'app-create-claim',
@@ -52,11 +53,11 @@ export class CreateClaimComponent implements OnInit, OnDestroy {
   ) {
     this.activeTabId = CLAIM_TABS[0].id;
     this.basicsForm = this.fb.group({
-      name: ['', Validators.required],
+      name: ['', [Validators.required, notOnlyWhitespace()]],
       type: [1, Validators.required],
       supplyChain: ['', Validators.required],
-      shortDesc: ['', Validators.required],
-      longDesc: ['', Validators.required],
+      shortDesc: ['', [Validators.required, notOnlyWhitespace()]],
+      longDesc: ['', [Validators.required, notOnlyWhitespace()]],
       companyDesciption: [''],
       assignVerifier: [false],
       verifier: [''],
@@ -99,7 +100,7 @@ export class CreateClaimComponent implements OnInit, OnDestroy {
         } else {
           this.basicsForm
             .get('companyDesciption')
-            .setValidators(Validators.required);
+            .setValidators([Validators.required, notOnlyWhitespace()]);
           this.basicsForm.get('assignVerifier').patchValue(false);
           this.basicsForm.get('shortDesc').clearValidators();
           this.basicsForm.get('longDesc').clearValidators();
@@ -178,14 +179,14 @@ export class CreateClaimComponent implements OnInit, OnDestroy {
     //input field
     if (type === 1) {
       return this.fb.group({
-        name: ['', Validators.required],
+        name: ['', [Validators.required, notOnlyWhitespace()]],
         options: this.fb.array([]),
         fieldType: [1],
       });
     } else {
       // file type
       return this.fb.group({
-        name: ['', Validators.required],
+        name: ['', [Validators.required, notOnlyWhitespace()]],
         fieldType: [3],
       });
     }
@@ -300,7 +301,7 @@ export class CreateClaimComponent implements OnInit, OnDestroy {
    * @param value any[]
    * @param type string
    */
-  dropdownFormValue(value: any[], type: string): void {
+  dropdownFormValue(value: any, type: string): void {
     this.basicsForm.get(type).setValue(value);
   }
 
@@ -313,8 +314,9 @@ export class CreateClaimComponent implements OnInit, OnDestroy {
    * @param i number
    */
   fieldTypeUpdate(value: any, i: number) {
-    this.evidenceFormArray.controls[i].get('fieldType').setValue(value.id);
-    if (value.id === 2) {
+    const numericId = Number(value.id);
+    this.evidenceFormArray.controls[i].get('fieldType').setValue(numericId);
+    if (numericId === 2) {
       this.getOptions(i).push(this.initOptions());
     } else {
       // reseting options field to empty array

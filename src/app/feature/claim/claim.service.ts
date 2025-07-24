@@ -5,7 +5,8 @@ import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { map, Observable } from 'rxjs';
-import { successFormatter } from 'src/app/core/utils/app.config';
+import { successFormatter } from 'src/app/shared/configs/app.config';
+import { headerOptions, HTTP_OPTION_1 } from 'fairfood-utils';
 const BASE_URL = environment.baseUrl;
 
 @Injectable({
@@ -32,7 +33,7 @@ export class ClaimService {
           offset +
           '&supply_chain=' +
           selectedSupplyChain,
-        this.options()
+        headerOptions(HTTP_OPTION_1)
       )
       .pipe(
         map((res: any) => {
@@ -49,7 +50,7 @@ export class ClaimService {
     return this.http
       .get(
         BASE_URL + '/claims/admin/verifier/?limit=10&name=' + search,
-        this.options()
+        headerOptions(HTTP_OPTION_1)
       )
       .pipe(map(successFormatter));
   }
@@ -58,12 +59,16 @@ export class ClaimService {
     return this.http.post(
       BASE_URL + '/claims/criterion/',
       reqObj,
-      this.options()
+      headerOptions(HTTP_OPTION_1)
     );
   }
 
   createClaim(reqObj: any) {
-    return this.http.post(BASE_URL + '/claims/', reqObj, this.options());
+    return this.http.post(
+      BASE_URL + '/claims/',
+      reqObj,
+      headerOptions(HTTP_OPTION_1)
+    );
   }
 
   evidenceObject(inputFormValue: any, creiteriaId: string): any[] {
@@ -96,7 +101,7 @@ export class ClaimService {
     return this.http.post(
       BASE_URL + '/claims/criterion-field/',
       reqObj,
-      this.options()
+      headerOptions(HTTP_OPTION_1)
     );
   }
 
@@ -104,7 +109,7 @@ export class ClaimService {
     return this.http.patch(
       BASE_URL + '/claims/claim/' + id + '/',
       params,
-      this.options()
+      headerOptions(HTTP_OPTION_1)
     );
   }
 
@@ -115,8 +120,8 @@ export class ClaimService {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        Bearer: data.token,
-        'User-ID': data.id,
+        Bearer: data?.token,
+        'User-ID': data?.id,
       }),
     };
     return httpOptions;

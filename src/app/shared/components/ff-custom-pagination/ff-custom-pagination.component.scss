@@ -1,0 +1,99 @@
+@import "src/styles/utils.scss";
+@import "src/styles/responsive";
+
+@include common-paginator;
+@include reset-ul;
+
+.custom-style-paginator-select {
+    margin-top: 15px;
+    margin-right: 40px;
+    position: relative;
+
+    display: flex; /* Enable flexbox */
+    flex-wrap: wrap; /* Allow wrapping of children to the next row */
+    justify-content: space-between; /* Distribute items with space between */
+    align-items: center; /* Vertically align items */
+}
+
+.dropdown-page {
+    list-style: none;
+    padding-left: 10px;
+    margin: 0;
+
+    li {
+        padding: 4px;
+        cursor: pointer;
+    }
+}
+
+// common pagination styles
+
+.page-size-dropdown {
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    padding: 4px 12px;
+    color: var(--font-color);
+    min-width: 100px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.per-page-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    // @include devices(tablet-md) {
+    //     position: none !important;
+    //     // right: 30vw;
+    // }
+}
+
+.button-go {
+    color: var(--font-color);
+    font-family: "Moderat Bold";
+    font-size: 14px;
+}
+
+.page-input {
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    padding: 4px 12px;
+    color: var(--font-color);
+    max-width: 102px; 
+    margin: 0px 10px;
+}
+
+.page-input-container {
+    border-left: 1px solid var(--border-color);
+    ;
+    margin-left: 16px;
+}
+
+.pagination-text {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.paginator-container {
+    display: flex;
+    align-items: center;
+}
+
+/* Media query for screen sizes less than 850px */
+@media screen and (max-width: 850px) {
+    .custom-style-paginator-select {
+        flex-direction: column; /* Stack the children vertically */
+        gap: 10px; /* Add spacing between rows */
+    }
+
+    .paginator-container {
+        flex-basis: 100%; /* Full-width on smaller screens */
+        order: 2;
+    }
+
+    .per-page-wrapper {
+        flex-basis: 100%; /* Full-width on smaller screens */
+        order: 1;
+    }
+}

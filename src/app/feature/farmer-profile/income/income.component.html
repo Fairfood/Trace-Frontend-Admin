@@ -47,14 +47,14 @@
         <thead>
             <tr>
                 <th *ngFor="let item of displayedColumns" class="{{item?.class}}">
-                    <article class="d-flex align-items-center cursor-pointer">
+                    <article class="d-flex align-items-center pointer">
                         {{item.name}}
                     </article>
                 </th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of dataSource" class="cursor-pointer">
+            <tr *ngFor="let item of dataSource" class="pointer">
                 <td class="mat-cell normal-collumn">{{ item.id }}</td>
                 <td class="mat-cell normal-collumn">
                     {{ item?.source_details?.full_name }}
@@ -109,11 +109,12 @@
         No data to display
     </div>
 
-    <app-loader [loaderText]="'Loading payments'" [loaderType]="'type1'" *ngIf="incomeData.loading"
+    <app-loader [loaderText]="'Loading payments'" loaderType="type1" *ngIf="incomeData.loading"
         class="min-h-300"></app-loader>
 </section>
 
-<app-ff-pagination [totalCount]="tableCount" (paginationAction)="paginatorEvent($event)"></app-ff-pagination>
+<!-- <app-ff-pagination [totalCount]="tableCount" (paginationAction)="paginatorEvent($event)"></app-ff-pagination> -->
+<app-ff-custom-pagination [totalCount]="tableCount" (paginationAction)="paginatorEvent($event)"></app-ff-custom-pagination>
 
 <ng-template #commonWidgetItem let-imageUrl="imageUrl" let-heading="heading" let-valueVar="valueVar" let-title="title">
 

@@ -3,7 +3,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
-import { DataService } from 'src/app/core/data.service';
+import { DataService } from 'src/app/shared/services/data.service';
 import { CompanyProfileService } from '../company-profile.service';
 
 @Component({

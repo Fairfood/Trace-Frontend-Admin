@@ -1,4 +1,4 @@
-import { TabItem } from 'src/app/core/utils/app.constants';
+import { TabItem } from 'src/app/shared/configs/app.constants';
 
 export const CLAIM_TABS_COMPANY: TabItem[] = [
   {
@@ -27,11 +27,11 @@ export const CLAIM_TABS: TabItem[] = [
 
 export const EVIDENCE_TYPE = [
   {
-    id: 1,
+    id: '1',
     name: 'Text field',
   },
   {
-    id: 2,
+    id: '2',
     name: 'Dropdown',
   },
 ];
@@ -48,11 +48,11 @@ export const STATUS_FILTER = [
 
 export const TYPE_FILTER = [
   {
-    id: 1,
+    id: '1',
     name: 'Product',
   },
   {
-    id: 2,
+    id: '2',
     name: 'Company',
   },
 ];
